@@ -1,0 +1,419 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Swagger Petstore"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/v2"
+tags:
+- name: "exercising"
+
+schemes:
+- "https"
+- "http"
+paths:
+  # GRAPH
+  /graph/{graphId}:
+    get:
+      description: "Get a graph by id"
+      operationId: "getGraphById"
+      parameters:
+      - name: "graphId"
+        in: "path"
+        description: "Graph id"
+        required: true
+        type: "string"
+  
+  /graph:
+    post:
+      description: "Create a new graph"
+      operationId: "createGraph"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Graph object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Graph"
+
+  # TASK TEMPLATE
+  /taskTemplate/{id}:
+    get:
+      description: "Returns a task template"
+      operationId: "getTaskTemplateById"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Task Template not found"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task template"
+        required: true
+        schema:
+          type: "string"
+
+  /taskTemplate:
+    post:
+      description: "Creates a task template"
+      operationId: "createTaskTemplate"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/TaskTemplate"
+
+  /taskTemplate/{id}/setLabel:
+    put:
+      description: "Sets a label for a task template"
+      operationId: "setTaskTemplateLabel"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task template"
+        required: true
+        schema:
+          type: "string"
+      - name: "label"
+        in: "body"
+        description: "Label to set"
+        required: true
+        schema:
+          type: "string"
+
+  /taskTemplate/{id}/setQuestion:
+    put:
+      description: "Sets a question for a task template"
+      operationId: "setTaskTemplateQuestion"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task template"
+        required: true
+        schema:
+          type: "string"
+      - name: "question"
+        in: "body"
+        description: "Question to set"
+        required: true
+        schema:
+          type: "string"
+    
+
+  # TASK
+  /task/{id}:
+    get:
+      description: "Returns a task"
+      operationId: "getTaskById"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+    
+  /task:
+    post:
+      description: "Creates a task"
+      operationId: "createTask"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+    
+    put:
+      description: "Updates a task"
+      operationId: "updateTask"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+
+  /task/{id}/addFeedback:
+    post:
+      description: "Adds feedback to a task"
+      operationId: "addTaskFeedback"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+
+
+  # TASK SOLVER    
+  
+  /taskSolver/{id}:
+    get:
+      description: "Returns a task solver"
+      operationId: "getTaskSolverById"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of task solver"
+        required: true
+        schema:
+          $ref: "#/definitions/TaskSolver"
+
+  /taskSolver:
+    post:
+      description: "Creates a task solver"
+      operationId: "createTaskSolver"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/TaskSolver"
+  
+  # TAG
+  /tag/{id}:
+    get:
+      description: "Returns a tag"
+      operationId: "getTagById"
+      tags:
+      - "exercising"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of tag"
+        required: true
+        schema:
+          $ref: "#/definitions/Tag"
+
+
+securityDefinitions:
+  mathgrass_auth:
+    type: "oauth2"
+    authorizationUrl: "http://mathgrass.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:exercising: "modify entities of exercising"
+      read:exercising: "read exercising"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Graph:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      label:
+        type: "string"
+      tags:
+        type: "array"
+        items:
+          $ref: "#/definitions/Tag"
+      
+      edges:
+        type: "array"
+        items:
+          type: "string"
+      vertices:
+        type: "array"
+        items:
+          type: "string"
+  Tag:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      label:
+        type: "string"
+
+  TaskSolver:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      label:
+        type: "string"
+      executionDescriptor:
+       $ref: "#/definitions/TaskSolver"
+  TaskTemplate:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      label:
+        type: "string"
+      question:
+        type: "string"
+      taskSolver:
+        type: "string"
+      hints:
+        type: "string"
+        additionalProperties:
+          type: "string"
+      tags:
+        type: "array"
+        items:
+          $ref: "#/definitions/Tag"
+      taskType:
+        type: "integer"
+        format: "int32"
+        enum:
+        - 1
+        - 2
+        enumNames:
+        - "Static"
+        - "Dynamic"
+  Task:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      template:
+        $ref: "#/definitions/TaskTemplate"
+      graph:
+        $ref: "#/definitions/Graph"
+      hints:
+        type: "string"
+        additionalProperties:
+          type: "string"
+      answer:
+        type: "string"
+      feedback:
+        type: "array"
+        items:
+          $ref: "#/definitions/Feedback"
+      taskType:
+        type: "integer"
+        format: "int32"
+        enum:
+        - 1
+        - 2
+        enumNames:
+        - "Static"
+        - "Dynamic"
+  Feedback:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      task:
+        $ref: "#/definitions/Task"
+      issue:
+        type: "string"
+
+  TaskCollection:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      label:
+        type: "string"
+      tasks:
+        type: "array"
+        items:
+          $ref: "#/definitions/Task"
+  
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
