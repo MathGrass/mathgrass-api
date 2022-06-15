@@ -4,15 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ExercisingApi {
+public class ExercisingIntegrationConfig {
 
     @Bean
-    public PetApi graphApi() {
+    public GraphApi graphApi() {
         return new GraphApi();
-    }
-
-    @Bean
-    public ApiClient apiClient() {
-        return new ApiClient();
     }
 }
