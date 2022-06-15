@@ -1,0 +1,55 @@
+buildscript {
+	dependencies {
+		classpath('io.swagger:swagger-codegen:2.2.2')
+	}
+}
+
+
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'de.tudresden.inf.st'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+import io.swagger.codegen.config.CodegenConfigurator
+import io.swagger.codegen.DefaultGenerator
+
+def swaggerSourceFile = 'src/main/resources/graphex-minimal.yaml'
+def swaggerTargetFolder = 'src/generated/java'
+
+task generateApi {
+	doLast {
+		def config = new CodegenConfigurator()
+		config.setInputSpec("file:///$projectDir/$swaggerSourceFile")
+		config.setOutputDir("$projectDir")
+		config.setLang('spring')
+		config.setAdditionalProperties([
+				'interfaceOnly' : 'true',
+				'apiPackage'    : 'de.tudresden.inf.st.mathgrassserver.api',
+				'modelPackage'  : 'de.tudresden.inf.st.mathgrassserver.model',
+				'sourceFolder'  : swaggerTargetFolder
+		])
+		new DefaultGenerator().opts(config.toClientOptInput()).generate()
+	}
+}
