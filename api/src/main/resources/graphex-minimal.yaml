@@ -400,6 +400,12 @@ definitions:
         $ref: "#/definitions/Task"
       issue:
         type: "string"
+  
+  TaskTopic:
+      templates:
+        type: "array"
+        items:
+          $ref: "#/definitions/TaskTemplate"
 
   TaskCollection:
     type: "object"
