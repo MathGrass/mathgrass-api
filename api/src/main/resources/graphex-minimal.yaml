@@ -170,7 +170,7 @@ paths:
         description: "ID of task"
         required: true
         schema:
-          $ref: "#/definitions/Task"
+          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -237,12 +237,12 @@ paths:
         description: "ID of task"
         required: true
         schema:
-          $ref: "#/definitions/Task"
+          type: "string"
 
   /runTask/{id}:
     post:
-      description: "Adds feedback to a task"
-      operationId: "addTaskFeedback"
+      description: "Run a task with an answer"
+      operationId: "runTask"
       tags:
         - "exercising"
       consumes:
@@ -257,7 +257,13 @@ paths:
           description: "ID of task"
           required: true
           schema:
-            $ref: "#/definitions/Task"
+            type: "string"
+        - name: "answer"
+          in: "body"
+          description: "Answer of student"
+          required: true
+          schema:
+            type: "string"
 
 
   # TASK SOLVER    
@@ -280,7 +286,7 @@ paths:
         description: "ID of task solver"
         required: true
         schema:
-          $ref: "#/definitions/TaskSolver"
+          type: "string"
 
   /taskSolver:
     post:
@@ -324,7 +330,7 @@ paths:
         description: "ID of tag"
         required: true
         schema:
-          $ref: "#/definitions/Tag"
+          type: "string"
 
 
 securityDefinitions:
