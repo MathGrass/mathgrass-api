@@ -7,4 +7,4 @@ class BasicEvaluator(AbstractEvaluator):
         return True
 
     def get_queue_name(self):
-        return "basic-eva-tasks"
+        return "TASK_REQUEST"

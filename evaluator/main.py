@@ -20,6 +20,7 @@ def main():
         queue_name = instance.get_queue_name()
 
         def on_result(request_id,is_correct):
+            print("got result",request_id,is_correct)
             queue_msg = build_answer_queue_msg(request_id,is_correct)
             msg_queue_middleware.publish(queue_name + "-answers",queue_msg)
 
@@ -29,8 +30,8 @@ def main():
             on_result(request_id,is_correct)
         
         msg_queue_middleware.consume(queue_name,on_request_received)
-        time.sleep(2)
-
+        #time.sleep(2)
+        #on_request_received("","","",{"request":1234, "task" : "abfeiuhgj", "answer" : "345"})
 
 
 
