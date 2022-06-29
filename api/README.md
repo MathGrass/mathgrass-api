@@ -25,3 +25,10 @@ public interface PetClient extends PetApi {
 
 }
 ```
+
+
+## Developer setup
+- install dependencies
+- execute "build generateApi" from terminal in api root
+- 
+
