@@ -30,5 +30,6 @@ public interface PetClient extends PetApi {
 ## Developer setup
 - install dependencies
 - execute "build generateApi" from terminal in api root
-- 
+- launch with .env file (use IntelliJ SpringBoot Config and EnvFile Plugin)
+- for swager docs go to: http://localhost:8080/swagger-ui/
 
