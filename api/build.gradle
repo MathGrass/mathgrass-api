@@ -36,6 +36,10 @@ dependencies {
 
 	implementation 'com.rabbitmq:amqp-client:5.15.0'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.0'
+
+	implementation 'org.postgresql:postgresql:42.3.6'
+
 
 }
 

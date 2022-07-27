@@ -1,7 +1,6 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import de.tudresden.inf.st.mathgrassserver.apiModel.RunTaskApi;
-import de.tudresden.inf.st.mathgrassserver.api.RunTaskApiImpl;
+import de.tudresden.inf.st.mathgrassserver.apiModel.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,38 +8,35 @@ import org.springframework.context.annotation.Configuration;
 public class ExercisingIntegrationConfig {
 
     @Bean
-    public RunTaskApi taskApi() {
+    public RunTaskApi runTaskApi() {
         return new RunTaskApiImpl();
     }
-/*
+
     @Bean
     public GraphApi graphApi() {
-        return new GraphApi();
+        return new GraphApiImpl();
     }
 
     @Bean
     public TagApi tagApi() {
-        return new GraphApi();
+        return new TagApiImpl();
     }
 
 
     @Bean
     public TaskSolverApi taskSolverApi() {
-        return new TaskSolverApi();
+        return new TaskSolverApiImpl();
     }
 
     @Bean
     public TaskTemplateApi taskTemplateApi() {
-        return new TaskTemplateApi();
+        return new TaskTemplateApiImpl();
     }
 
     @Bean
-    public GraphApi graphApi() {
-        return new GraphApi();
+    public TaskApi taskaApi() {
+        return new TaskApiImpl();
     }
-    */
-
-
 
 
 
