@@ -14,7 +14,8 @@ public class GraphApiImpl implements GraphApi {
     }
 
     @Override
-    public ResponseEntity<Graph> getGraphById(String graphId) {
+    public ResponseEntity<Graph> getGraphById(Long graphId) {
         return null;
     }
+
 }

@@ -34,7 +34,7 @@ public class ExercisingIntegrationConfig {
     }
 
     @Bean
-    public TaskApi taskaApi() {
+    public TaskApi tasksApi() {
         return new TaskApiImpl();
     }
 

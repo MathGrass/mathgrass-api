@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TaskApiImpl implements TaskApi {
+
     @Override
-    public ResponseEntity<Void> addTaskFeedback(String id) {
+    public ResponseEntity<Void> addTaskFeedback(Long id) {
         return null;
     }
 
@@ -18,12 +19,13 @@ public class TaskApiImpl implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<Task> getTaskById(String id) {
+    public ResponseEntity<Task> getTaskById(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> updateTask(String id) {
+    public ResponseEntity<Void> updateTask(Long id, Task task) {
         return null;
     }
+
 }

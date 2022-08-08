@@ -13,17 +13,18 @@ public class TaskTemplateApiImpl implements TaskTemplateApi {
     }
 
     @Override
-    public ResponseEntity<Void> getTaskTemplateById(String id) {
+    public ResponseEntity<Void> getTaskTemplateById(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> setTaskTemplateLabel(String id, String label) {
+    public ResponseEntity<Void> setTaskTemplateLabel(Long id, String label) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> setTaskTemplateQuestion(String id, String question) {
+    public ResponseEntity<Void> setTaskTemplateQuestion(Long id, String question) {
         return null;
     }
+
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RunTaskApiImpl implements RunTaskApi {
 
     @Override
-    public ResponseEntity runTask(String id, String answer) {
+    public ResponseEntity<Void> runTask(Long id, String answer) {
         //TODO: get task from database
         //TODO: extract graph, executionType, (execution ref or fixed answer)
         boolean isDynamicAnswer = true;
