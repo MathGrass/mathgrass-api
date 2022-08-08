@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class TaskSolverApiImpl implements TaskSolverApi {
 
@@ -21,8 +23,18 @@ public class TaskSolverApiImpl implements TaskSolverApi {
     }
 
     @Override
-    public ResponseEntity<Void> getTaskSolverById(Long id) {
-        return null;
+    public ResponseEntity<TaskSolver> getTaskSolverById(Long id) {
+        Optional<TaskSolverEntity> result = this.taskSolverRepository.findById(id);
+        if (result.isPresent()) {
+            TaskSolverEntity entity = result.get();
+            TaskSolver out = new TaskSolver();
+            out.setId(entity.getId());
+            out.setLabel(entity.getLabel());
+            out.setExecutionDescriptor(entity.getExecutionDescriptor());
+            return ResponseEntity.ok().body(out);
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
 }

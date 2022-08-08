@@ -8,8 +8,7 @@ import javax.persistence.*;
 public class TaskSolverEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -27,7 +26,21 @@ public class TaskSolverEntity {
         this.executionDescriptor = executionDescriptor;
     }
 
+    public String getLabel() {
+        return label;
+    }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getExecutionDescriptor() {
+        return executionDescriptor;
+    }
+
+    public void setExecutionDescriptor(String executionDescriptor) {
+        this.executionDescriptor = executionDescriptor;
+    }
 
     public void setId(Long id) {
         this.id = id;
