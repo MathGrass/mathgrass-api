@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrassserver.dbmodel;
+package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 
 import javax.persistence.*;

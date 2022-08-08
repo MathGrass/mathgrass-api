@@ -13,7 +13,7 @@ public class TaskTemplateApiImpl implements TaskTemplateApi {
     }
 
     @Override
-    public ResponseEntity<Void> getTaskTemplateById(Long id) {
+    public ResponseEntity<TaskTemplate> getTaskTemplateById(Long id) {
         return null;
     }
 
