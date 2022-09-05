@@ -19,7 +19,6 @@ public class TaskTemplateEntity {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
     }

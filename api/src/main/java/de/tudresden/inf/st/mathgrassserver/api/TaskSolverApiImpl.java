@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-public class TaskSolverApiImpl implements TaskSolverApi {
+public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {
 
     @Autowired
     TaskSolverRepository taskSolverRepository;
@@ -33,7 +33,7 @@ public class TaskSolverApiImpl implements TaskSolverApi {
             out.setExecutionDescriptor(entity.getExecutionDescriptor());
             return ResponseEntity.ok().body(out);
         }
-        return ResponseEntity.notFound().build();
+        return null;
 
     }
 

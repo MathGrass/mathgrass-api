@@ -7,6 +7,7 @@ import de.tudresden.inf.st.mathgrassserver.model.Tag;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Table
 @Entity(name = "graph")
@@ -20,7 +21,6 @@ public class GraphEntity {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
     }
@@ -29,23 +29,48 @@ public class GraphEntity {
     @Column
     private String label = null;
 
-    @Column
-    private List<Tag> tags = new ArrayList<Tag>();
+    @ManyToMany
+    private List<TagEntity> tags;
 
-    @OneToMany
-    private List<GraphEdges> edges = new ArrayList<GraphEdges>();
+    @ElementCollection
+    private Map<String,String> edges;
 
-    @OneToMany
-    private List<Long> vertices = new ArrayList<Long>();
+    @ElementCollection
+    private List<String> vertices;
 
     public GraphEntity() {
 
     }
 
+    public String getLabel() {
+        return label;
+    }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
+    public List<TagEntity> getTags() {
+        return tags;
+    }
 
+    public void setTags(List<TagEntity> tags) {
+        this.tags = tags;
+    }
 
+    public Map<String, String> getEdges() {
+        return edges;
+    }
 
+    public void setEdges(Map<String, String> edges) {
+        this.edges = edges;
+    }
 
+    public List<String> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(List<String> vertices) {
+        this.vertices = vertices;
+    }
 }

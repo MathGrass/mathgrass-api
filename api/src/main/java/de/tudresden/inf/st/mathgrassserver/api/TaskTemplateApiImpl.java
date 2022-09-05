@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class TaskTemplateApiImpl implements TaskTemplateApi {
+public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
     @Override
     public ResponseEntity<Void> createTaskTemplate(TaskTemplate body) {
         return null;

@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 public class ExercisingIntegrationConfig {
 
     @Bean
-    public RunTaskApi runTaskApi() {
-        return new RunTaskApiImpl();
+    public EvaluatorApi runTaskApi() {
+        return new EvaluatorApiImpl();
     }
 
     @Bean
