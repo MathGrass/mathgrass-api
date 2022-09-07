@@ -5,6 +5,7 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
+import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.FeedbackTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         TaskEntity taskEntity = taskRepository.getReferenceById(taskId);
         taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
 
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint feedback) {
         return null;
     }
 

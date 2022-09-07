@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
+import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +29,14 @@ public class TaskEntity {
     @Column
     private Long graph = null;
 
-    @ElementCollection
-    private List<String> hints = new ArrayList<String>();
-
     @Column
     private String answer = null;
 
-    @ManyToMany
-    private ArrayList<FeedbackEntity> feedbacks = new ArrayList<>();
+    @OneToMany
+    private List<FeedbackEntity> feedbacks;
+
+    @OneToMany
+    private List<TaskHintEntity> hints;
 
 
     public Long getTaskTemplate() {
@@ -53,11 +55,11 @@ public class TaskEntity {
         this.graph = graph;
     }
 
-    public List<String> getHints() {
+    public List<TaskHintEntity> getHints() {
         return hints;
     }
 
-    public void setHints(List<String> hints) {
+    public void setHints(List<TaskHintEntity> hints) {
         this.hints = hints;
     }
 
@@ -69,7 +71,7 @@ public class TaskEntity {
         this.answer = answer;
     }
 
-    public ArrayList<FeedbackEntity> getFeedbacks() {
+    public List<FeedbackEntity> getFeedbacks() {
         return feedbacks;
     }
 

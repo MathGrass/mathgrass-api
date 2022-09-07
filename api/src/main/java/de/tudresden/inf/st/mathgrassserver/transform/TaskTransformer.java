@@ -6,6 +6,7 @@ import de.tudresden.inf.st.mathgrassserver.model.Task;
 public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
     @Override
     public Task toDto(TaskEntity entity) {
+
         return null;
     }
 

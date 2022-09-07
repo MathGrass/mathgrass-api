@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Table
-@Entity(name = "tasktemplate")
-public class TaskTemplateEntity {
+@Entity(name = "taskhints")
+public class TaskHintEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,17 +28,10 @@ public class TaskTemplateEntity {
     private String label = null;
 
     @Column
-    private String question = null;
+    private String content = null;
 
-    @Column
-    private Long taskSolver = null;
 
-    @ManyToMany
-    private List<TagEntity> tags;
 
-    public TaskTemplateEntity() {
-
-    }
 
 
 
