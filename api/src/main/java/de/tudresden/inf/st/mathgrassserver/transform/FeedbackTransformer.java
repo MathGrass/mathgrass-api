@@ -17,6 +17,6 @@ public class FeedbackTransformer extends ModelTransformer<Feedback, FeedbackEnti
         FeedbackEntity entity = new FeedbackEntity();
         entity.setId(dto.getId());
         entity.setContent(dto.getContent());
-        return null;
+        return entity;
     }
 }

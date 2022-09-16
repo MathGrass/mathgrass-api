@@ -24,10 +24,32 @@ public class TaskEntity {
 
 
     @Column
-    private Long taskTemplate = null;
+    private String question;
 
     @Column
-    private Long graph = null;
+    private String label;
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    @Column
+    private Long taskTemplate = null;
+
+    @ManyToOne
+    private GraphEntity graph = null;
 
     @Column
     private String answer = null;
@@ -47,12 +69,16 @@ public class TaskEntity {
         this.taskTemplate = taskTemplate;
     }
 
-    public Long getGraph() {
+    public GraphEntity getGraph() {
         return graph;
     }
 
-    public void setGraph(Long graph) {
+    public void setGraph(GraphEntity graph) {
         this.graph = graph;
+    }
+
+    public void setFeedbacks(List<FeedbackEntity> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
     public List<TaskHintEntity> getHints() {

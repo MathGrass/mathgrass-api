@@ -7,10 +7,13 @@ import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.FeedbackTransformer;
+import de.tudresden.inf.st.mathgrassserver.transform.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class TaskApiImpl extends AbsApi implements TaskApi {
@@ -22,16 +25,17 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
     @Override
     public ResponseEntity<Void> addTaskFeedback(Long taskId, Feedback feedback) {
         checkExistence(taskId,taskRepository);
-
         TaskEntity taskEntity = taskRepository.getReferenceById(taskId);
         taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
-
-        return null;
+        return ok();
     }
 
     @Override
     public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint feedback) {
-        return null;
+        checkExistence(taskId,taskRepository);
+        TaskEntity taskEntity = taskRepository.getReferenceById(taskId);
+        taskEntity.getHints().add(new TaskHintTransformer().toEntity(feedback));
+        return ok();
     }
 
     @Override
@@ -48,6 +52,14 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         TaskEntity taskEntity = taskRepository.getReferenceById(id);
         Task task = new TaskTransformer().toDto(taskEntity);
         return ok(task);
+    }
+
+    @Override
+    public ResponseEntity<List<Feedback>> getTaskFeedback(Long taskId) {
+        checkExistence(taskId,taskRepository);
+        TaskEntity taskEntity = taskRepository.getReferenceById(taskId);
+        List<Feedback> out = new FeedbackTransformer().toDtoList(taskEntity.getFeedbacks());
+        return ok(out);
     }
 
     @Override

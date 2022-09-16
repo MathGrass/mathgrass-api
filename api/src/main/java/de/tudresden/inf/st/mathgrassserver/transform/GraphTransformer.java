@@ -40,11 +40,7 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
 
 
         //Tags
-        ArrayList<Long> tags = new ArrayList<>();
-        for (TagEntity tag : entity.getTags()) {
-            tags.add(tag.getId());
-        }
-        graph.setTags(tags);
+        graph.setTags(new TagTransformer().toDtoList(entity.getTags()));
 
 
         return graph;
@@ -70,11 +66,7 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         entity.setVertices(dto.getVertices());
 
         //Tags
-        ArrayList<TagEntity> tags = new ArrayList<>();
-        for (long tagId : dto.getTags()) {
-            tags.add(tagRepository.getReferenceById(tagId));
-        }
-        entity.setTags(tags);
+        entity.setTags(new TagTransformer().toEntityList(dto.getTags()));
 
         return entity;
     }

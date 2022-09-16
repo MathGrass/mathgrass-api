@@ -19,4 +19,12 @@ public class AbsApi {
     protected ResponseEntity<Void> ok() {
         return ResponseEntity.ok().build();
     }
+
+    protected void notFound() {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
+    protected void illegalArgs() {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
 }

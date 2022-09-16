@@ -1,0 +1,26 @@
+package de.tudresden.inf.st.mathgrassserver.transform;
+
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
+import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
+
+public class TaskHintTransformer extends ModelTransformer<TaskHint, TaskHintEntity> {
+
+    @Override
+    public TaskHint toDto(TaskHintEntity entity) {
+        TaskHint dto = new TaskHint();
+        dto.setId(entity.getId());
+        dto.setLabel(entity.getLabel());
+        dto.setContent(entity.getContent());
+        return dto;
+    }
+
+    @Override
+    public TaskHintEntity toEntity(TaskHint dto) {
+        TaskHintEntity entity = new TaskHintEntity();
+        entity.setId(dto.getId());
+        entity.setContent(dto.getContent());
+        entity.setLabel(dto.getLabel());
+        return entity;
+    }
+}

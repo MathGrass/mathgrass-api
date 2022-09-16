@@ -95,6 +95,37 @@ paths:
         "404":
           description: "Task Template not found"
 
+  # TASK TEMPLATE
+  /taskTemplate/{taskTemplateId}/getHint/{index}:
+    get:
+      description: "Returns a hint"
+      operationId: "getTaskTemplateHint"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - name: "taskTemplateId"
+          in: "path"
+          description: "ID of task template"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "index"
+          in: "path"
+          description: "Index of the hint"
+          required: true
+          type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/TaskHint'
+        "404":
+          description: "Task Template not found"
+
 
   /taskTemplate:
     post:
@@ -270,6 +301,35 @@ paths:
           description: "successful operation"
 
 
+  /task/{taskId}/getFeedback:
+    get:
+      description: "Get all feedback of a task"
+      operationId: "getTaskFeedback"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: "ID of task"
+        required: true
+        type: "integer"
+        format: int64
+
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Feedback"
+
+
+
   /task/{taskId}/addHint:
     post:
       description: "Adds a hint to a task"
@@ -287,9 +347,9 @@ paths:
         required: true
         type: "integer"
         format: int64
-      - name: "feedback"
+      - name: "hint"
         in: "body"
-        description: "feedback item"
+        description: "hint item"
         required: true
         schema:
           $ref: "#/definitions/TaskHint"
@@ -471,8 +531,7 @@ definitions:
       tags:
         type: "array"
         items:
-          type: "integer"
-          format: int64
+          $ref: "#/definitions/Tag"
       
       edges:
         type: "array"
@@ -523,9 +582,10 @@ definitions:
         type: "integer"
         format: int64
       hints:
+        x-nullable: true
         type: "array"
         items:
-          type: "string"
+          $ref: "#/definitions/TaskHint"
       tags:
         type: "array"
         items:
@@ -541,15 +601,19 @@ definitions:
       graph:
         $ref: "#/definitions/Graph"
       hints:
+        x-nullable: true
         type: "array"
         items:
-          type: "integer"
-          format: int64
+          $ref: "#/definitions/TaskHint"
       feedback:
         type: "array"
         items:
           type: "integer"
           format: int64
+      question:
+        type: "string"
+      label:
+        type: "string"
       
   TaskHint:
     type: "object"

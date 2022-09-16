@@ -30,13 +30,19 @@ public class TaskHintEntity {
     @Column
     private String content = null;
 
+    public String getLabel() {
+        return label;
+    }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
+    public String getContent() {
+        return content;
+    }
 
-
-
-
-
-
-
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
