@@ -1,6 +1,8 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
+import de.tudresden.inf.st.mathgrassserver.model.InputAnswer;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
+import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,8 +47,8 @@ public class TaskEntity {
         this.label = label;
     }
 
-    @Column
-    private Long taskTemplate = null;
+    @ManyToOne
+    private TaskTemplateEntity taskTemplate = null;
 
     @ManyToOne
     private GraphEntity graph = null;
@@ -60,12 +62,22 @@ public class TaskEntity {
     @OneToMany
     private List<TaskHintEntity> hints;
 
+    @OneToMany
+    private List <InputAnswerEntity> answers;
 
-    public Long getTaskTemplate() {
+    public List<InputAnswerEntity> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<InputAnswerEntity> answers) {
+        this.answers = answers;
+    }
+
+    public TaskTemplateEntity getTaskTemplate() {
         return taskTemplate;
     }
 
-    public void setTaskTemplate(Long taskTemplate) {
+    public void setTaskTemplate(TaskTemplateEntity taskTemplate) {
         this.taskTemplate = taskTemplate;
     }
 

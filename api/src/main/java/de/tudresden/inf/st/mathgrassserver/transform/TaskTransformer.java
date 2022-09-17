@@ -28,6 +28,11 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         dto.setLabel(entity.getLabel());
 
+        // answer should not be sent to student
+        if (getUsedRole()!=null) {
+            dto.setAnswer(entity.getAnswer());
+        }
+
         ArrayList<Long> feedbackIds = new ArrayList<>();
         for (FeedbackEntity feedbackEntity : entity.getFeedbacks() ) {
             feedbackIds.add(feedbackEntity.getId());
@@ -37,10 +42,13 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         Graph graph = new GraphTransformer().toDto(entity.getGraph());
         dto.setGraph(graph);
 
-        //hints
+        // hints
         if (getUsedRole()!=null) {
             dto.setHints(new TaskHintTransformer().toDtoList(entity.getHints()));
         }
+
+        //template
+        dto.setTemplate(new TaskTemplateTransformer().toDto(entity.getTaskTemplate()));
         return dto;
     }
 
@@ -52,6 +60,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         taskEntity.setQuestion(dto.getQuestion());
         taskEntity.setLabel(dto.getLabel());
+        taskEntity.setAnswer(dto.getAnswer());
 
 
         //Feedback will not be present when creating the task (that's why the following is commented out)
@@ -66,6 +75,8 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         taskEntity.setGraph(graphEntity);
 
         taskEntity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
+
+        taskEntity.setTaskTemplate(new TaskTemplateTransformer().toEntity(dto.getTemplate()));
 
         return taskEntity;
     }

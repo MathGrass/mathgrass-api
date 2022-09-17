@@ -1,7 +1,8 @@
 package de.tudresden.inf.st.mathgrassserver;
 
 import de.tudresden.inf.st.mathgrassserver.api.ExercisingIntegrationConfig;
-import de.tudresden.inf.st.mathgrassserver.messageBroker.MessageBrokerConn;
+import de.tudresden.inf.st.mathgrassserver.evaluator.MessageBrokerConn;
+import de.tudresden.inf.st.mathgrassserver.evaluator.TaskManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,10 @@ public class MathgrassServerApplication {
 		MessageBrokerConn brokerConn = MessageBrokerConn.getInstance();
 		try {
 			brokerConn.connect();
+			while (true) {
+				new TaskManager().runTask(1,2,"answwwwwer");
+			}
+
 		} catch (Exception e) {
 			System.err.println("aborting");
 			System.exit(0);

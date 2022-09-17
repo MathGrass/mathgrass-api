@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrassserver.messageBroker;
+package de.tudresden.inf.st.mathgrassserver.evaluator;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;

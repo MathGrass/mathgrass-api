@@ -4,6 +4,7 @@ import de.tudresden.inf.st.mathgrassserver.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
+import de.tudresden.inf.st.mathgrassserver.model.InputAnswer;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.FeedbackTransformer;
@@ -60,6 +61,11 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         TaskEntity taskEntity = taskRepository.getReferenceById(taskId);
         List<Feedback> out = new FeedbackTransformer().toDtoList(taskEntity.getFeedbacks());
         return ok(out);
+    }
+
+    @Override
+    public ResponseEntity<Void> submitAnswer(Long taskId, InputAnswer inputAnswer) {
+        return null;
     }
 
     @Override
