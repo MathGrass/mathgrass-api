@@ -33,5 +33,3 @@ def build_answer_queue_msg(request_id,is_correct):
         "is_correct": is_correct
     }
 
-def parse_eva_request(msg):
-    return (msg["request"],msg["task"],msg["answer"])
