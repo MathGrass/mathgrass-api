@@ -6,6 +6,7 @@ class Database:
             self.conn = psycopg2.connect(
                 host="localhost",
                 database="mathgrass_db")
+            print("Connected to database")
 
 
         except (Exception, psycopg2.DatabaseError) as error:

@@ -7,7 +7,7 @@ class MessageQueueMiddleware:
     def __init__(self,broker_host):
         connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=broker_host))
-        print("Connected")
+        print("Connected to message queue")
         self.channel = connection.channel()
 
     def consume(self,queue, callback):
