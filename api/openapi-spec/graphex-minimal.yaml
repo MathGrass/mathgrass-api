@@ -549,6 +549,7 @@ securityDefinitions:
     type: "apiKey"
     name: "api_key"
     in: "header"
+
 definitions:
   Graph:
     type: "object"
@@ -567,18 +568,46 @@ definitions:
       edges:
         type: "array"
         items:
+          title: "Edge"
           type: "object"
           properties:
-            firstVertex:
+            firstVertexId:
+              type: "integer"
+              format: int64
+            secondVertexId:
+              type: "integer"
+              format: int64
+            label:
               type: "string"
-
-            secondVertex:
-              type: "string"
+          required:
+            - firstVertexId
+            - secondVertexId
 
       vertices:
         type: "array"
         items:
-          type: "string"
+          title: "Vertex"
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              format: int64
+            x:
+              type: "integer"
+              minimum: 0
+              maximum: 100
+              format: int32
+            y:
+              type: "integer"
+              minimum: 0
+              maximum: 100
+              format: int32
+            label:
+              type: "string"
+          required:
+            - x
+            - y
+
   Tag:
     type: "object"
     properties:

@@ -62,7 +62,7 @@ sourceSets {
 import io.swagger.codegen.config.CodegenConfigurator
 import io.swagger.codegen.DefaultGenerator
 
-def swaggerSourceFile = 'src/main/resources/graphex-minimal.yaml'
+def swaggerSourceFile = 'openapi-spec/graphex-minimal.yaml'
 def swaggerTargetFolder = 'src/generated/java'
 
 task generateApi {
