@@ -13,8 +13,8 @@ host: "mathgrass.swagger.io"
 basePath: "/v2"
 
 schemes:
-- "https"
-- "http"
+  - "https"
+  - "http"
 paths:
   # GRAPH
   /graph/{graphId}:
@@ -22,12 +22,12 @@ paths:
       description: "Get a graph by id"
       operationId: "getGraphById"
       parameters:
-      - name: "graphId"
-        in: "path"
-        description: "Graph id"
-        required: true
-        type: "integer"
-        format: int64
+        - name: "graphId"
+          in: "path"
+          description: "Graph id"
+          required: true
+          type: "integer"
+          format: int64
       responses:
         "200":
           description: "successful operation"
@@ -58,12 +58,12 @@ paths:
       description: "Create a new graph"
       operationId: "createGraph"
       parameters:
-      - name: "graph"
-        in: "body"
-        description: "Graph object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Graph"
+        - name: "graph"
+          in: "body"
+          description: "Graph object that needs to be added to the store"
+          required: true
+          schema:
+            $ref: "#/definitions/Graph"
       responses:
         "200":
           description: "successful operation"
@@ -75,18 +75,18 @@ paths:
       description: "Returns a task template"
       operationId: "getTaskTemplateById"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskTemplateId"
-        in: "path"
-        description: "ID of task template"
-        required: true
-        type: "integer"
-        format: int64
+        - name: "taskTemplateId"
+          in: "path"
+          description: "ID of task template"
+          required: true
+          type: "integer"
+          format: int64
       responses:
         "200":
           description: "successful operation"
@@ -132,18 +132,18 @@ paths:
       description: "Creates a task template"
       operationId: "createTaskTemplate"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "taskTemplate"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/TaskTemplate"
+        - in: "body"
+          name: "taskTemplate"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/TaskTemplate"
       responses:
         "200":
           description: "successful operation"
@@ -153,24 +153,24 @@ paths:
       description: "Sets a label for a task template"
       operationId: "setTaskTemplateLabel"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       parameters:
-      - name: "taskTemplateId"
-        in: "path"
-        description: "ID of task template"
-        required: true
-        type: "integer"
-        format: int64
-      - name: "label"
-        in: "body"
-        description: "Label to set"
-        required: true
-        schema:
-          type: "string"
+        - name: "taskTemplateId"
+          in: "path"
+          description: "ID of task template"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "label"
+          in: "body"
+          description: "Label to set"
+          required: true
+          schema:
+            type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -180,27 +180,27 @@ paths:
       description: "Sets a question for a task template"
       operationId: "setTaskTemplateQuestion"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
+        - "application/xml"
       parameters:
-      - in: "path"
-        name: "taskTemplateId"
-        description: "ID of task template"
-        required: true
-        type: "integer"
-        format: int64
-      - name: "question"
-        in: "body"
-        description: "Question to set"
-        required: true
-        schema:
-          type: "string"
+        - in: "path"
+          name: "taskTemplateId"
+          description: "ID of task template"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "question"
+          in: "body"
+          description: "Question to set"
+          required: true
+          schema:
+            type: "string"
       responses:
         "200":
           description: "successful operation"
-    
+
 
   # TASK
   /task/{taskId}:
@@ -208,18 +208,18 @@ paths:
       description: "Returns a task"
       operationId: "getTaskById"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        description: "ID of task"
-        required: true
-        type: "integer"
-        format: int64
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
       responses:
         "200":
           description: "successful operation"
@@ -230,23 +230,23 @@ paths:
       description: "Updates a task"
       operationId: "updateTask"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        type: integer
-        format: int64
-        required: true
-      - name: "task"
-        in: "body"
-        description: "ID of task"
-        required: true
-        schema:
-          $ref: "#/definitions/Task"
+        - name: "taskId"
+          in: "path"
+          type: integer
+          format: int64
+          required: true
+        - name: "task"
+          in: "body"
+          description: "ID of task"
+          required: true
+          schema:
+            $ref: "#/definitions/Task"
       responses:
         "200":
           description: "successful operation"
@@ -256,18 +256,18 @@ paths:
       description: "Creates a task"
       operationId: "createTask"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "task"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/Task"
+        - in: "body"
+          name: "task"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Task"
       responses:
         "200":
           description: "successful operation"
@@ -277,24 +277,24 @@ paths:
       description: "Adds feedback to a task"
       operationId: "addTaskFeedback"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        description: "ID of task"
-        required: true
-        type: "integer"
-        format: int64
-      - name: "feedback"
-        in: "body"
-        description: "feedback content"
-        required: true
-        schema:
-          $ref: "#/definitions/Feedback"
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "feedback"
+          in: "body"
+          description: "feedback content"
+          required: true
+          schema:
+            $ref: "#/definitions/Feedback"
 
       responses:
         "200":
@@ -306,18 +306,18 @@ paths:
       description: "Get all feedback of a task"
       operationId: "getTaskFeedback"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        description: "ID of task"
-        required: true
-        type: "integer"
-        format: int64
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
 
 
       responses:
@@ -335,24 +335,24 @@ paths:
       description: "Adds a hint to a task"
       operationId: "addTaskHint"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        description: "ID of task"
-        required: true
-        type: "integer"
-        format: int64
-      - name: "hint"
-        in: "body"
-        description: "hint item"
-        required: true
-        schema:
-          $ref: "#/definitions/TaskHint"
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "hint"
+          in: "body"
+          description: "hint item"
+          required: true
+          schema:
+            $ref: "#/definitions/TaskHint"
 
       responses:
         "200":
@@ -363,24 +363,24 @@ paths:
       description: "Adds a given answer from input"
       operationId: "submitAnswer"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskId"
-        in: "path"
-        description: "ID of task"
-        required: true
-        type: "integer"
-        format: int64
-      - in: "body"
-        name: "inputAnswer"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/InputAnswer"
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
+        - in: "body"
+          name: "inputAnswer"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/InputAnswer"
       responses:
         "200":
           description: "successful operation"
@@ -393,18 +393,18 @@ paths:
       description: "Returns a task solver"
       operationId: "getTaskSolverById"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "taskSolverId"
-        in: "path"
-        description: "ID of task solver"
-        required: true
-        type: "integer"
-        format: int64
+        - name: "taskSolverId"
+          in: "path"
+          description: "ID of task solver"
+          required: true
+          type: "integer"
+          format: int64
       responses:
         "200":
           description: "successful operation"
@@ -416,18 +416,18 @@ paths:
       description: "Creates a task solver"
       operationId: "createTaskSolver"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "taskSolver"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/TaskSolver"
+        - in: "body"
+          name: "taskSolver"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/TaskSolver"
       responses:
         "200":
           description: "successful operation"
@@ -441,39 +441,41 @@ paths:
       description: "Returns a tag"
       operationId: "getTagById"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - name: "tagId"
-        in: "path"
-        type: integer
-        format: int64
-        description: "ID of tag"
-        required: true
+        - name: "tagId"
+          in: "path"
+          type: integer
+          format: int64
+          description: "ID of tag"
+          required: true
       responses:
         "200":
           description: "successful operation"
           schema:
             $ref: '#/definitions/Tag'
+
+  /tag:
     post:
       description: "Creates a tag"
       operationId: "createTag"
       consumes:
-      - "application/json"
-      - "application/xml"
+        - "application/json"
+        - "application/xml"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/xml"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "tag"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/Tag"
+        - in: "body"
+          name: "tag"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/Tag"
       responses:
         "200":
           description: "successful operation"
@@ -627,7 +629,7 @@ definitions:
       label:
         type: "string"
       executionDescriptor:
-       type: "string"
+        type: "string"
   TaskTemplate:
     type: "object"
     properties:
@@ -674,9 +676,9 @@ definitions:
         type: "string"
       label:
         type: "string"
-      answer: 
+      answer:
         type: "string"
-      
+
   TaskHint:
     type: "object"
     properties:
@@ -707,9 +709,9 @@ definitions:
         type: "string"
   
   TaskTopic:
-      type: "array"
-      items:
-        $ref: "#/definitions/TaskTemplate"
+    type: "array"
+    items:
+      $ref: "#/definitions/TaskTemplate"
 
   TaskCollection:
     type: "object"
