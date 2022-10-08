@@ -1,10 +1,13 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
+import de.tudresden.inf.st.mathgrassserver.database.entity.EdgeEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TagEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.model.Edge;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
-import de.tudresden.inf.st.mathgrassserver.model.GraphEdges;
+import de.tudresden.inf.st.mathgrassserver.model.Vertex;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -25,18 +28,11 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         graph.setLabel(entity.getLabel());
 
         //Edges
-        ArrayList<GraphEdges> edges = new ArrayList<>();
-        for (String vertex : entity.getEdges().keySet()) {
-            GraphEdges edge = new GraphEdges();
-            edge.setFirstVertex(vertex);
-            edge.setSecondVertex(entity.getEdges().get(vertex));
-            edges.add(edge);
-        }
-        graph.setEdges(edges);
+        graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
 
 
         //Vertices
-        graph.setVertices(entity.getVertices());
+        graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
 
 
         //Tags
@@ -56,14 +52,10 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         entity.setLabel(dto.getLabel());
 
         //Edges
-        HashMap<String,String> edges = new HashMap<>();
-        for (GraphEdges edge : dto.getEdges()) {
-            edges.put(edge.getFirstVertex(),edge.getSecondVertex());
-        }
-        entity.setEdges(edges);
+        entity.setEdges(new EdgeTransformer().toEntityList(dto.getEdges()));
 
         //Vertices
-        entity.setVertices(dto.getVertices());
+        entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));
 
         //Tags
         entity.setTags(new TagTransformer().toEntityList(dto.getTags()));

@@ -1,8 +1,6 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
-import de.tudresden.inf.st.mathgrassserver.model.GraphEdges;
-import de.tudresden.inf.st.mathgrassserver.model.Tag;
+import de.tudresden.inf.st.mathgrassserver.model.Edge;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,11 +30,11 @@ public class GraphEntity {
     @ManyToMany
     private List<TagEntity> tags;
 
-    @ElementCollection
-    private Map<String,String> edges;
+    @OneToMany
+    private List<EdgeEntity> edges;
 
-    @ElementCollection
-    private List<String> vertices;
+    @OneToMany
+    private List<VertexEntity> vertices;
 
     public GraphEntity() {
 
@@ -58,19 +56,19 @@ public class GraphEntity {
         this.tags = tags;
     }
 
-    public Map<String, String> getEdges() {
+    public List<EdgeEntity> getEdges() {
         return edges;
     }
 
-    public void setEdges(Map<String, String> edges) {
+    public void setEdges(List<EdgeEntity> edges) {
         this.edges = edges;
     }
 
-    public List<String> getVertices() {
+    public List<VertexEntity> getVertices() {
         return vertices;
     }
 
-    public void setVertices(List<String> vertices) {
+    public void setVertices(List<VertexEntity> vertices) {
         this.vertices = vertices;
     }
 }

@@ -7,7 +7,6 @@ import de.tudresden.inf.st.mathgrassserver.database.repository.FeedbackRepositor
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
-import de.tudresden.inf.st.mathgrassserver.model.GraphEdges;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 

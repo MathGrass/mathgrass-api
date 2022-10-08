@@ -386,6 +386,88 @@ paths:
           description: "successful operation"
 
 
+  # TASK COLLECTION
+  /taskCollection:
+    post:
+      description: "Creates a task collection"
+      operationId: "createTaskCollection"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "taskCollection"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/TaskCollection"
+      responses:
+        "200":
+          description: "successful operation"
+
+    get:
+      description: "Get all task collection"
+      operationId: "getTaskCollections"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TaskCollection"
+
+  # TASK COLLECTION
+  /taskTopic:
+    post:
+      description: "Creates a task topic"
+      operationId: "createTaskTopic"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "taskTopic"
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/TaskTopic"
+      responses:
+        "200":
+          description: "successful operation"
+
+    get:
+      description: "Get all task topics"
+      operationId: "getTaskTopics"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TaskTopic"
+
+
+
   # TASK SOLVER    
   
   /taskSolver/{taskSolverId}:
@@ -573,12 +655,10 @@ definitions:
           title: "Edge"
           type: "object"
           properties:
-            firstVertexId:
-              type: "integer"
-              format: int64
-            secondVertexId:
-              type: "integer"
-              format: int64
+            firstVertex:
+              $ref: "#/definitions/Vertex"
+            secondVertex:
+              $ref: "#/definitions/Vertex"
             label:
               type: "string"
           required:
@@ -709,9 +789,18 @@ definitions:
         type: "string"
   
   TaskTopic:
-    type: "array"
-    items:
-      $ref: "#/definitions/TaskTemplate"
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: int64
+      label: 
+        type: "string"
+      tasks:
+        type: "array"
+        items:
+          type: "integer"
+          format: int64
 
   TaskCollection:
     type: "object"
@@ -724,7 +813,8 @@ definitions:
       tasks:
         type: "array"
         items:
-          $ref: "#/definitions/Task"
+          type: "integer"
+          format: int64
   
   InputAnswer:
     type: "object"

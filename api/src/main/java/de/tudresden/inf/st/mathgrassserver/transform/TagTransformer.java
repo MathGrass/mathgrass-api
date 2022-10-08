@@ -4,7 +4,6 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TagEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
-import de.tudresden.inf.st.mathgrassserver.model.GraphEdges;
 import de.tudresden.inf.st.mathgrassserver.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 
