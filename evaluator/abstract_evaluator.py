@@ -1,4 +1,4 @@
 class AbstractEvaluator:
 
-    def load_script(self,script_id):
+    def on_request_received(self,body):
         pass
