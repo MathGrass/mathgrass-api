@@ -1,6 +1,7 @@
 import os
+from typing import Container
 import docker as dockerLib
-import paramiko
+
 
 from docker_container import DockerContainer
 
@@ -14,6 +15,11 @@ class DockerManager:
         self.max_active_containers = max_active_containers
         self.ready_container_amount = ready_container_amount
 
+        # pull image
+        print("pulling image")
+        self.docker.images.pull("sagemath/sagemath")
+
+        # init ready containers
         self.prepare_containers()
         
     
@@ -24,21 +30,18 @@ class DockerManager:
             for _ in range(creation_amount):
                 self.ready_containers.append(self.create_container_in_registry())
                 pass
-            
-            #TODO: remove following test line
-            self.ready_containers.append(DockerContainer("musing_brattain"))
         
 
     def create_container_in_registry(self):
-        #TODO: implement
-        return DockerContainer("")
+        do = self.docker.containers.create("sagemath/sagemath")
+        do.start()
+        return DockerContainer(do.name,self.docker)
 
     def remove_container_from_registry(self,container):
-        #TODO: remove container.name
-        pass
+        container.vanish()
 
     def allocate_container(self):
-        # TODO: check if enough docker - otherwise queue (should not happen because the msg bus will balance load)
+        # check if enough docker - otherwise queue (should not happen because the msg bus will balance load)
         if not self.ready_containers:
             print("No free container")
             #TODO: queue request
@@ -47,6 +50,7 @@ class DockerManager:
             print("All available ")
         selection = self.ready_containers.pop()
         self.occupied_containers.append(selection)
+        selection.add_result_observer(lambda x,y: self.finishContainer(selection))
         self.prepare_containers()
         return selection
 
@@ -59,6 +63,10 @@ class DockerManager:
 
         # check if another container should be prepared
         self.prepare_containers()
+
+    def clear_all_containers(self):
+        for c in self.ready_containers:
+            c.vanish()
     
     
     

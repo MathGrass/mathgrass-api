@@ -21,7 +21,7 @@ def main():
     # test_docker_manager(docker_manager)
 
     # create message queue middleware instance
-    #msg_queue_middleware = MessageQueueMiddleware(BROKER_HOST)
+    msg_queue_middleware = MessageQueueMiddleware(BROKER_HOST)
 
     # map queues to evaluators
     for evaluator in ALL_EVALUATORS:
@@ -31,10 +31,9 @@ def main():
         def on_request_received(ch, method, properties, body):
             instance.on_request_received(body)
     
-        #msg_queue_middleware.consume(queue_name,on_request_received)
+        msg_queue_middleware.consume(queue_name,on_request_received)
         
-        #TODO: remove following line
-        instance.run(BasicEvalRequest(124,555,"Answer","graph"))
+
 
 
 if __name__ == '__main__':
