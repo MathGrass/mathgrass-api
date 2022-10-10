@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TagApiImpl extends AbsApi implements TagApi {
 
-    @Autowired
-    TagRepository tagRepository;
+    final TagRepository tagRepository;
+
+    public TagApiImpl(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
     @Override
     public ResponseEntity<Void> createTag(Tag tag) {

@@ -3,6 +3,7 @@ package de.tudresden.inf.st.mathgrassserver.api;
 import de.tudresden.inf.st.mathgrassserver.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
@@ -21,14 +22,19 @@ import java.util.List;
 @RestController
 public class TaskApiImpl extends AbsApi implements TaskApi {
 
-    @Autowired
-    TaskRepository taskRepository;
+    final TaskRepository taskRepository;
 
-    @Autowired
-    TaskSolverRepository taskSolverRepository;
+    final TaskSolverRepository taskSolverRepository;
 
-    @Autowired
-    GraphRepository graphRepository;
+    final GraphRepository graphRepository;
+    final TagRepository tagRepository;
+
+    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository) {
+        this.taskRepository = taskRepository;
+        this.taskSolverRepository = taskSolverRepository;
+        this.graphRepository = graphRepository;
+        this.tagRepository = tagRepository;
+    }
 
 
     @Override
@@ -49,7 +55,7 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
 
     @Override
     public ResponseEntity<Long> createTask(Task body) {
-        TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository).toEntity(body));
+        TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository).toEntity(body));
         return ok(taskEntity.getId());
     }
 
@@ -58,7 +64,7 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         checkExistence(id,taskRepository);
 
         TaskEntity taskEntity = taskRepository.findById(id).get();
-        Task task = new TaskTransformer(taskSolverRepository,graphRepository).toDto(taskEntity);
+        Task task = new TaskTransformer(taskSolverRepository,graphRepository, tagRepository).toDto(taskEntity);
         return ok(task);
     }
 
@@ -79,7 +85,7 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
     public ResponseEntity<Void> updateTask(Long id, Task task) {
         checkExistence(id,taskRepository);
 
-        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository,graphRepository).toEntity(task);
+        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository,graphRepository, tagRepository).toEntity(task);
         taskEntity.setId(id);
         taskRepository.save(taskEntity);
         return ok();

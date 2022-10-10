@@ -23,11 +23,14 @@ import java.util.Random;
 @RestController
 public class EvaluatorApiImpl extends AbsApi implements EvaluatorApi {
 
-    @Autowired
-    TaskRepository taskRepository;
 
-    @Autowired
-    TaskResultRepository taskResultRepository;
+    final TaskRepository taskRepository;
+    final TaskResultRepository taskResultRepository;
+
+    public EvaluatorApiImpl(TaskRepository taskRepository, TaskResultRepository taskResultRepository) {
+        this.taskRepository = taskRepository;
+        this.taskResultRepository = taskResultRepository;
+    }
 
 
     @Override

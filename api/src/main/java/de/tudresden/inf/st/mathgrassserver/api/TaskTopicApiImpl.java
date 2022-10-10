@@ -21,22 +21,25 @@ import java.util.List;
 @RestController
 public class TaskTopicApiImpl extends AbsApi implements TaskTopicApi {
 
-    @Autowired
-    TaskTopicRepository taskTopicRepository;
+    final TaskTopicRepository taskTopicRepository;
 
-    @Autowired
-    TaskRepository taskRepository;
+    final TaskRepository taskRepository;
+
+    public TaskTopicApiImpl(TaskTopicRepository taskTopicRepository, TaskRepository taskRepository) {
+        this.taskTopicRepository = taskTopicRepository;
+        this.taskRepository = taskRepository;
+    }
 
 
     @Override
     public ResponseEntity<Void> createTaskTopic(TaskTopic taskTopic) {
-        this.taskTopicRepository.save(new TaskTopicTransformer().toEntity(taskTopic));
+        this.taskTopicRepository.save(new TaskTopicTransformer(this.taskRepository).toEntity(taskTopic));
         return ok();
     }
 
     @Override
     public ResponseEntity<List<TaskTopic>> getTaskTopics() {
         List<TaskTopicEntity> collections = taskTopicRepository.findAll();
-        return ok(new TaskTopicTransformer().toDtoList(collections));
+        return ok(new TaskTopicTransformer(this.taskRepository).toDtoList(collections));
     }
 }

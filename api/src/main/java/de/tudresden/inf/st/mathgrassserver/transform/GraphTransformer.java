@@ -15,8 +15,13 @@ import java.util.HashMap;
 
 public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
 
-    @Autowired
+    
     TagRepository tagRepository;
+
+
+    public GraphTransformer(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
     @Override
     public Graph toDto(GraphEntity entity) {

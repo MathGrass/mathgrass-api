@@ -13,8 +13,11 @@ import java.util.Optional;
 @RestController
 public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {
 
-    @Autowired
-    TaskSolverRepository taskSolverRepository;
+    final TaskSolverRepository taskSolverRepository;
+
+    public TaskSolverApiImpl(TaskSolverRepository taskSolverRepository) {
+        this.taskSolverRepository = taskSolverRepository;
+    }
 
     @Override
     public ResponseEntity<Long> createTaskSolver(TaskSolver body) {

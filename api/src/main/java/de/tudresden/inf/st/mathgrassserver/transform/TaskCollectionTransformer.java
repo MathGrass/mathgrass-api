@@ -11,9 +11,12 @@ import java.util.List;
 
 public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, TaskCollectionEntity> {
 
-    @Autowired
+    
     TaskRepository taskRepository;
 
+    public TaskCollectionTransformer(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @Override
     public TaskCollection toDto(TaskCollectionEntity entity) {

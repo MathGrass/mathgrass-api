@@ -20,11 +20,14 @@ import java.util.Objects;
 @RestController
 public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
 
-    @Autowired
-    TaskTemplateRepository taskTemplateRepository;
+    final TaskTemplateRepository taskTemplateRepository;
 
-    @Autowired
-    TaskSolverRepository taskSolverRepository;
+    final TaskSolverRepository taskSolverRepository;
+
+    public TaskTemplateApiImpl(TaskTemplateRepository taskTemplateRepository, TaskSolverRepository taskSolverRepository) {
+        this.taskTemplateRepository = taskTemplateRepository;
+        this.taskSolverRepository = taskSolverRepository;
+    }
 
 
     @Override

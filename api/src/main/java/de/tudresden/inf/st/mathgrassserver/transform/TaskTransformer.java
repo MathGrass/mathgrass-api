@@ -5,6 +5,7 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.FeedbackRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
@@ -17,11 +18,13 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
     TaskSolverRepository taskSolverRepository;
     GraphRepository graphRepository;
+    TagRepository tagRepository;
 
 
-    public TaskTransformer( TaskSolverRepository taskSolverRepository, GraphRepository graphRepository) {
+    public TaskTransformer( TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository) {
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         }
         dto.setFeedback(feedbackIds);
 
-        Graph graph = new GraphTransformer().toDto(entity.getGraph());
+        Graph graph = new GraphTransformer(tagRepository).toDto(entity.getGraph());
         dto.setGraph(graph);
 
         // hints
@@ -77,7 +80,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         // }
         // taskEntity.setFeedbacks(feedbacks);
 
-        GraphEntity graphEntity = new GraphTransformer().toEntity(dto.getGraph());
+        GraphEntity graphEntity = new GraphTransformer(tagRepository).toEntity(dto.getGraph());
         taskEntity.setGraph(graphEntity);
 
         taskEntity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
