@@ -12,14 +12,14 @@ class Database:
             self.conn = psycopg2.connect(
                 host="localhost",
                 database="mathgrass_db")
-            print("Connected to database")
+            print("connected to database")
 
 
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             if self.conn is not None:
                 self.conn.close()
-                print("Database connection closed");
+                print("database connection closed");
             
     def get_basic_eval_request_data(self,task_id):
         # get graph id
@@ -64,7 +64,7 @@ class Database:
         try:
             task_solver = next(task_solvers)
         except:
-            print("task solvers not found")
+            print("task solver not found")
             return None
         script = task_solver["execution_descriptor"]
 

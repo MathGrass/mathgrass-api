@@ -22,7 +22,7 @@ def run_forever():
         time.sleep(10)
 
 def main():
-    print("Starting evaluator microservice")
+    print("starting evaluator microservice")
 
     # initializing docker manager
     docker_manager = DockerManager(MAX_ACTIVE_CONTAINERS,READY_CONTAINERS)

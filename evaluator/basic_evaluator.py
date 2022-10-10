@@ -41,6 +41,7 @@ class BasicEvaluator(AbstractEvaluator):
         request_data = self.db.get_basic_eval_request_data(request.task_id)
         if not request_data:
             print("aborting")
+            #TODO: save error in db with request_id
             return
         eval_script = request_data.script
         graph_obj = request_data.graph
@@ -71,7 +72,7 @@ class BasicEvaluator(AbstractEvaluator):
         
 
     def on_request_received(self,body):
-        print("Got request")
+        print("got request")
         o = json.loads(body, object_hook=lambda d: SimpleNamespace(**d))
         self.run(BasicEvalRequest(o.requestId,o.taskId,o.inputAnswer))
 

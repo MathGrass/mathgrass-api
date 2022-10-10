@@ -41,12 +41,11 @@ class DockerManager:
     def allocate_container(self):
         # check if enough docker - otherwise queue (should not happen because the msg bus will balance load)
         if not self.ready_containers:
-            print("No free container")
+            print("no free container")
             #TODO: queue request
             return
-        if len(self.occupied_containers)>=self.max_active_containers:
-            print("All available ")
         selection = self.ready_containers.pop()
+        print("container available")
         self.occupied_containers.append(selection)
         selection.add_result_observer(lambda x,y: self.finishContainer(selection))
         self.prepare_containers()
