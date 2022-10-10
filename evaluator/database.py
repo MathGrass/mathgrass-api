@@ -1,5 +1,11 @@
 import psycopg2
 
+
+class BasicEvalRequestData:
+    def __init__(self, graph, script):
+        self.graph = graph;
+        self.script = script;
+
 class Database:
     def __init__(self):
         try:
@@ -15,25 +21,66 @@ class Database:
                 self.conn.close()
                 print("Database connection closed");
             
+    def get_basic_eval_request_data(self,task_id):
+        # get graph id
+        tcur = self.conn.cursor()
+        tcur.execute("SELECT * FROM tasks WHERE id = " + str(task_id))
+        tasks = self.get_cursor_elements_as_dicts(tcur)
+        try:
+            task = next(tasks)
+        except:
+            print("task not found")
+            return None
+        task_template_id = task["task_template_id"]
+        graph_id = task["graph_id"]
+
+        # get graph
+        gcur = self.conn.cursor()
+        gcur.execute("SELECT * FROM graphs WHERE id = " + str(graph_id))
+        graphs = self.get_cursor_elements_as_dicts(gcur)
+        try:
+            graph = next(graphs)
+        except:
+            print("graph not found")
+            return None
+
+        #TODO: create graph string
+        
+        # get template
+        ttcur = self.conn.cursor()
+        ttcur.execute("SELECT * FROM tasktemplates WHERE id = " + str(task_template_id))
+        task_templates = self.get_cursor_elements_as_dicts(ttcur)
+        try:
+            task_template = next(task_templates)
+        except:
+            print("task template not found")
+            return None
+        task_solver_id = task_template["task_solver_id"]
+
+        # get solver
+        tscur = self.conn.cursor()
+        tscur.execute("SELECT * FROM tasksolvers WHERE id = " + str(task_solver_id))
+        task_solvers = self.get_cursor_elements_as_dicts(tscur)
+        try:
+            task_solver = next(task_solvers)
+        except:
+            print("task solvers not found")
+            return None
+        script = task_solver["execution_descriptor"]
 
 
-    def get_task_solver_script_by_id(self,solver_id):
-        #cur = self.conn.cursor()
-        #res = cur.execute("SELECT * FROM tasksolver WHERE id = " + str(solver_id))
-        #return res
-        return "print(True)"
+        return BasicEvalRequestData(graph,script)
 
-    def get_graph_from_task(self,task_id):
-        # # get graph id
-        # tcur = self.conn.cursor()
-        # tres = tcur.execute("SELECT * FROM task WHERE id = " + str(task_id))
-        # print(tres)
+    
+    def get_cursor_elements_as_dicts(self,cursor):
+        colnames = [desc[0] for desc in cursor.description]
+        for row in cursor.fetchall():
+            d={}
+            for i in range(len(colnames)):
+                d[colnames[i]]=row[i]
+            yield d
+        
 
-        # # get graph
-        # gcur = self.conn.cursor()
-        # gres = gcur.execute("SELECT * FROM task WHERE id = " + str(task_id))
-        # #return res
-        return "{}"
 
     def add_evaluation_result(request_id, task_id,answer_is_true):
         pass

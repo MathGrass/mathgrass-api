@@ -36,8 +36,16 @@ class BasicEvaluator(AbstractEvaluator):
             print(f"could not run task {request.request_id} because no docker container could be allocated")
             return;
 
+        
+        # fetching data
+        request_data = self.db.get_basic_eval_request_data(request.task_id)
+        if not request_data:
+            print("aborting")
+            return
+        eval_script = request_data.script
+        graph_obj = request_data.graph
+
         # graph
-        graph_obj = self.db.get_graph_from_task(request.task_id)
         graph_json =  json.dumps(graph_obj)
         graph_encoded = base64.b64encode(graph_json.encode("utf-8")).decode("utf-8")
 
@@ -48,7 +56,7 @@ class BasicEvaluator(AbstractEvaluator):
         command = f"sage eval.sage {answer_encoded} {graph_encoded}"
 
         # loading and moving eval script to docker
-        eval_script = self.db.get_task_solver_script_by_id(request.task_id)
+        
         container.upload_content_files([ContentFile("eval.sage",eval_script)])
 
         # preparing and launching

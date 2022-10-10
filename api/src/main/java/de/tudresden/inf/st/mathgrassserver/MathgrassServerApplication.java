@@ -23,9 +23,9 @@ public class MathgrassServerApplication {
 		MessageBrokerConn brokerConn = MessageBrokerConn.getInstance();
 		try {
 			brokerConn.connect();
-			while (true) {
-				new TaskManager().runTask(1,2,"answwwwwer");
-			}
+			// while (true) {
+			// 	new TaskManager().runTask(123,143,"3");
+			// }
 
 		} catch (Exception e) {
 			System.err.println("aborting");
