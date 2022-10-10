@@ -30,11 +30,9 @@ class DockerManager:
             for _ in range(creation_amount):
                 self.ready_containers.append(self.create_container_in_registry())
                 pass
-        
 
     def create_container_in_registry(self):
         do = self.docker.containers.create("sagemath/sagemath")
-        do.start()
         return DockerContainer(do.name,self.docker)
 
     def remove_container_from_registry(self,container):

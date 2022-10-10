@@ -1,24 +1,38 @@
-import time
-from tkinter.filedialog import test
-from basic_evaluator import BasicEvalRequest, BasicEvaluator
+from cProfile import run
+from basic_evaluator import BasicEvaluator
 from docker_manager import DockerManager
+import time
 
 from rabbitmq_client import MessageQueueMiddleware
+
+import signal
+import sys
+import time
+
+
 
 ALL_EVALUATORS = [BasicEvaluator]
 
 BROKER_HOST = "127.0.0.1"
 MAX_ACTIVE_CONTAINERS = 100
-READY_CONTAINERS = 3
+READY_CONTAINERS = 1
+
+def run_forever():
+    while True:
+        time.sleep(10)
 
 def main():
-    print("Starting Evaluator")
-    # TODO: connect to database
+    print("Starting evaluator microservice")
 
-
-    # initializing docker containers
+    # initializing docker manager
     docker_manager = DockerManager(MAX_ACTIVE_CONTAINERS,READY_CONTAINERS)
-    # test_docker_manager(docker_manager)
+
+    def cleanup(*args):
+        print("\nClearing docker containers")
+        docker_manager.clear_all_containers()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, cleanup)
 
     # create message queue middleware instance
     msg_queue_middleware = MessageQueueMiddleware(BROKER_HOST)
@@ -33,7 +47,12 @@ def main():
     
         msg_queue_middleware.consume(queue_name,on_request_received)
         
+        #TODO: remove following line
+        #instance.run(BasicEvalRequest(124,555,"Answer","graph"))
 
+    run_forever()
+    
+    
 
 
 if __name__ == '__main__':
