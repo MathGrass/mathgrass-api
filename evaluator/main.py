@@ -46,9 +46,6 @@ def main():
             instance.on_request_received(body)
     
         msg_queue_middleware.consume(queue_name,on_request_received)
-        
-        #TODO: remove following line
-        #instance.run(BasicEvalRequest(124,555,"Answer","graph"))
 
     run_forever()
     

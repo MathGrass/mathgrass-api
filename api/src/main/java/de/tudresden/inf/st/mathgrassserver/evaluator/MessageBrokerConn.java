@@ -62,7 +62,5 @@ public class MessageBrokerConn {
             e.printStackTrace();
             return false;
         }
-
-        //TODO: send
     }
 }
