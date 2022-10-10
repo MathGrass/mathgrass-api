@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 import javax.persistence.*;
 
 @Table
-@Entity(name = "vertex")
+@Entity(name = "edge")
 public class EdgeEntity {
 
     @Id
