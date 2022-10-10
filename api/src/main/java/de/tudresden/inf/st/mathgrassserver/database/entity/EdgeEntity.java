@@ -2,8 +2,8 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
-@Table
-@Entity(name = "edge")
+@Table(name = "edges")
+@Entity
 public class EdgeEntity {
 
     @Id
@@ -13,10 +13,10 @@ public class EdgeEntity {
     @Column
     private String label;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VertexEntity v1;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VertexEntity v2;
 
     public VertexEntity getV1() {

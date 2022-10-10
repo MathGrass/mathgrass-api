@@ -24,16 +24,12 @@ public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {
 
     @Override
     public ResponseEntity<TaskSolver> getTaskSolverById(Long id) {
-        Optional<TaskSolverEntity> result = this.taskSolverRepository.findById(id);
-        if (result.isPresent()) {
-            TaskSolverEntity entity = result.get();
-            TaskSolver out = new TaskSolver();
-            out.setId(entity.getId());
-            out.setLabel(entity.getLabel());
-            out.setExecutionDescriptor(entity.getExecutionDescriptor());
-            return ResponseEntity.ok().body(out);
-        }
-        return null;
+        TaskSolverEntity entity = this.taskSolverRepository.findById(id).get();
+        TaskSolver out = new TaskSolver();
+        out.setId(entity.getId());
+        out.setLabel(entity.getLabel());
+        out.setExecutionDescriptor(entity.getExecutionDescriptor());
+        return ResponseEntity.ok().body(out);
 
     }
 

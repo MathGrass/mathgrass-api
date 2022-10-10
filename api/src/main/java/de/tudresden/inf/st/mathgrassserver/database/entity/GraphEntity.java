@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Table
-@Entity(name = "graph")
+@Table(name = "graphs")
+@Entity
 public class GraphEntity {
 
     @Id
@@ -30,10 +30,10 @@ public class GraphEntity {
     @ManyToMany
     private List<TagEntity> tags;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     private List<EdgeEntity> edges;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     private List<VertexEntity> vertices;
 
     public GraphEntity() {

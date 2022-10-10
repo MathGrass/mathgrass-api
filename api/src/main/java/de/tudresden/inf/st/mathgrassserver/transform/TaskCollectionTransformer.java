@@ -39,7 +39,7 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, 
         //Tasks
         List<TaskEntity> tasks = new ArrayList<>();
         for (Long t : dto.getTasks()) {
-            TaskEntity taskEntity = taskRepository.getReferenceById(t);
+            TaskEntity taskEntity = taskRepository.findById(t).get();
             tasks.add(taskEntity);
         }
         entity.setTasks(tasks);

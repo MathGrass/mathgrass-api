@@ -3,6 +3,7 @@ import de.tudresden.inf.st.mathgrassserver.apiModel.TaskTemplateApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
@@ -22,19 +23,21 @@ public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
     @Autowired
     TaskTemplateRepository taskTemplateRepository;
 
+    @Autowired
+    TaskSolverRepository taskSolverRepository;
+
 
     @Override
-    public ResponseEntity<Void> createTaskTemplate(TaskTemplate body) {
-        TaskTemplateEntity entity = new TaskTemplateTransformer().toEntity(body);
-        taskTemplateRepository.save(entity);
-        return ok();
+    public ResponseEntity<Long> createTaskTemplate(TaskTemplate body) {
+        TaskTemplateEntity entity = taskTemplateRepository.save(new TaskTemplateTransformer(taskSolverRepository).toEntity(body));
+        return ok(entity.getId());
     }
 
     @Override
     public ResponseEntity<TaskTemplate> getTaskTemplateById(Long id) {
         checkExistence(id,taskTemplateRepository);
-        TaskTemplateEntity taskTemplateEntity = taskTemplateRepository.getReferenceById(id);
-        TaskTemplate taskTemplate = new TaskTemplateTransformer().toDto(taskTemplateEntity);
+        TaskTemplateEntity taskTemplateEntity = taskTemplateRepository.findById(id).get();
+        TaskTemplate taskTemplate = new TaskTemplateTransformer(taskSolverRepository).toDto(taskTemplateEntity);
         return ok(taskTemplate);
     }
 
@@ -60,7 +63,7 @@ public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
     @Override
     public ResponseEntity<Void> setTaskTemplateLabel(Long id, String label) {
         checkExistence(id,taskTemplateRepository);
-        TaskTemplateEntity entity = taskTemplateRepository.getReferenceById(id);
+        TaskTemplateEntity entity = taskTemplateRepository.findById(id).get();
         entity.setLabel(label);
         return ok();
     }

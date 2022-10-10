@@ -27,7 +27,7 @@ public class TagApiImpl extends AbsApi implements TagApi {
     public ResponseEntity<Tag> getTagById(Long id) {
         checkExistence(id,tagRepository);
 
-        Tag tag = new TagTransformer().toDto(tagRepository.getReferenceById(id));
+        Tag tag = new TagTransformer().toDto(tagRepository.findById(id).get());
         return ok(tag);
     }
 }

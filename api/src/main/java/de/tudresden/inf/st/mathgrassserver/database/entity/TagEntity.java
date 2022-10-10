@@ -2,8 +2,8 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
-@Table
-@Entity(name = "tag")
+@Table(name = "tags")
+@Entity
 public class TagEntity {
 
     @Id

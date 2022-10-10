@@ -67,6 +67,9 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            type: "integer"
+            format: int64
 
 
   # TASK TEMPLATE
@@ -147,6 +150,9 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            type: "integer"
+            format: int64
 
   /taskTemplate/{taskTemplateId}/setLabel:
     put:
@@ -595,6 +601,9 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            type: "integer"
+            format: int64
 
   /evaluator/taskResult/{resultId}:
     get:
@@ -613,12 +622,6 @@ paths:
           required: true
           type: "integer"
           format: int64
-        - name: "answer"
-          in: "body"
-          description: "Answer of student"
-          required: true
-          schema:
-            type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -783,7 +786,13 @@ definitions:
         type: "integer"
         format: int64
       task:
-        $ref: "#/definitions/Task"
+        type: "integer"
+        format: int64
+      answer:
+        type: "string"
+      date:
+        type: "string"
+
 
   Feedback:
     type: "object"

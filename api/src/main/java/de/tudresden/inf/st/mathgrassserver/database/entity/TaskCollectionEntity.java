@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table
-@Entity(name = "taskcollection")
+@Table(name = "taskcollections")
+@Entity
 public class TaskCollectionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

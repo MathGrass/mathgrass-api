@@ -13,8 +13,11 @@ import java.util.ArrayList;
 public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, TaskTemplateEntity> {
 
 
-    @Autowired
     TaskSolverRepository taskSolverRepository;
+
+    public TaskTemplateTransformer(TaskSolverRepository taskSolverRepository) {
+        this.taskSolverRepository = taskSolverRepository;
+    }
 
     @Override
     public TaskTemplate toDto(TaskTemplateEntity entity) {
@@ -47,7 +50,7 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
         entity.setQuestion(entity.getQuestion());
 
         //TaskSolver
-        TaskSolverEntity solverEntity = taskSolverRepository.getReferenceById(dto.getTaskSolver());
+        TaskSolverEntity solverEntity = taskSolverRepository.findById(dto.getTaskSolver()).get();
         entity.setTaskSolver(solverEntity);
 
         entity.setTags(new TagTransformer().toEntityList(dto.getTags()));

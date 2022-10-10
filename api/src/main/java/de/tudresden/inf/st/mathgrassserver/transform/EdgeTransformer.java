@@ -1,16 +1,10 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.EdgeEntity;
-import de.tudresden.inf.st.mathgrassserver.database.repository.VertexRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Edge;
-import de.tudresden.inf.st.mathgrassserver.model.Vertex;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EdgeTransformer extends ModelTransformer<Edge, EdgeEntity> {
 
-
-    @Autowired
-    VertexRepository vertexRepository;
 
     @Override
     public Edge toDto(EdgeEntity entity) {

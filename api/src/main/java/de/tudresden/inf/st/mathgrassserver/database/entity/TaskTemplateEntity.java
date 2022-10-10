@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table
-@Entity(name = "tasktemplate")
+@Table(name = "tasktemplates")
+@Entity
 public class TaskTemplateEntity {
 
     @Id

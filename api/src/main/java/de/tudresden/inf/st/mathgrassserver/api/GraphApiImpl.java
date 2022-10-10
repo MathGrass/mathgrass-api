@@ -17,18 +17,17 @@ public class GraphApiImpl extends AbsApi implements GraphApi {
 
 
     @Override
-    public ResponseEntity<Void> createGraph(Graph body) {
+    public ResponseEntity<Long> createGraph(Graph body) {
 
-        GraphEntity entity = new GraphTransformer().toEntity(body);
-        this.graphRepository.save(entity);
-        return ok();
+        GraphEntity entity = this.graphRepository.save(new GraphTransformer().toEntity(body));
+        return ok(entity.getId());
     }
 
 
     @Override
     public ResponseEntity<Graph> getGraphById(Long graphId) {
 
-        GraphEntity graphEntity = graphRepository.getReferenceById(graphId);
+        GraphEntity graphEntity = graphRepository.findById(graphId).get();
         Graph graph = new GraphTransformer().toDto(graphEntity);
         return ok(graph);
     }

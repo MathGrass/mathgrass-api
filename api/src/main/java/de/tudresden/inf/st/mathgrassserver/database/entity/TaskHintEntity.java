@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table
-@Entity(name = "taskhints")
+@Table(name = "taskhints")
+@Entity
 public class TaskHintEntity {
 
     @Id

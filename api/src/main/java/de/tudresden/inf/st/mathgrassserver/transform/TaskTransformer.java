@@ -5,6 +5,7 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.FeedbackRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
@@ -14,8 +15,14 @@ import java.util.ArrayList;
 
 public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
-    @Autowired
+    TaskSolverRepository taskSolverRepository;
     GraphRepository graphRepository;
+
+
+    public TaskTransformer( TaskSolverRepository taskSolverRepository, GraphRepository graphRepository) {
+        this.taskSolverRepository = taskSolverRepository;
+        this.graphRepository = graphRepository;
+    }
 
     @Override
     public Task toDto(TaskEntity entity) {
@@ -47,7 +54,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         }
 
         //template
-        dto.setTemplate(new TaskTemplateTransformer().toDto(entity.getTaskTemplate()));
+        dto.setTemplate(new TaskTemplateTransformer(taskSolverRepository).toDto(entity.getTaskTemplate()));
         return dto;
     }
 
@@ -65,7 +72,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         //Feedback will not be present when creating the task (that's why the following is commented out)
         // ArrayList<FeedbackEntity> feedbacks = new ArrayList<>();
         // for (Long feedbackId : dto.getFeedback() ) {
-        //     FeedbackEntity feedbackEntity = feedbackRepository.getReferenceById(feedbackId);
+        //     FeedbackEntity feedbackEntity = feedbackRepository.findById(feedbackId).get();
         //     feedbacks.add(feedbackEntity);
         // }
         // taskEntity.setFeedbacks(feedbacks);
@@ -75,7 +82,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         taskEntity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
 
-        taskEntity.setTaskTemplate(new TaskTemplateTransformer().toEntity(dto.getTemplate()));
+        taskEntity.setTaskTemplate(new TaskTemplateTransformer(taskSolverRepository).toEntity(dto.getTemplate()));
 
         return taskEntity;
     }

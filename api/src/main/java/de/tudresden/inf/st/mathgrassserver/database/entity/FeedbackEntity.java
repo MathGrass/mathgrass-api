@@ -1,8 +1,8 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
-@Table
-@Entity(name = "feedback")
+@Table(name = "feedbacks")
+@Entity
 public class FeedbackEntity {
 
         @Id

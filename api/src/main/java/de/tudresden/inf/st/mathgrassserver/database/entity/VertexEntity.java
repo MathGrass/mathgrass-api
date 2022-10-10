@@ -2,8 +2,8 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
-@Table
-@Entity(name = "vertex")
+@Table(name = "vertices")
+@Entity
 public class VertexEntity {
 
     @Id

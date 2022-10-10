@@ -37,7 +37,7 @@ class BasicEvaluator(AbstractEvaluator):
             return;
 
         # graph
-        graph_obj = self.db.get_graph_from_task(request.graph)
+        graph_obj = self.db.get_graph_from_task(request.task_id)
         graph_json =  json.dumps(graph_obj)
         graph_encoded = base64.b64encode(graph_json.encode("utf-8")).decode("utf-8")
 
