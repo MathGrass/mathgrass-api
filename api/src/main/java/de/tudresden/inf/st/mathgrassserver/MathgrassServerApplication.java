@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver;
 
-import de.tudresden.inf.st.mathgrassserver.api.ExercisingIntegrationConfig;
 import de.tudresden.inf.st.mathgrassserver.evaluator.MessageBrokerConn;
 import de.tudresden.inf.st.mathgrassserver.evaluator.TaskManager;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@Import({ExercisingIntegrationConfig.class})
 @EnableSwagger2
 @EnableWebMvc
 public class MathgrassServerApplication {
@@ -21,16 +19,21 @@ public class MathgrassServerApplication {
 		SpringApplication.run(MathgrassServerApplication.class, args);
 
 		MessageBrokerConn brokerConn = MessageBrokerConn.getInstance();
-		try {
-			brokerConn.connect();
-			// while (true) {
-			// 	new TaskManager().runTask(123,143,"3");
-			// }
 
+		try {
+
+			brokerConn.connect();
+			/*
+			while (true) {
+				new TaskManager().runTask(123,143,"3");
+			}
+ */
 		} catch (Exception e) {
 			System.err.println("aborting");
 			System.exit(0);
 		}
+
+
 
 	}
 
