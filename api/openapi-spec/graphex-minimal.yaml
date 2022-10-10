@@ -271,6 +271,9 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            type: "integer"
+            format: int64
 
   /task/{taskId}/addFeedback:
     post:
@@ -513,6 +516,9 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            type: "integer"
+            format: int64
 
 
 

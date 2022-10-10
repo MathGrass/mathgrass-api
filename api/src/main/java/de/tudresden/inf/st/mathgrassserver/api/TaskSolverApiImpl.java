@@ -17,9 +17,9 @@ public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {
     TaskSolverRepository taskSolverRepository;
 
     @Override
-    public ResponseEntity<Void> createTaskSolver(TaskSolver body) {
-        this.taskSolverRepository.save(new TaskSolverEntity(body.getLabel(),body.getExecutionDescriptor() ));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> createTaskSolver(TaskSolver body) {
+        TaskSolverEntity entity = this.taskSolverRepository.save(new TaskSolverEntity(body.getLabel(),body.getExecutionDescriptor() ));
+        return ok(entity.getId());
     }
 
     @Override

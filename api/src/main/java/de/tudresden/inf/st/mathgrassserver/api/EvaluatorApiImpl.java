@@ -42,7 +42,7 @@ public class EvaluatorApiImpl extends AbsApi implements EvaluatorApi {
         boolean isDynamicAnswer = task.getTaskTemplate() != null;
 
         if (isDynamicAnswer) {
-            new TaskManager().runTask(requestId,task.getTaskTemplate().getId(),answer);
+            new TaskManager().runTask(requestId,task.getId(),answer);
             return ok();
         }
 
