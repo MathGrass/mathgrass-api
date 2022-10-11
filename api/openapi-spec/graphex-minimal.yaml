@@ -428,7 +428,30 @@ paths:
             items:
               $ref: "#/definitions/TaskCollection"
 
-  # TASK COLLECTION
+  /taskCollection/{taskCollectionId}:
+    get:
+      description: "Returns a task collection"
+      operationId: "getTaskCollectionById"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - name: "taskCollectionId"
+          in: "path"
+          description: "ID of task collection"
+          required: true
+          type: "integer"
+          format: int64
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/TaskCollection'
+
+  # TASK TOPIC
   /taskTopic:
     post:
       description: "Creates a task topic"
@@ -566,6 +589,25 @@ paths:
       responses:
         "200":
           description: "successful operation"
+
+    get:
+      description: "Get all tags"
+      operationId: "getTags"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Tag"
 
 
   /evaluator/runTask/{taskId}:
@@ -827,6 +869,7 @@ definitions:
         items:
           type: "integer"
           format: int64
+
 
 externalDocs:
   description: "Find out more about Swagger"

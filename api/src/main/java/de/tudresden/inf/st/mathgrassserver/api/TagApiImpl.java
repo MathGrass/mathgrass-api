@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class TagApiImpl extends AbsApi implements TagApi {
 
@@ -32,5 +34,10 @@ public class TagApiImpl extends AbsApi implements TagApi {
 
         Tag tag = new TagTransformer().toDto(tagRepository.findById(id).get());
         return ok(tag);
+    }
+
+    @Override
+    public ResponseEntity<List<Tag>> getTags() {
+        return ok(new TagTransformer().toDtoList(tagRepository.findAll()));
     }
 }

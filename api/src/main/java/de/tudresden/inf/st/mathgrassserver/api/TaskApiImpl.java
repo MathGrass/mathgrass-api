@@ -42,6 +42,7 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         checkExistence(taskId,taskRepository);
         TaskEntity taskEntity = taskRepository.findById(taskId).get();
         taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
+        taskRepository.save(taskEntity);
         return ok();
     }
 
@@ -50,6 +51,7 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
         checkExistence(taskId,taskRepository);
         TaskEntity taskEntity = taskRepository.findById(taskId).get();
         taskEntity.getHints().add(new TaskHintTransformer().toEntity(feedback));
+        taskRepository.save(taskEntity);
         return ok();
     }
 

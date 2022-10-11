@@ -68,12 +68,17 @@ public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
         checkExistence(id,taskTemplateRepository);
         TaskTemplateEntity entity = taskTemplateRepository.findById(id).get();
         entity.setLabel(label);
+        taskTemplateRepository.save(entity);
         return ok();
     }
 
     @Override
     public ResponseEntity<Void> setTaskTemplateQuestion(Long id, String question) {
-        return null;
+        checkExistence(id,taskTemplateRepository);
+        TaskTemplateEntity entity = taskTemplateRepository.findById(id).get();
+        entity.setQuestion(question);
+        taskTemplateRepository.save(entity);
+        return ok();
     }
 
 }

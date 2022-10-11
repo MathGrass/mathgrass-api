@@ -32,6 +32,11 @@ public class TaskCollectionApiImpl extends AbsApi implements TaskCollectionApi {
     }
 
     @Override
+    public ResponseEntity<TaskCollection> getTaskCollectionById(Long taskCollectionId) {
+        return ok(new TaskCollectionTransformer(taskRepository).toDto(taskCollectionRepository.findById(taskCollectionId).get()));
+    }
+
+    @Override
     public ResponseEntity<List<TaskCollection>> getTaskCollections() {
         List<TaskCollectionEntity> collections = taskCollectionRepository.findAll();
         return ok(new TaskCollectionTransformer(this.taskRepository).toDtoList(collections));
