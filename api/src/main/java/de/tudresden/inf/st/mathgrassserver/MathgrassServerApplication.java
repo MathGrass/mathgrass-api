@@ -23,11 +23,7 @@ public class MathgrassServerApplication {
 		try {
 
 			brokerConn.connect();
-			/*
-			while (true) {
-				new TaskManager().runTask(123,143,"3");
-			}
- */
+
 		} catch (Exception e) {
 			System.err.println("aborting");
 			System.exit(0);
