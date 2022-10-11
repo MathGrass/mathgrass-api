@@ -24,7 +24,6 @@ public class TaskEntity {
         return id;
     }
 
-
     @Column
     private String question;
 
@@ -62,16 +61,6 @@ public class TaskEntity {
     @OneToMany
     private List<TaskHintEntity> hints;
 
-    @OneToMany
-    private List <InputAnswerEntity> answers;
-
-    public List<InputAnswerEntity> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<InputAnswerEntity> answers) {
-        this.answers = answers;
-    }
 
     public TaskTemplateEntity getTaskTemplate() {
         return taskTemplate;

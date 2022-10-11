@@ -7,6 +7,7 @@ from database import Database
 from docker_container import ContentFile
 from docker_manager import DockerManager
 import base64
+import datetime
 class BasicEvalRequest:
     def __init__(self, request_id, task_id, input_answer):
         self.request_id = request_id
@@ -68,6 +69,7 @@ class BasicEvaluator(AbstractEvaluator):
         
     def on_result(self,request_id,is_correct):
         print("got result",request_id,is_correct)
+        self.db.add_evaluation_result(request_id,is_correct,datetime.datetime.now().isoformat())
         # TODO: save to db
         
 

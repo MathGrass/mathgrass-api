@@ -68,7 +68,6 @@ class Database:
         except:
             print("graph solver not found")
             return None
-        print(graph)
 
         #create graph string
         vertices = self._get_vertices(graph_id)
@@ -121,6 +120,11 @@ class Database:
         
 
 
-    def add_evaluation_result(request_id, task_id,answer_is_true):
-        pass
+    def add_evaluation_result(self,request_id ,answer_is_true, time):
+        # update task result with id = request_id (table name is taskresults)
+        cur = self.conn.cursor()
+        answer_true = "true" if answer_is_true else "false"
+        sql = "UPDATE taskresults SET answer_true = %s, evaluation_date = %s WHERE id = %s"
+        cur.execute(sql,(str(answer_true),str(time),str(request_id)))
+        self.conn.commit()
 

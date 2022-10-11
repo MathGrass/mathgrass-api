@@ -93,4 +93,11 @@ class EvaluatorApiImplTest {
         evaluatorApiImpl.runTask(taskId,"3");
 
     }
+    @Test
+    void testSingleTask() {
+        while (true) {
+            evaluatorApiImpl.runTask((long)23,"6");
+        }
+
+    }
 }

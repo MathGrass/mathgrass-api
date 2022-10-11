@@ -19,8 +19,10 @@ public class TaskResultTransformer extends ModelTransformer<TaskResult, TaskResu
         TaskResult dto = new TaskResult();
         dto.setTask(entity.getTask().getId());
         dto.setId(entity.getId());
-        dto.setDate(entity.getDate());
+        dto.setSubmissionDate(entity.getSubmissionDate());
+        dto.setEvaluationDate(entity.getEvaluationDate());
         dto.setAnswer(entity.getAnswer());
+        dto.setAnswerTrue(entity.isAnswerTrue());
         return dto;
     }
 
@@ -31,8 +33,9 @@ public class TaskResultTransformer extends ModelTransformer<TaskResult, TaskResu
         TaskEntity task = taskRepository.findById(dto.getTask()).get();
         entity.setTask(task);
         entity.setId(dto.getId());
-        entity.setDate(dto.getDate());
-        entity.setAnswer(dto.getAnswer());
+        entity.setEvaluationDate(dto.getEvaluationDate());
+        entity.setSubmissionDate(dto.getSubmissionDate());
+        entity.setAnswerTrue(dto.getAnswerTrue());
         return entity;
     }
 }

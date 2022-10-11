@@ -77,11 +77,6 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<Void> submitAnswer(Long taskId, InputAnswer inputAnswer) {
-        return null;
-    }
-
-    @Override
     public ResponseEntity<Void> updateTask(Long id, Task task) {
         checkExistence(id,taskRepository);
 

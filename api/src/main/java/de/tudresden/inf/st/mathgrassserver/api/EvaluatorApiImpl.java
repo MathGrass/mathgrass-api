@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 @RestController
@@ -50,7 +52,9 @@ public class EvaluatorApiImpl extends AbsApi implements EvaluatorApi {
         TaskResultEntity taskResult = new TaskResultEntity();
         taskResult.setTask(task);
         taskResult.setAnswer(answer);
-        taskResult.setDate(Instant.now().toString());
+
+        taskResult.setSubmissionDate(LocalDateTime.now().toString());
+
         long taskResuldId = taskResultRepository.save(taskResult).getId();
 
         boolean isDynamicAnswer = task.getTaskTemplate() != null;

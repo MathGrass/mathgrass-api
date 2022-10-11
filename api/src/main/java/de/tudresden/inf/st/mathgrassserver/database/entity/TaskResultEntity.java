@@ -4,7 +4,7 @@ import de.tudresden.inf.st.mathgrassserver.model.Task;
 
 import javax.persistence.*;
 
-@Table(name = "tasksolvers")
+@Table(name = "taskresults")
 @Entity
 public class TaskResultEntity {
 
@@ -19,14 +19,36 @@ public class TaskResultEntity {
     private String answer;
 
     @Column
-    private String date;
+    private String evaluationDate;
 
-    public String getDate() {
-        return date;
+    @Column
+    private String submissionDate;
+
+    @Column
+    private boolean answerTrue;
+
+    public boolean isAnswerTrue() {
+        return answerTrue;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setAnswerTrue(boolean answerTrue) {
+        this.answerTrue = answerTrue;
+    }
+
+    public String getEvaluationDate() {
+        return evaluationDate;
+    }
+
+    public void setEvaluationDate(String evaluationDate) {
+        this.evaluationDate = evaluationDate;
+    }
+
+    public String getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(String submissionDate) {
+        this.submissionDate = submissionDate;
     }
 
     public String getAnswer() {
