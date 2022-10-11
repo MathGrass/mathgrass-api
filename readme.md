@@ -12,7 +12,7 @@
 - connect to postgres and run `CREATE DATABASE mathgrass-db`
 
 
-### Architecture
+## Architecture
 ![Architecture](docs/architecture.png?raw=true "Architecture")
 
 
