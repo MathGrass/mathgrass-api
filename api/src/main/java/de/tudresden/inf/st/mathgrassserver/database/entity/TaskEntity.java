@@ -1,8 +1,6 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-import de.tudresden.inf.st.mathgrassserver.model.InputAnswer;
-import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
-import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;

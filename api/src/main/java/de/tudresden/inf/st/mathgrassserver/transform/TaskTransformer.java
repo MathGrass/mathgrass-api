@@ -3,14 +3,11 @@ package de.tudresden.inf.st.mathgrassserver.transform;
 import de.tudresden.inf.st.mathgrassserver.database.entity.FeedbackEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrassserver.database.repository.FeedbackRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 

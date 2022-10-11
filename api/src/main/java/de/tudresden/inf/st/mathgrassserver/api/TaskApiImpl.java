@@ -7,13 +7,11 @@ import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
-import de.tudresden.inf.st.mathgrassserver.model.InputAnswer;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.FeedbackTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

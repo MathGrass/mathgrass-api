@@ -1,25 +1,13 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.apiModel.GraphApi;
-import de.tudresden.inf.st.mathgrassserver.database.entity.EdgeEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
-import de.tudresden.inf.st.mathgrassserver.model.Edge;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
-import de.tudresden.inf.st.mathgrassserver.model.Vertex;
-import de.tudresden.inf.st.mathgrassserver.transform.EdgeTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
-import de.tudresden.inf.st.mathgrassserver.transform.VertexTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
 
 @RestController
 public class GraphApiImpl extends AbsApi implements GraphApi {

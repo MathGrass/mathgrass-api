@@ -1,7 +1,6 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
-import de.tudresden.inf.st.mathgrassserver.model.Edge;
 import de.tudresden.inf.st.mathgrassserver.model.Vertex;
 
 public class VertexTransformer extends ModelTransformer<Vertex, VertexEntity> {

@@ -1,11 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-import de.tudresden.inf.st.mathgrassserver.model.Edge;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Table(name = "graphs")
 @Entity

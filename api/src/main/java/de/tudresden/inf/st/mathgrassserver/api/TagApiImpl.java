@@ -5,7 +5,6 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.TagEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Tag;
 import de.tudresden.inf.st.mathgrassserver.transform.TagTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

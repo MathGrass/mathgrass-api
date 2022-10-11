@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 

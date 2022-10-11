@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrassserver.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class EvaluatorApiImplTest {
