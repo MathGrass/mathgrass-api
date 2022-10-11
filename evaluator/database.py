@@ -1,4 +1,7 @@
+import json
 import psycopg2
+
+from model.graph_model import Edge, Graph, Vertex
 
 
 class BasicEvalRequestData:
@@ -21,8 +24,7 @@ class Database:
                 self.conn.close()
                 print("database connection closed");
             
-    def get_basic_eval_request_data(self,task_id):
-        # get graph id
+    def _get_task_template_and_graph_id(self, task_id):
         tcur = self.conn.cursor()
         tcur.execute("SELECT * FROM tasks WHERE id = " + str(task_id))
         tasks = self.get_cursor_elements_as_dicts(tcur)
@@ -31,22 +33,9 @@ class Database:
         except:
             print("task not found")
             return None
-        task_template_id = task["task_template_id"]
-        graph_id = task["graph_id"]
-
-        # get graph
-        gcur = self.conn.cursor()
-        gcur.execute("SELECT * FROM graphs WHERE id = " + str(graph_id))
-        graphs = self.get_cursor_elements_as_dicts(gcur)
-        try:
-            graph = next(graphs)
-        except:
-            print("graph not found")
-            return None
-
-        #TODO: create graph string
-        
-        # get template
+        return task["task_template_id"],task["graph_id"]
+   
+    def _get_task_solver_id(self,task_template_id):
         ttcur = self.conn.cursor()
         ttcur.execute("SELECT * FROM tasktemplates WHERE id = " + str(task_template_id))
         task_templates = self.get_cursor_elements_as_dicts(ttcur)
@@ -55,9 +44,10 @@ class Database:
         except:
             print("task template not found")
             return None
-        task_solver_id = task_template["task_solver_id"]
+        return task_template["task_solver_id"]
 
-        # get solver
+
+    def _get_execution_descriptor(self, task_solver_id):
         tscur = self.conn.cursor()
         tscur.execute("SELECT * FROM tasksolvers WHERE id = " + str(task_solver_id))
         task_solvers = self.get_cursor_elements_as_dicts(tscur)
@@ -66,8 +56,57 @@ class Database:
         except:
             print("task solver not found")
             return None
-        script = task_solver["execution_descriptor"]
+        return task_solver["execution_descriptor"]
 
+    def _get_graph(self,graph_id):
+        gcur = self.conn.cursor()
+        gcur.execute("SELECT * FROM graphs WHERE id = " + str(graph_id))
+        graphs = self.get_cursor_elements_as_dicts(gcur)
+        graph = None
+        try:
+            graph = next(graphs)
+        except:
+            print("graph solver not found")
+            return None
+        print(graph)
+
+        #create graph string
+        vertices = self._get_vertices(graph_id)
+        edges = self._get_edges(graph_id)
+
+        vertex_dict = {}
+        for vertex in vertices:
+            vertex_dict[vertex["id"]] = Vertex(vertex["id"],vertex["label"],vertex["x"],vertex["y"])
+        
+        edge_obj_list = []
+        for edge in edges:
+            edge_obj_list.append(Edge(vertex_dict[edge["v1_id"]],vertex_dict[edge["v2_id"]],edge["label"]))
+
+        return Graph(graph["id"],graph["label"],vertex_dict.values(),edge_obj_list)
+            
+    
+    def _get_edges(self,graph_id):
+        ecur = self.conn.cursor()
+        ecur.execute("SELECT * FROM graphs_edges AS ge INNER JOIN edges AS e ON e.id = ge.edges_id WHERE graph_entity_id = " + str(graph_id))
+        edges = self.get_cursor_elements_as_dicts(ecur)
+        return edges
+
+
+    def _get_vertices(self,graph_id):
+        vcur = self.conn.cursor()
+        vcur.execute("SELECT * FROM graphs_vertices AS gv INNER JOIN vertices AS v ON v.id = gv.vertices_id WHERE graph_entity_id = " + str(graph_id))
+        vertices = self.get_cursor_elements_as_dicts(vcur)
+        return vertices
+
+
+    def get_basic_eval_request_data(self,task_id):
+
+        task_template_id,graph_id = self._get_task_template_and_graph_id(task_id)
+
+        task_solver_id = self._get_task_solver_id(task_template_id)
+        script = self._get_execution_descriptor(task_solver_id)
+        graph = self._get_graph(graph_id)
+        
 
         return BasicEvalRequestData(graph,script)
 

@@ -47,7 +47,7 @@ class BasicEvaluator(AbstractEvaluator):
         graph_obj = request_data.graph
 
         # graph
-        graph_json =  json.dumps(graph_obj)
+        graph_json =  json.dumps(graph_obj.to_json())
         graph_encoded = base64.b64encode(graph_json.encode("utf-8")).decode("utf-8")
 
         # answer

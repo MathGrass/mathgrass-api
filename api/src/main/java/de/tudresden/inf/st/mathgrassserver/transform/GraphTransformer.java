@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
 
@@ -56,11 +57,35 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         //Label
         entity.setLabel(dto.getLabel());
 
-        //Edges
-        entity.setEdges(new EdgeTransformer().toEntityList(dto.getEdges()));
-
-        //Vertices
+        // Vertices
         entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));
+
+        HashMap<Integer,HashMap<Integer,VertexEntity>> map = new HashMap<>();
+        for (VertexEntity vertex : entity.getVertices()) {
+            if (map.containsKey(vertex.getX())) {
+                if (map.get(vertex.getX()).containsKey(vertex.getY())) {
+                    throw new IllegalArgumentException("error creating graph - double vertex");
+                }
+                map.get(vertex.getX()).put(vertex.getY(),vertex);
+            }
+            else {
+                HashMap<Integer,VertexEntity> innerMap = new HashMap<>();
+                innerMap.put(vertex.getY(),vertex);
+                map.put(vertex.getX(),innerMap);
+            }
+
+        }
+
+        // Edges
+        List<EdgeEntity> edgeList = new EdgeTransformer().toEntityList(dto.getEdges());
+        for (EdgeEntity edgeEntity : edgeList) {
+            VertexEntity vertex1 = edgeEntity.getV1();
+            edgeEntity.setV1(map.get(vertex1.getX()).get(vertex1.getY()));
+
+            VertexEntity vertex2 = edgeEntity.getV2();
+            edgeEntity.setV2(map.get(vertex2.getX()).get(vertex2.getY()));
+        }
+        entity.setEdges(edgeList);
 
         //Tags
         entity.setTags(new TagTransformer().toEntityList(dto.getTags()));

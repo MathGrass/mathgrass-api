@@ -1,14 +1,25 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.apiModel.GraphApi;
+import de.tudresden.inf.st.mathgrassserver.database.entity.EdgeEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.model.Edge;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
+import de.tudresden.inf.st.mathgrassserver.model.Vertex;
+import de.tudresden.inf.st.mathgrassserver.transform.EdgeTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
+import de.tudresden.inf.st.mathgrassserver.transform.VertexTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 @RestController
 public class GraphApiImpl extends AbsApi implements GraphApi {
@@ -24,15 +35,12 @@ public class GraphApiImpl extends AbsApi implements GraphApi {
 
     @Override
     public ResponseEntity<Long> createGraph(Graph body) {
-
-        GraphEntity entity = this.graphRepository.save(new GraphTransformer(this.tagRepository).toEntity(body));
-        return ok(entity.getId());
+        return ok(this.save(body,-1));
     }
 
 
     @Override
     public ResponseEntity<Graph> getGraphById(Long graphId) {
-
         GraphEntity graphEntity = graphRepository.findById(graphId).get();
         Graph graph = new GraphTransformer(this.tagRepository).toDto(graphEntity);
         return ok(graph);
@@ -42,12 +50,25 @@ public class GraphApiImpl extends AbsApi implements GraphApi {
     public ResponseEntity<Void> updateGraph(Long id, Graph graph) {
         //guards
         checkExistence(id,graphRepository);
-
-        GraphEntity newEntity = new GraphTransformer(this.tagRepository).toEntity(graph);
-        newEntity.setId(id);
-
-        this.graphRepository.save(newEntity);
+        this.save(graph,id);
         return ok();
+    }
+
+
+    private long save(Graph graph, long id) {
+        GraphEntity entity = new GraphTransformer(this.tagRepository).toEntity(graph);
+
+
+
+        //set id if this is an update
+        if (id!=-1) {
+            entity.setId(id);
+        }
+
+        //save
+        this.graphRepository.save(entity);
+
+        return entity.getId();
     }
 
 }

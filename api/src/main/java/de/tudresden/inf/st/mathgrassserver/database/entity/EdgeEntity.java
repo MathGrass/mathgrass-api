@@ -13,10 +13,10 @@ public class EdgeEntity {
     @Column
     private String label;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
     private VertexEntity v1;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
     private VertexEntity v2;
 
     public VertexEntity getV1() {

@@ -42,12 +42,13 @@ class EvaluatorApiImplTest {
         Graph graph = new Graph();
         Vertex v1 = new Vertex();
         v1.setX(10);
-        v1.setY(10);
+        v1.setY(20);
 
         Vertex v2 = new Vertex();
         v2.setX(10);
-        v2.setY(10);
+        v2.setY(1);
         graph.setVertices(new ArrayList<>(Arrays.asList(v1,v2)));
+
 
         Edge edge = new Edge();
         edge.setFirstVertex(v1);

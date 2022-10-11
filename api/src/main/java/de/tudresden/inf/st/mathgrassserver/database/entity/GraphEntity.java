@@ -30,10 +30,10 @@ public class GraphEntity {
     @ManyToMany
     private List<TagEntity> tags;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
     private List<EdgeEntity> edges;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
     private List<VertexEntity> vertices;
 
     public GraphEntity() {
