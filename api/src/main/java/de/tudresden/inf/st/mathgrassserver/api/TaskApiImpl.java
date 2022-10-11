@@ -77,6 +77,11 @@ public class TaskApiImpl extends AbsApi implements TaskApi {
     }
 
     @Override
+    public ResponseEntity<List<Task>> getTasks() {
+        return ok(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository).toDtoList(taskRepository.findAll()));
+    }
+
+    @Override
     public ResponseEntity<Void> updateTask(Long id, Task task) {
         checkExistence(id,taskRepository);
 
