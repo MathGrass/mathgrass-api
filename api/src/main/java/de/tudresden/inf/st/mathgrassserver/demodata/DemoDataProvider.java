@@ -1,36 +1,37 @@
 package de.tudresden.inf.st.mathgrassserver.demodata;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
-import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TaskCollectionRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
-import de.tudresden.inf.st.mathgrassserver.model.Edge;
+import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @Profile("demodata")
 @Component
 public class DemoDataProvider {
-    private GraphRepository graphRepo;
-    private TaskRepository taskRepo;
-    private TagRepository tagRepo;
-    private TaskCollectionRepository taskCollectionRepo;
+    public static final String DEMO_TASK_LABEL = "Demo Task";
+    private final GraphRepository graphRepo;
+    private final TaskRepository taskRepo;
+    private final TagRepository tagRepo;
+    private final TaskTemplateRepository taskTemplateRepo;
+    private final  TaskSolverRepository taskSolverRepo;
 
-    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, TagRepository tagRepo, TaskCollectionRepository taskCollectionRepo) {
+
+    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, TagRepository tagRepo, TaskTemplateRepository taskTemplateRepo, TaskSolverRepository taskSolverRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
-        this.taskCollectionRepo = taskCollectionRepo;
+        this.taskTemplateRepo = taskTemplateRepo;
+        this.taskSolverRepo = taskSolverRepo;
     }
 
     @PostConstruct
-    private List<Long> initGraphs(){
-        List<Long> graphIds = new ArrayList<>();
+    private void initGraphs() {
+        if (taskRepo.findAll().stream().anyMatch(taskEntity -> taskEntity.getLabel().equals(DEMO_TASK_LABEL))) {
+            return;
+        }
 
         GraphEntity graph1 = new GraphEntity();
         graph1.setLabel("label1");
@@ -55,10 +56,23 @@ public class DemoDataProvider {
 
         graph1.setVertices(List.of(vertex1, vertex2));
         graph1.setEdges(List.of(edge1));
-
         graphRepo.save(graph1);
-        graphIds.add(graph1.getId());
 
-        return graphIds;
+        TaskEntity demoTask1 = new TaskEntity();
+        demoTask1.setGraph(graph1);
+        demoTask1.setLabel(DEMO_TASK_LABEL);
+
+        TaskSolverEntity taskSolver = new TaskSolverEntity();
+        taskSolver.setLabel("task solver label");
+        taskSolverRepo.save(taskSolver);
+
+        TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
+        taskTemplateEntity.setLabel("task template label");
+        taskTemplateEntity.setTaskSolver(taskSolver);
+        demoTask1.setTaskTemplate(taskTemplateEntity);
+        taskTemplateRepo.save(taskTemplateEntity);
+
+        taskRepo.save(demoTask1);
+
     }
 }
