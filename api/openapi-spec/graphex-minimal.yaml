@@ -213,11 +213,7 @@ paths:
     get:
       description: "Returns a task"
       operationId: "getTaskById"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskId"

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class TagApiImpl extends AbsApi implements TagApi {
+public class TagApiImpl extends AbstractApiElement implements TagApi {
 
     final TagRepository tagRepository;
 

@@ -1,0 +1,1 @@
+CREATE DATABASE mathgrass_db;

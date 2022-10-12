@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class TaskTopicApiImpl extends AbsApi implements TaskTopicApi {
+public class TaskTopicApiImpl extends AbstractApiElement implements TaskTopicApi {
 
     final TaskTopicRepository taskTopicRepository;
 

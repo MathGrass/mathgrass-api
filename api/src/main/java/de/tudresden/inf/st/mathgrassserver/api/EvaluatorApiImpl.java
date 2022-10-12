@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
-public class EvaluatorApiImpl extends AbsApi implements EvaluatorApi {
+public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi {
 
 
     final TaskRepository taskRepository;
