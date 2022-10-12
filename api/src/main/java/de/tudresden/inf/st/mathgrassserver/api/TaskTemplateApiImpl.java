@@ -1,15 +1,14 @@
 package de.tudresden.inf.st.mathgrassserver.api;
+
 import de.tudresden.inf.st.mathgrassserver.apiModel.TaskTemplateApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTemplateTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

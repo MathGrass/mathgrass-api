@@ -1,26 +1,17 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import com.google.gson.Gson;
 import de.tudresden.inf.st.mathgrassserver.apiModel.EvaluatorApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskResultEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskResultRepository;
-import de.tudresden.inf.st.mathgrassserver.evaluator.EvaluationRequestMessage;
-import de.tudresden.inf.st.mathgrassserver.evaluator.MessageBrokerConn;
-import de.tudresden.inf.st.mathgrassserver.evaluator.Queue;
 import de.tudresden.inf.st.mathgrassserver.evaluator.TaskManager;
 import de.tudresden.inf.st.mathgrassserver.model.TaskResult;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskResultTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 @RestController
 public class EvaluatorApiImpl extends AbsApi implements EvaluatorApi {

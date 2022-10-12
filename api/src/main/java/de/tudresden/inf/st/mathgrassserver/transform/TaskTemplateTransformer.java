@@ -1,14 +1,9 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.TagEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrassserver.model.Tag;
 import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
 
 public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, TaskTemplateEntity> {
 

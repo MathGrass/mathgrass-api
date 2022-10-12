@@ -1,11 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 
-import de.tudresden.inf.st.mathgrassserver.model.Tag;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Table(name = "taskhints")
 @Entity

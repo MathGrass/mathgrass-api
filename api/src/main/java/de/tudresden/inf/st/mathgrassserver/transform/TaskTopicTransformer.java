@@ -1,12 +1,9 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTopicEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
-import de.tudresden.inf.st.mathgrassserver.model.TaskCollection;
 import de.tudresden.inf.st.mathgrassserver.model.TaskTopic;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;

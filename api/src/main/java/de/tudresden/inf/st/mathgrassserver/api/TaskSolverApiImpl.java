@@ -2,13 +2,10 @@ package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.apiModel.TaskSolverApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrassserver.model.TaskSolver;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import de.tudresden.inf.st.mathgrassserver.model.TaskSolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {

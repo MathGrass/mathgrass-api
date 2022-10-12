@@ -1,7 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-import de.tudresden.inf.st.mathgrassserver.model.Task;
-
 import javax.persistence.*;
 
 @Table(name = "taskresults")
