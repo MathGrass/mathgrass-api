@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TaskSolverApiImpl extends AbsApi implements TaskSolverApi {
+public class TaskSolverApiImpl extends AbstractApiElement implements TaskSolverApi {
 
     final TaskSolverRepository taskSolverRepository;
 

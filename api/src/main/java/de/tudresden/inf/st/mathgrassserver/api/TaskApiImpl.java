@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class TaskApiImpl extends AbsApi implements TaskApi {
+public class TaskApiImpl extends AbstractApiElement implements TaskApi {
 
     final TaskRepository taskRepository;
 

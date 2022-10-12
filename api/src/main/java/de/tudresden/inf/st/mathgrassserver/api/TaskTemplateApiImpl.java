@@ -17,7 +17,7 @@ import java.util.Objects;
 
 
 @RestController
-public class TaskTemplateApiImpl extends AbsApi implements TaskTemplateApi {
+public class TaskTemplateApiImpl extends AbstractApiElement implements TaskTemplateApi {
 
     final TaskTemplateRepository taskTemplateRepository;
 

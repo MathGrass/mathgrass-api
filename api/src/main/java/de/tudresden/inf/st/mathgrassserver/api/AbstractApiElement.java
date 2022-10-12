@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
-public abstract class AbsApi {
+public abstract class AbstractApiElement {
     protected void checkExistence(Long id, JpaRepository<?,Long> repository ) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
