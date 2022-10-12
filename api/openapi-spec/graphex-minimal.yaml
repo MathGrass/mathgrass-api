@@ -283,23 +283,18 @@ paths:
 
 
     get:
-      description: "Get all tasks"
-      operationId: "getTasks"
-      consumes:
-        - "application/json"
-        - "application/xml"
+      description: "Get the IDs of all tasks"
+      operationId: "getIdsOfAllTasks"
       produces:
-        - "application/xml"
         - "application/json"
-
-
       responses:
         "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Task"
+              $ref: "#/definitions/TaskIdLabelTuple"
+
 
   /task/{taskId}/addFeedback:
     post:
@@ -801,6 +796,15 @@ definitions:
       label:
         type: "string"
       answer:
+        type: "string"
+
+  TaskIdLabelTuple:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: int64
+      label:
         type: "string"
 
   TaskHint:
