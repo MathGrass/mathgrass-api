@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrassserver.demodata;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -61,6 +62,7 @@ public class DemoDataProvider {
         TaskEntity demoTask1 = new TaskEntity();
         demoTask1.setGraph(graph1);
         demoTask1.setLabel(DEMO_TASK_LABEL);
+        demoTask1.setQuestion("Question w.r.t. the graph?");
 
         TaskSolverEntity taskSolver = new TaskSolverEntity();
         taskSolver.setLabel("task solver label");
@@ -69,8 +71,8 @@ public class DemoDataProvider {
         TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
         taskTemplateEntity.setLabel("task template label");
         taskTemplateEntity.setTaskSolver(taskSolver);
-        demoTask1.setTaskTemplate(taskTemplateEntity);
         taskTemplateRepo.save(taskTemplateEntity);
+        demoTask1.setTaskTemplate(taskTemplateEntity);
 
         taskRepo.save(demoTask1);
 
