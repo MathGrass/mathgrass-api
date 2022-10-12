@@ -23,9 +23,9 @@ public class MathgrassServerApplication {
 			brokerConn.connect();
 
 		} catch (Exception e) {
-			System.err.println("aborting");
+			System.err.println("No message queue available. Aborting...");
 /*
-			// TODO
+			// TODO - shutdown application more gracefully
 			System.exit(0);
 */
 		}

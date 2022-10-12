@@ -18,6 +18,12 @@ services:
     ports:
       - "8081:8080"
 
+  message-queue:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 volumes:
   db:
     driver: local
