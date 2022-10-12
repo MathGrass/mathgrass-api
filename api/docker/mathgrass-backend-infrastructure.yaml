@@ -4,7 +4,7 @@ services:
   db:
     container_name: "mathgrass_db"
     image: postgres:latest
-    restart: unless-stopped
+    restart: 'no'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -16,13 +16,14 @@ services:
   adminer:
     container_name: "mathgrass_db_interface"
     image: adminer
-    restart: unless-stopped
+    restart: 'no'
     ports:
       - "8081:8080"
 
   message-queue:
     container_name: "mathgrass_message_queue"
     image: rabbitmq
+    restart: 'no'
     ports:
       - "5672:5672"
       - "15672:15672"
