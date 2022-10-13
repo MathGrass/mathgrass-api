@@ -1,2 +1,19 @@
 # Prerequisites & Requirements
-Technologies/Libraries and their versions
+
+## Message Bus
+### Dependencies
+- Rabbit MQ
+
+## Database
+### Dependencies
+- Postgres
+## Evaluator
+### Dependencies
+- Docker
+- Python 3
+
+
+## API
+### Dependencies
+- Java 11
+- IntelliJ (recommended)

@@ -28,6 +28,8 @@ paths:
           required: true
           type: "integer"
           format: int64
+      produces:
+        - "application/json"
       responses:
         "200":
           description: "successful operation"
@@ -36,6 +38,8 @@ paths:
     put:
       description: "Update a graph"
       operationId: "updateGraph"
+      consumes:
+        - "application/json"
       parameters:
         - name: "graphId"
           in: "path"
@@ -43,7 +47,7 @@ paths:
           required: true
           type: "integer"
           format: int64
-        - name: "graphId"
+        - name: "graph"
           in: "body"
           description: "Graph object that needs to be updated"
           required: true
@@ -64,6 +68,8 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Graph"
+      consumes:
+        - "application/json"
       responses:
         "200":
           description: "successful operation"
@@ -77,11 +83,7 @@ paths:
     get:
       description: "Returns a task template"
       operationId: "getTaskTemplateById"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskTemplateId"
@@ -103,11 +105,7 @@ paths:
     get:
       description: "Returns a hint"
       operationId: "getTaskTemplateHint"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskTemplateId"
@@ -136,10 +134,6 @@ paths:
       operationId: "createTaskTemplate"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "taskTemplate"
@@ -147,6 +141,7 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/TaskTemplate"
+
       responses:
         "200":
           description: "successful operation"
@@ -158,12 +153,6 @@ paths:
     put:
       description: "Sets a label for a task template"
       operationId: "setTaskTemplateLabel"
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/json"
-        - "application/xml"
       parameters:
         - name: "taskTemplateId"
           in: "path"
@@ -185,11 +174,6 @@ paths:
     put:
       description: "Sets a question for a task template"
       operationId: "setTaskTemplateQuestion"
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
       parameters:
         - in: "path"
           name: "taskTemplateId"
@@ -233,10 +217,6 @@ paths:
       operationId: "updateTask"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "taskId"
           in: "path"
@@ -258,10 +238,6 @@ paths:
       description: "Creates a task"
       operationId: "createTask"
       consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - in: "body"
@@ -298,10 +274,6 @@ paths:
       operationId: "addTaskFeedback"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - name: "taskId"
           in: "path"
@@ -325,11 +297,7 @@ paths:
     get:
       description: "Get all feedback of a task"
       operationId: "getTaskFeedback"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskId"
@@ -355,10 +323,6 @@ paths:
       description: "Adds a hint to a task"
       operationId: "addTaskHint"
       consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskId"
@@ -386,10 +350,6 @@ paths:
       operationId: "createTaskCollection"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "taskCollection"
@@ -404,11 +364,7 @@ paths:
     get:
       description: "Get all task collection"
       operationId: "getTaskCollections"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
 
       responses:
@@ -423,11 +379,7 @@ paths:
     get:
       description: "Returns a task collection"
       operationId: "getTaskCollectionById"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskCollectionId"
@@ -449,10 +401,6 @@ paths:
       operationId: "createTaskTopic"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "taskTopic"
@@ -467,11 +415,7 @@ paths:
     get:
       description: "Get all task topics"
       operationId: "getTaskTopics"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
 
       responses:
@@ -490,11 +434,7 @@ paths:
     get:
       description: "Returns a task solver"
       operationId: "getTaskSolverById"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskSolverId"
@@ -514,10 +454,6 @@ paths:
       description: "Creates a task solver"
       operationId: "createTaskSolver"
       consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - in: "body"
@@ -541,11 +477,7 @@ paths:
     get:
       description: "Returns a tag"
       operationId: "getTagById"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "tagId"
@@ -566,10 +498,6 @@ paths:
       operationId: "createTag"
       consumes:
         - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
         - in: "body"
           name: "tag"
@@ -584,11 +512,7 @@ paths:
     get:
       description: "Get all tags"
       operationId: "getTags"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
 
 
@@ -606,10 +530,6 @@ paths:
       description: "Run a task with an answer"
       operationId: "runTask"
       consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "taskId"
@@ -635,11 +555,7 @@ paths:
     get:
       description: "Get the result for an evaluation process"
       operationId: "getTaskResult"
-      consumes:
-        - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "resultId"

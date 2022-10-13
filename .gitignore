@@ -343,3 +343,6 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,eclipse,java,python
+
+# Mac
+*.DS_STORE
