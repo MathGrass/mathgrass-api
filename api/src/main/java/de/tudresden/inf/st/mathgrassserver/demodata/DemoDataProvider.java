@@ -2,7 +2,6 @@ package de.tudresden.inf.st.mathgrassserver.demodata;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
