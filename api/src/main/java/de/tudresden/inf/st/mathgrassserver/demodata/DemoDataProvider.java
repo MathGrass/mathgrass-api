@@ -2,7 +2,6 @@ package de.tudresden.inf.st.mathgrassserver.demodata;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -62,15 +61,19 @@ public class DemoDataProvider {
         TaskEntity demoTask1 = new TaskEntity();
         demoTask1.setGraph(graph1);
         demoTask1.setLabel(DEMO_TASK_LABEL);
-        demoTask1.setQuestion("Question w.r.t. the graph?");
+        demoTask1.setQuestion("How many edges does the graph have? (question in task");
 
         TaskSolverEntity taskSolver = new TaskSolverEntity();
         taskSolver.setLabel("task solver label");
         taskSolverRepo.save(taskSolver);
+        taskSolver.setExecutionDescriptor("""
+                println(true)
+                """);
 
         TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
         taskTemplateEntity.setLabel("task template label");
         taskTemplateEntity.setTaskSolver(taskSolver);
+        taskTemplateEntity.setQuestion("Howw many edges does the graph have? (question in task template)");
         taskTemplateRepo.save(taskTemplateEntity);
         demoTask1.setTaskTemplate(taskTemplateEntity);
 
