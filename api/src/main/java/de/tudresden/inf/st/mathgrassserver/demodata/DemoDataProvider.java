@@ -2,7 +2,6 @@ package de.tudresden.inf.st.mathgrassserver.demodata;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -62,15 +61,39 @@ public class DemoDataProvider {
         TaskEntity demoTask1 = new TaskEntity();
         demoTask1.setGraph(graph1);
         demoTask1.setLabel(DEMO_TASK_LABEL);
-        demoTask1.setQuestion("Question w.r.t. the graph?");
+        demoTask1.setQuestion("How many edges does the graph have? (question in task");
 
         TaskSolverEntity taskSolver = new TaskSolverEntity();
         taskSolver.setLabel("task solver label");
         taskSolverRepo.save(taskSolver);
+        taskSolver.setExecutionDescriptor("""
+                import sage.all as sage
+                                
+                                
+                def count_edges(g: sage.Graph):
+                    return len(g.edges())
+                                
+                                
+                if __name__ == '__main__':
+                    g = sage.Graph()
+                    g.add_vertex("1")
+                    g.add_vertex("2")
+                    g.add_vertex("3")
+                    g.add_vertex("4")
+                                
+                    g.add_edge("1", "2")
+                    g.add_edge("2", "3")
+                    g.add_edge("3", "4")
+                                
+                    print("How many edges does the graph have?")
+                    print(count_edges(g))
+                                
+                """);
 
         TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
         taskTemplateEntity.setLabel("task template label");
         taskTemplateEntity.setTaskSolver(taskSolver);
+        taskTemplateEntity.setQuestion("Howw many edges does the graph have? (question in task template)");
         taskTemplateRepo.save(taskTemplateEntity);
         demoTask1.setTaskTemplate(taskTemplateEntity);
 
