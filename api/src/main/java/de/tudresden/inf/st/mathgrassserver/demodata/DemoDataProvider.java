@@ -67,7 +67,27 @@ public class DemoDataProvider {
         taskSolver.setLabel("task solver label");
         taskSolverRepo.save(taskSolver);
         taskSolver.setExecutionDescriptor("""
-                println(true)
+                import sage.all as sage
+                                
+                                
+                def count_edges(g: sage.Graph):
+                    return len(g.edges())
+                                
+                                
+                if __name__ == '__main__':
+                    g = sage.Graph()
+                    g.add_vertex("1")
+                    g.add_vertex("2")
+                    g.add_vertex("3")
+                    g.add_vertex("4")
+                                
+                    g.add_edge("1", "2")
+                    g.add_edge("2", "3")
+                    g.add_edge("3", "4")
+                                
+                    print("How many edges does the graph have?")
+                    print(count_edges(g))
+                                
                 """);
 
         TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
