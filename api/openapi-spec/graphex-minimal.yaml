@@ -529,8 +529,6 @@ paths:
     post:
       description: "Run a task with an answer"
       operationId: "runTask"
-      consumes:
-        - "application/json"
       parameters:
         - name: "taskId"
           in: "path"
@@ -649,7 +647,23 @@ definitions:
         format: int64
       label:
         type: "string"
-  
+
+  Question:
+    type: "object"
+    properties:
+      question:
+        type: "string"
+      questionType:
+        type: "string"
+        enum:
+          - "freetext"
+          - "number"
+          - "mark_nodes"
+          - "mark_edges"
+      possible_answers:
+        type: "array"
+        items:
+          type: "string"
 
   TaskSolver:
     type: "object"
