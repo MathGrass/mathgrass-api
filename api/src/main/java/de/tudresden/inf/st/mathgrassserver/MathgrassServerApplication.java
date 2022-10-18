@@ -49,7 +49,6 @@ public class MathgrassServerApplication {
 
 	@EnableWebSecurity
 	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.cors().and().csrf().disable();
@@ -57,13 +56,13 @@ public class MathgrassServerApplication {
 
 		@Bean
 		CorsConfigurationSource corsConfigurationSource() {
-			CorsConfiguration configuration = new CorsConfiguration();
-			configuration.setAllowedOrigins(Arrays.asList("*"));
-			configuration.setAllowedMethods(Arrays.asList("*"));
-			configuration.setAllowedHeaders(Arrays.asList("*"));
-			configuration.setAllowCredentials(true);
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", configuration);
+			CorsConfiguration corsConfiguration = new CorsConfiguration();
+			corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+			corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+			corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+			corsConfiguration.setAllowCredentials(false);
+			source.registerCorsConfiguration("/**", corsConfiguration);
 			return source;
 		}
 	}
