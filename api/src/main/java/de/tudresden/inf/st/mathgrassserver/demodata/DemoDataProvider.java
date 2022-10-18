@@ -65,6 +65,18 @@ public class DemoDataProvider {
 
         TaskSolverEntity taskSolver = new TaskSolverEntity();
         taskSolver.setLabel("task solver label");
+        taskSolver.setExecutionDescriptor("""
+                from sage.all import *
+                                
+                if __name__ == '__main__':
+                    graph = Graph()
+                    graph.add_vertex("1")
+                    graph.add_vertex("2")
+                                
+                    graph.add_edge("1", "2")
+                                
+                    print(len(graph.edges()))
+                """);
         taskSolverRepo.save(taskSolver);
         taskSolver.setExecutionDescriptor("""
                 import sage.all as sage

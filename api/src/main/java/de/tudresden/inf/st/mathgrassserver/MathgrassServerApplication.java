@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @EnableSwagger2
 @EnableWebMvc
@@ -45,18 +47,23 @@ public class MathgrassServerApplication {
 		return new InternalResourceViewResolver();
 	}
 
-	// TODO - do not use WebSecurityConfigureAdapter, switch to org.springframework.security.web.SecurityFilterChain
 	@EnableWebSecurity
 	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.cors();
+			http.cors().and().csrf().disable();
 		}
 
 		@Bean
 		CorsConfigurationSource corsConfigurationSource() {
+			CorsConfiguration configuration = new CorsConfiguration();
+			configuration.setAllowedOrigins(Arrays.asList("*"));
+			configuration.setAllowedMethods(Arrays.asList("*"));
+			configuration.setAllowedHeaders(Arrays.asList("*"));
+			configuration.setAllowCredentials(true);
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+			source.registerCorsConfiguration("/**", configuration);
 			return source;
 		}
 	}
