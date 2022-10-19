@@ -68,7 +68,6 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
                         Thread.sleep(SLEEP_TIME_BETWEEN_DB_LOOKUPS);
                         taskResultEntity = taskResultRepository.findById(resultId).orElse(null);
                         retries++;
-                        System.out.println("in here");
                         if(taskResultEntity != null && taskResultEntity.getEvaluationDate() != null){
                             output.setResult(ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity)));
                             break;
@@ -77,6 +76,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
                         throw new RuntimeException(e);
                     }
                 }
+            }else{
+                output.setResult(ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity)));
             }
         });
         return output;
