@@ -529,6 +529,8 @@ paths:
     post:
       description: "Run a task with an answer"
       operationId: "runTask"
+      consumes:
+        - "application/json"
       parameters:
         - name: "taskId"
           in: "path"

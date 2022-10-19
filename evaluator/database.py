@@ -14,7 +14,9 @@ class Database:
         try:
             self.conn = psycopg2.connect(
                 host="localhost",
-                database="mathgrass_db")
+                database="mathgrass_db",
+                user="postgres",
+                password="postgres")
             print("connected to database")
 
 

@@ -10,10 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -46,18 +47,22 @@ public class MathgrassServerApplication {
 		return new InternalResourceViewResolver();
 	}
 
-	// TODO - do not use WebSecurityConfigureAdapter, switch to org.springframework.security.web.SecurityFilterChain
 	@EnableWebSecurity
 	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.cors();
+			http.cors().and().csrf().disable();
 		}
 
 		@Bean
 		CorsConfigurationSource corsConfigurationSource() {
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+			CorsConfiguration corsConfiguration = new CorsConfiguration();
+			corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+			corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+			corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+			corsConfiguration.setAllowCredentials(false);
+			source.registerCorsConfiguration("/**", corsConfiguration);
 			return source;
 		}
 	}
