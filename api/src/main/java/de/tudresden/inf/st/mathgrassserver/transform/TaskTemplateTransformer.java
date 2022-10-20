@@ -17,6 +17,10 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
     @Override
     public TaskTemplate toDto(TaskTemplateEntity entity) {
         TaskTemplate dto = new TaskTemplate();
+        if(entity == null){
+            return dto;
+        }
+
         dto.setId(entity.getId());
 
         dto.setLabel(entity.getLabel());
