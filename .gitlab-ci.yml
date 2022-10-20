@@ -12,14 +12,6 @@ pages:
     paths:
       - public
 
-test-api:
-  image: eclipse-temurin:17
-  stage: test
-  script:
-    - cd "api"
-    - ./gradlew generateApi
-    - ./gradlew check
-
 build-api:
   image: eclipse-temurin:17
   stage: build
