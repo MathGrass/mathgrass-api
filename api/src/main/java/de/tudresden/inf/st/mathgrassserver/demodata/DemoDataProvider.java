@@ -149,13 +149,13 @@ public class DemoDataProvider {
         VertexEntity vertex1 = new VertexEntity();
         final String LABEL_SOURCE = "1";
         vertex1.setLabel(LABEL_SOURCE);
-        vertex1.setX(10);
-        vertex1.setY(10);
+        vertex1.setX(20);
+        vertex1.setY(20);
 
         VertexEntity vertex2 = new VertexEntity();
         vertex2.setLabel("2");
-        vertex2.setX(50);
-        vertex2.setY(50);
+        vertex2.setX(60);
+        vertex2.setY(60);
 
         EdgeEntity edge1 = new EdgeEntity();
         edge1.setV1(vertex1);
