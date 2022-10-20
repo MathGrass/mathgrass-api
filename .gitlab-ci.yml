@@ -1,6 +1,5 @@
-image: python:latest
-
 pages:
+  image: python:latest
   stage: deploy
   only:
     changes:
@@ -12,3 +11,19 @@ pages:
   artifacts:
     paths:
       - public
+
+test-api:
+  image: eclipse-temurin:17
+  stage: test
+  script:
+    - cd "api"
+    - ./gradlew generateApi
+    - ./gradlew check
+
+build-api:
+  image: eclipse-temurin:17
+  stage: build
+  script:
+    - cd "api"
+    - ./gradlew generateApi
+    - ./gradlew build
