@@ -12,14 +12,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,33 +42,33 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         return ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity));
     }
 
-    @ApiOperation(value = "", notes = "Long poll the result for an evaluation process", response = TaskResult.class, tags={  })
+    @ApiOperation(value = "", notes = "Long poll the result for an evaluation process", response = TaskResult.class, tags = {})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "successful operation", response = TaskResult.class) })
+            @ApiResponse(code = 200, message = "successful operation", response = TaskResult.class)})
     @RequestMapping(value = "/evaluator/longPollTaskResult/{resultId}",
-            produces = { "application/json" },
+            produces = {"application/json"},
             method = RequestMethod.GET)
-    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@ApiParam(value = "ID of task",required=true ) @PathVariable("resultId") Long resultId){
+    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@ApiParam(value = "ID of task", required = true) @PathVariable("resultId") Long resultId) {
         // TODO - this is "rapid prototyping" for simulating a WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
         DeferredResult<ResponseEntity<TaskResult>> output = new DeferredResult<>();
 
-        longPollingTaskThreads.execute( () -> {
+        longPollingTaskThreads.execute(() -> {
             TaskResultEntity taskResultEntity = taskResultRepository.findById(resultId).orElse(null);
-            if(taskResultEntity == null){
+            if (taskResultEntity == null) {
                 return;
             }
-            if(taskResultEntity.getEvaluationDate() == null){
+            if (taskResultEntity.getEvaluationDate() == null) {
                 int retries = 0;
                 final int MAX_RETRIES = 20;
                 final int SLEEP_TIME_BETWEEN_DB_LOOKUPS = 500;
 
-                while(taskResultEntity.getEvaluationDate() == null && retries < MAX_RETRIES){
+                while (taskResultEntity.getEvaluationDate() == null && retries < MAX_RETRIES) {
                     try {
                         Thread.sleep(SLEEP_TIME_BETWEEN_DB_LOOKUPS);
                         taskResultEntity = taskResultRepository.findById(resultId).orElse(null);
                         retries++;
-                        if(taskResultEntity != null && taskResultEntity.getEvaluationDate() != null){
+                        if (taskResultEntity != null && taskResultEntity.getEvaluationDate() != null) {
                             output.setResult(ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity)));
                             break;
                         }
@@ -76,17 +76,35 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
                         throw new RuntimeException(e);
                     }
                 }
-            }else{
+            } else {
                 output.setResult(ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity)));
             }
         });
         return output;
     }
 
+
+    // TODO: include in OpenAPI-Spec - datatype + request/response
+    record UserAnswer(String answer){}
+    @RequestMapping(value = "/evaluator/staticEvaluation/{taskId}",
+            consumes = {"application/json"},
+            produces = {"application/json"},
+            method = RequestMethod.POST)
+    public ResponseEntity<Boolean> getStaticAssessment(
+            @ApiParam(value = "ID of task", required = true) @PathVariable("taskId") Long taskId,
+            @ApiParam(value = "Answer of student", required = true) @RequestBody UserAnswer answer) {
+        Optional<TaskEntity> task = taskRepository.findById(taskId);
+        if (task.isPresent()) {
+            return ok(Boolean.valueOf(task.get().getAnswer().equals(answer.answer())));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @Override
     public ResponseEntity<Long> runTask(Long taskId, String answer) {
 
-        checkExistence(taskId,taskRepository);
+        checkExistence(taskId, taskRepository);
 
         TaskEntity task = taskRepository.findById(taskId).get();
 
@@ -102,7 +120,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         boolean isDynamicAnswer = task.getTaskTemplate() != null;
 
         if (isDynamicAnswer) {
-            new TaskManager().runTask(taskResuldId,task.getId(),answer);
+            new TaskManager().runTask(taskResuldId, task.getId(), answer);
         }
 
         return ok(taskResuldId);
