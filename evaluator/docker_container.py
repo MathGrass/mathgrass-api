@@ -40,12 +40,19 @@ class DockerContainer:
     def run_task_solver(self,command,request_id):
         print("running commands")
         self.phy_container.start()
+
         a = self.phy_container.exec_run(cmd=command,workdir="/home/sage/sage",tty=True)
         output_log = str(a.output).split("\n")
+
+        b = self.phy_container.exec_run(cmd="ls", workdir="/home/sage/sage", tty=True)
+        output_log2 = str(b.output).split("\n")
+
+        c = self.phy_container.exec_run(cmd="cat eval.sage", workdir="/home/sage/sage", tty=True)
+        output_log3 = str(c.output).split("\n")
         if not output_log:
             print("error: no output log from task request")
             return
-        self.call_observers(request_id,bool(output_log[-1]))
+        self.call_observers(request_id,output_log[-1] == 'True')
         
 
     def add_result_observer(self,o):
