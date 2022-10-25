@@ -16,7 +16,7 @@ class BasicEvaluatorTest(unittest.TestCase):
         database = Mock()
 
         self.MOCK_GRAPH = Graph(id=1, label="label", vertices={}, edges={})
-        self.MOCK_SCRIPT = "print(\"hi\")"
+        self.MOCK_SCRIPT = "print(\"false\")"
         self.request: basic_evaluator.BasicEvalRequest = basic_evaluator.BasicEvalRequest(request_id=1,
                                                                                           task_id=1,
                                                                                           input_answer="myAnswer")
