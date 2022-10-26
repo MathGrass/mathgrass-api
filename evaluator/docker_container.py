@@ -41,11 +41,12 @@ class DockerContainer:
         print("running commands")
         self.phy_container.start()
         a = self.phy_container.exec_run(cmd=command,workdir="/home/sage/sage",tty=True)
-        output_log = str(a.output).split("\n")
-        if not output_log:
+        output_st = a.output.decode("utf-8").strip()
+        if not output_st:
             print("error: no output log from task request")
-            return
-        self.call_observers(request_id,bool(output_log[-1]))
+        output_log_entries = output_st.split("\n")
+        isCorrect = output_log_entries[-1]=="True"
+        self.call_observers(request_id,isCorrect)
         
 
     def add_result_observer(self,o):
