@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
@@ -16,6 +17,7 @@ import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,19 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     public ResponseEntity<Long> createTask(Task body) {
         TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository, graphRepository, tagRepository).toEntity(body));
         return ok(taskEntity.getId());
+    }
+
+    @Override
+    public ResponseEntity<TaskHint> getHintForTask(Long taskId, String hintLevel) {
+        TaskEntity taskEntity = taskRepository.findById(taskId).get();
+        List<TaskHintEntity> taskHints = taskEntity.getHints();
+        for (TaskHintEntity taskHintEntity : taskHints) {
+            if (taskHintEntity.getLabel().equals(hintLevel)) {
+                return ok(new TaskHintTransformer().toDto(taskHintEntity));
+            }
+        }
+        return this.notFound();
+
     }
 
     @Override
