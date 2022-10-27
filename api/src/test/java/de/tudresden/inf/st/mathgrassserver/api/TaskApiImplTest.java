@@ -64,7 +64,7 @@ class TaskApiImplTest {
 
     @Test
     void createStaticTask() {
-        // Dynamic task
+
         Task task = this.testHelper.prepareExampleStaticTask();
 
 
@@ -85,7 +85,6 @@ class TaskApiImplTest {
     void createDynamicTask() {
 
 
-        // Static task
         Task task = testHelper.prepareExampleDynamicTask();
 
 
@@ -114,7 +113,7 @@ class TaskApiImplTest {
         staticTask.setHints(Arrays.asList(taskHint));
         TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(staticTask));
 
-        ResponseEntity<TaskHint> response = taskApiImpl.getHintForTask(entity.getId(),label);
+        ResponseEntity<TaskHint> response = taskApiImpl.getHintForTask(entity.getId(),0);
         assertEquals(response.getStatusCodeValue(),200);
         assertEquals(response.getBody().getContent(),content);
         assertEquals(response.getBody().getLabel(),label);

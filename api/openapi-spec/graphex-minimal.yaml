@@ -360,7 +360,7 @@ paths:
           in: "path"
           description: "level of the hint"
           required: true
-          type: "string"
+          type: "integer"
           
 
       responses:

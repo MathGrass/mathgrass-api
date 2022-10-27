@@ -1,9 +1,6 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.*;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
@@ -185,9 +182,18 @@ public class TestHelper {
         graphEntity = graphRepository.save(graphEntity);
         graph.setId(graphEntity.getId());
 
+        TaskHint taskHint1 = new TaskHint();
+        taskHint1.setLabel("Erster Tipp");
+        taskHint1.setContent("Nicht die Knoten zählen");
+
+        TaskHint taskHint2 = new TaskHint();
+        taskHint2.setLabel("Zweiter Tipp");
+        taskHint2.setContent("Es sind 6.");
+
 
         Task task = new Task();
         task.setGraph(graph);
+        task.setHints(Arrays.asList(taskHint1,taskHint2));
         task.setLabel("Kanten zählen");
         task.setQuestion("Wie viele Kanten gibt es?");
         task.setAnswer("5");
