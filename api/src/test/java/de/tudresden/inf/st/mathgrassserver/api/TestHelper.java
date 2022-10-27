@@ -73,13 +73,48 @@ public class TestHelper {
         Vertex v2 = new Vertex();
         v2.setX(10);
         v2.setY(1);
-        graph.setVertices(new ArrayList<>(Arrays.asList(v1,v2)));
+
+        Vertex v3 = new Vertex();
+        v3.setX(5);
+        v3.setY(2);
+
+        Vertex v4 = new Vertex();
+        v4.setX(20);
+        v4.setY(7);
+
+        Vertex v5 = new Vertex();
+        v5.setX(16);
+        v5.setY(20);
+
+        Vertex v6 = new Vertex();
+        v6.setX(35);
+        v6.setY(25);
 
 
-        Edge edge = new Edge();
-        edge.setFirstVertex(v1);
-        edge.setSecondVertex(v2);
-        graph.setEdges(new ArrayList<>(List.of(edge)));
+        graph.setVertices(new ArrayList<>(Arrays.asList(v1,v2,v3,v4,v5,v6)));
+
+
+        Edge edge1 = new Edge();
+        edge1.setFirstVertex(v1);
+        edge1.setSecondVertex(v2);
+
+        Edge edge2 = new Edge();
+        edge2.setFirstVertex(v1);
+        edge2.setSecondVertex(v3);
+
+        Edge edge3 = new Edge();
+        edge3.setFirstVertex(v3);
+        edge3.setSecondVertex(v4);
+
+        Edge edge4 = new Edge();
+        edge4.setFirstVertex(v2);
+        edge4.setSecondVertex(v5);
+
+        Edge edge5 = new Edge();
+        edge5.setFirstVertex(v2);
+        edge5.setSecondVertex(v6);
+
+        graph.setEdges(new ArrayList<>(List.of(edge1,edge2,edge3,edge4,edge5)));
 
         return graph;
     }
@@ -98,9 +133,9 @@ public class TestHelper {
         TaskSolverEntity solverEntity = taskSolverRepository.save(new TaskSolverTransformer().toEntity(taskSolver));
 
         TaskTemplate taskTemplate = new TaskTemplate();
-        taskTemplate.setQuestion("Count all edges!");
+        taskTemplate.setQuestion("Zähle alle Kanten");
         taskTemplate.setHints(new ArrayList<>());
-        taskTemplate.setLabel("Edge Counter");
+        taskTemplate.setLabel("Kantenzähler");
         taskTemplate.setTags(new ArrayList<>());
         taskTemplate.setTaskSolver(solverEntity.getId());
 
@@ -153,8 +188,9 @@ public class TestHelper {
 
         Task task = new Task();
         task.setGraph(graph);
-        task.setLabel("Test Task");
-        task.setQuestion("Count all edges!");
+        task.setLabel("Kanten zählen");
+        task.setQuestion("Wie viele Kanten gibt es?");
+        task.setAnswer("5");
 
         return task;
     }
@@ -162,10 +198,13 @@ public class TestHelper {
     public Task prepareExampleDynamicTask() {
         // create and save task solver
         Task task = getTaskWithSavedGraph();
+        task.setQuestion(null);
+        task.setAnswer(null);
 
         //create template
         TaskTemplate taskTemplate = prepareTaskTemplate();
         TaskTemplateEntity taskTemplateEntity = taskTemplateRepository.save(new TaskTemplateTransformer(taskSolverRepository).toEntity(taskTemplate));
+        taskTemplateEntity = taskTemplateRepository.save(taskTemplateEntity);
 
         //create task
         task.setTemplate(new TaskTemplateTransformer(taskSolverRepository).toDto(taskTemplateEntity));

@@ -62,11 +62,12 @@ class TaskApiImplTest {
     }
 
 
-
     @Test
-    void createTask() {
+    void createStaticTask() {
         // Dynamic task
-        Task task = this.testHelper.prepareExampleDynamicTask();
+        Task task = this.testHelper.prepareExampleStaticTask();
+
+
 
         //create one
         long taskId = taskApiImpl.createTask(task).getBody();
@@ -78,12 +79,18 @@ class TaskApiImplTest {
         assertEquals(task.getLabel(),taskEntity1.getLabel());
         assertEquals(task.getQuestion(),taskEntity1.getQuestion());
         //TODO: check more
+    }
+
+    @Test
+    void createDynamicTask() {
+
 
         // Static task
-        task = testHelper.prepareExampleDynamicTask();
+        Task task = testHelper.prepareExampleDynamicTask();
+
 
         //create one
-        taskId = taskApiImpl.createTask(task).getBody();
+        long taskId = taskApiImpl.createTask(task).getBody();
 
         //get one that is there and look into database
         TaskEntity taskEntity2 = taskRepository.findById(taskId).get();
