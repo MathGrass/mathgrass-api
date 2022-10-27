@@ -30,7 +30,7 @@ public class TaskCollectionEntity {
         return id;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<TaskEntity> tasks;
 
 

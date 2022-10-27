@@ -53,10 +53,10 @@ public class TaskEntity {
     @Column
     private String answer = null;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
     private List<FeedbackEntity> feedbacks;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true,fetch = FetchType.EAGER)
     private List<TaskHintEntity> hints;
 
 

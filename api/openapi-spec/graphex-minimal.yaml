@@ -388,6 +388,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+                $ref: "#/definitions/TaskCollection"
 
     get:
       description: "Get all task collection"
@@ -439,6 +441,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            $ref: '#/definitions/TaskTopic'
 
     get:
       description: "Get all task topics"
@@ -536,6 +540,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            $ref: '#/definitions/Tag'
 
     get:
       description: "Get all tags"

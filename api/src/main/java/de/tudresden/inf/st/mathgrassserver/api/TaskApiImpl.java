@@ -3,10 +3,7 @@ package de.tudresden.inf.st.mathgrassserver.api;
 import de.tudresden.inf.st.mathgrassserver.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
-import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TaskRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
@@ -30,12 +27,14 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
 
     final GraphRepository graphRepository;
     final TagRepository tagRepository;
+    final TaskTemplateRepository taskTemplateRepository;
 
-    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository) {
+    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository,TaskTemplateRepository taskTemplateRepository) {
         this.taskRepository = taskRepository;
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
         this.tagRepository = tagRepository;
+        this.taskTemplateRepository = taskTemplateRepository;
     }
 
 
@@ -59,7 +58,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
 
     @Override
     public ResponseEntity<Long> createTask(Task body) {
-        TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository, graphRepository, tagRepository).toEntity(body));
+        TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository, graphRepository, tagRepository, taskTemplateRepository).toEntity(body));
         return ok(taskEntity.getId());
     }
 
@@ -87,7 +86,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         checkExistence(id, taskRepository);
 
         TaskEntity taskEntity = taskRepository.findById(id).get();
-        Task task = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository).toDto(taskEntity);
+        Task task = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository).toDto(taskEntity);
         return ok(task);
     }
 
@@ -104,7 +103,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     public ResponseEntity<Void> updateTask(Long id, Task task) {
         checkExistence(id, taskRepository);
 
-        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository).toEntity(task);
+        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository).toEntity(task);
         taskEntity.setId(id);
         taskRepository.save(taskEntity);
         return ok();

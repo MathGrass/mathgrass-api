@@ -1,6 +1,11 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
+import de.tudresden.inf.st.mathgrassserver.api.*;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
+import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.*;
+import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +34,16 @@ class EvaluatorApiImplTest {
     @Autowired
     TaskTemplateApiImpl taskTemplateApiImpl;
 
+    TestHelper testHelper;
 
+    @BeforeEach
+    void setUp() {
+        testHelper = new TestHelper();
+        testHelper.setGraphRepository(graphRepository);
+        testHelper.setTaskSolverRepository(taskSolverRepository);
+        testHelper.setTaskTemplateRepository(taskTemplateRepository);
+        testHelper.setTagRepository(tagRepository);
+    }
 
     @Test
     void testRunTask() {
@@ -91,11 +105,31 @@ class EvaluatorApiImplTest {
         evaluatorApiImpl.runTask(taskId,"3");
 
     }
+
+    @Autowired
+    TaskSolverRepository taskSolverRepository;
+
+    @Autowired
+    GraphRepository graphRepository;
+
+    @Autowired
+    TagRepository tagRepository;
+
+    @Autowired
+    TaskTemplateRepository taskTemplateRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
+
     @Test
-    void testSingleTask() {
-        while (true) {
-            evaluatorApiImpl.runTask((long)23,"6");
-        }
+    public void runTask() {
+        Task task = testHelper.prepareExampleDynamicTask();
+        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task);
+        long id = taskRepository.save(taskEntity).getId();
+
+        evaluatorApiImpl.runTask(id, "3");
 
     }
+
+
 }
