@@ -1,10 +1,10 @@
 name: Build and Test with Gradle
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
-
+    branches:
+      - develop
+    paths:
+        - "api"
 jobs:
   gradle:
     runs-on: ubuntu-latest
