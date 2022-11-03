@@ -4,6 +4,7 @@ import de.tudresden.inf.st.mathgrassserver.apiModel.TaskSolverApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.model.TaskSolver;
+import de.tudresden.inf.st.mathgrassserver.transform.TaskSolverTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,18 +19,15 @@ public class TaskSolverApiImpl extends AbstractApiElement implements TaskSolverA
 
     @Override
     public ResponseEntity<Long> createTaskSolver(TaskSolver body) {
-        TaskSolverEntity entity = this.taskSolverRepository.save(new TaskSolverEntity(body.getLabel(),body.getExecutionDescriptor() ));
+        TaskSolverEntity entity = this.taskSolverRepository.save(new TaskSolverTransformer().toEntity(body));
         return ok(entity.getId());
     }
 
     @Override
     public ResponseEntity<TaskSolver> getTaskSolverById(Long id) {
         TaskSolverEntity entity = this.taskSolverRepository.findById(id).get();
-        TaskSolver out = new TaskSolver();
-        out.setId(entity.getId());
-        out.setLabel(entity.getLabel());
-        out.setExecutionDescriptor(entity.getExecutionDescriptor());
-        return ResponseEntity.ok().body(out);
+        TaskSolver dto = new TaskSolverTransformer().toDto(entity);
+        return ResponseEntity.ok().body(dto);
 
     }
 

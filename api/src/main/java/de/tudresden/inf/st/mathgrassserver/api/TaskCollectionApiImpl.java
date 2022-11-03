@@ -24,9 +24,11 @@ public class TaskCollectionApiImpl extends AbstractApiElement implements TaskCol
     }
 
     @Override
-    public ResponseEntity<Void> createTaskCollection(TaskCollection taskCollection) {
-        this.taskCollectionRepository.save(new TaskCollectionTransformer(this.taskRepository).toEntity(taskCollection));
-        return ok();
+    public ResponseEntity<TaskCollection> createTaskCollection(TaskCollection taskCollection) {
+        TaskCollectionEntity entity = new TaskCollectionTransformer(this.taskRepository).toEntity(taskCollection);
+        this.taskCollectionRepository.save(entity);
+        taskCollection.setId(entity.getId());
+        return ok(taskCollection);
     }
 
     @Override

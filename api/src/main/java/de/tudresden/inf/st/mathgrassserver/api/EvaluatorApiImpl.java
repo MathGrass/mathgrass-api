@@ -60,7 +60,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
             }
             if (taskResultEntity.getEvaluationDate() == null) {
                 int retries = 0;
-                final int MAX_RETRIES = 20;
+                final int MAX_RETRIES = 500;
                 final int SLEEP_TIME_BETWEEN_DB_LOOKUPS = 500;
 
                 while (taskResultEntity.getEvaluationDate() == null && retries < MAX_RETRIES) {

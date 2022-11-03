@@ -20,7 +20,7 @@ public abstract class AbstractApiElement {
         return ResponseEntity.ok().build();
     }
 
-    protected void notFound() {
+    protected <T>ResponseEntity<T> notFound() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 

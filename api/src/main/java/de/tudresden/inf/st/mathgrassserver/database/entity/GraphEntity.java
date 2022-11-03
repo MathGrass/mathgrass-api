@@ -23,7 +23,8 @@ public class GraphEntity {
     @Column
     private String label = null;
 
-    @ManyToMany
+    //TODO: remove cascade?
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<TagEntity> tags;
 
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)

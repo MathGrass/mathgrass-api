@@ -52,6 +52,7 @@ class DockerManager:
         return selection
 
     def finishContainer(self,container):
+        print("cleaning up container")
         # remove container
         self.occupied_containers.remove(container)
 

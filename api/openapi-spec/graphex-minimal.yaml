@@ -343,6 +343,34 @@ paths:
           description: "successful operation"
 
 
+  /task/{taskId}/hint/{hintLevel}:
+    get:
+      description: "Get hint at hintlevel for task"
+      operationId: "getHintForTask"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: "ID of task"
+          required: true
+          type: "integer"
+          format: int64
+        - name: "hintLevel"
+          in: "path"
+          description: "level of the hint"
+          required: true
+          type: "integer"
+          
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+                $ref: "#/definitions/TaskHint"
+
+
+
   # TASK COLLECTION
   /taskCollection:
     post:
@@ -360,6 +388,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+                $ref: "#/definitions/TaskCollection"
 
     get:
       description: "Get all task collection"
@@ -411,6 +441,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            $ref: '#/definitions/TaskTopic'
 
     get:
       description: "Get all task topics"
@@ -508,6 +540,8 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            $ref: '#/definitions/Tag'
 
     get:
       description: "Get all tags"

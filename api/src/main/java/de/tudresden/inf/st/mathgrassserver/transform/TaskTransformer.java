@@ -1,27 +1,30 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.FeedbackEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
+import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
     TaskSolverRepository taskSolverRepository;
     GraphRepository graphRepository;
     TagRepository tagRepository;
+    TaskTemplateRepository taskTemplateRepository;
 
 
-    public TaskTransformer( TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository) {
+    public TaskTransformer(TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository, TaskTemplateRepository taskTemplateRepository) {
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
         this.tagRepository = tagRepository;
+        this.taskTemplateRepository = taskTemplateRepository;
     }
 
     @Override
@@ -77,12 +80,34 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         // }
         // taskEntity.setFeedbacks(feedbacks);
 
-        GraphEntity graphEntity = new GraphTransformer(tagRepository).toEntity(dto.getGraph());
+        GraphEntity graphEntity;
+        if (dto.getGraph().getId() != null) {
+            graphEntity = graphRepository.findById(dto.getGraph().getId()).get();
+        }
+        else {
+            graphEntity = new GraphTransformer(tagRepository).toEntity(dto.getGraph());
+            graphRepository.save(graphEntity);
+        }
+
+
         taskEntity.setGraph(graphEntity);
 
-        taskEntity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
+        // hints
+        if (dto.getHints().size()!=0) {
+            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
+            //for (TaskHintEntity hintEntity : hintEntities) {
+            //    task
+            //}
+            taskEntity.setHints(hintEntities);
+        }
 
-        taskEntity.setTaskTemplate(new TaskTemplateTransformer(taskSolverRepository).toEntity(dto.getTemplate()));
+
+        if (dto.getTemplate() != null) {
+            TaskTemplateEntity taskTemplateEntity =new TaskTemplateTransformer(taskSolverRepository).toEntity(dto.getTemplate());
+            taskTemplateRepository.save(taskTemplateEntity);
+            taskEntity.setTaskTemplate(taskTemplateEntity);
+        }
+
 
         return taskEntity;
     }

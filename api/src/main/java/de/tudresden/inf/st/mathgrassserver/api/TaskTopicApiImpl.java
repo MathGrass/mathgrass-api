@@ -25,9 +25,10 @@ public class TaskTopicApiImpl extends AbstractApiElement implements TaskTopicApi
 
 
     @Override
-    public ResponseEntity<Void> createTaskTopic(TaskTopic taskTopic) {
-        this.taskTopicRepository.save(new TaskTopicTransformer(this.taskRepository).toEntity(taskTopic));
-        return ok();
+    public ResponseEntity<TaskTopic> createTaskTopic(TaskTopic taskTopic) {
+        TaskTopicEntity entity = this.taskTopicRepository.save(new TaskTopicTransformer(this.taskRepository).toEntity(taskTopic));
+        taskTopic.setId(entity.getId());
+        return ok(taskTopic);
     }
 
     @Override

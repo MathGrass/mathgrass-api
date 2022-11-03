@@ -46,7 +46,7 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
 
         entity.setLabel(dto.getLabel());
         entity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
-        entity.setQuestion(entity.getQuestion());
+        entity.setQuestion(dto.getQuestion());
 
         //TaskSolver
         TaskSolverEntity solverEntity = taskSolverRepository.findById(dto.getTaskSolver()).get();

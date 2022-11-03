@@ -20,10 +20,10 @@ public class TagApiImpl extends AbstractApiElement implements TagApi {
     }
 
     @Override
-    public ResponseEntity<Void> createTag(Tag tag) {
-        TagEntity tagEntity = new TagTransformer().toEntity(tag);
-        tagRepository.save(tagEntity);
-        return ok();
+    public ResponseEntity<Tag> createTag(Tag tag) {
+        TagEntity tagEntity = tagRepository.save(new TagTransformer().toEntity(tag));
+        tag.setId(tagEntity.getId());
+        return ok(tag);
 
     }
 

@@ -30,11 +30,13 @@ public class TaskTemplateEntity {
     @OneToOne
     private TaskSolverEntity taskSolver = null;
 
-    @ManyToMany
+
+    //TODO: remove cascade?
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<TagEntity> tags;
 
-    @OneToMany
-    private List< TaskHintEntity> hints;
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
+    private List<TaskHintEntity> hints;
 
 
     public List<TaskHintEntity> getHints() {
