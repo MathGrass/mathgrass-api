@@ -1,15 +1,15 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.*;
+import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.*;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskSolverTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTemplateTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;

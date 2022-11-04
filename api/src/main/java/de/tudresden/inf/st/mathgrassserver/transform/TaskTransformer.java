@@ -7,7 +7,6 @@ import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverReposit
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
-import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
