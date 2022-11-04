@@ -1,9 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskCollectionEntity;
-import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
-import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskCollection;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskCollectionTransformer;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class TaskCollectionApiImplTest {

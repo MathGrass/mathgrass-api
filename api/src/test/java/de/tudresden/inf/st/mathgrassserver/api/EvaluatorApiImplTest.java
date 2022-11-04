@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.api;
 
-import de.tudresden.inf.st.mathgrassserver.api.*;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.*;
