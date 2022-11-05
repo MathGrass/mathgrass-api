@@ -1,25 +1,21 @@
-
-from ast import Bytes
-from distutils.dir_util import copy_tree
-from io import BytesIO
 import io
 import tarfile
+
 from docker import DockerClient
 
 
 class ContentFile:
-    def __init__(self,filepath,content):
+    def __init__(self, filepath, content):
         self.filepath = filepath
         self.content = content
 
-class DockerContainer:
 
-    def __init__(self,name,docker_client: DockerClient):
+class DockerContainer:
+    def __init__(self, name, docker_client: DockerClient):
         self.result_observers = []
         self.name = name
         self.docker_client = docker_client
         self.phy_container = self.docker_client.containers.get(self.name)
-
 
     def upload_content_files(self, content_files):
         print("creating archive")
@@ -32,29 +28,28 @@ class DockerContainer:
                 tar.addfile(info, io.BytesIO(initial_bytes=data))
         self._upload_tar_file_inner(fh.getvalue())
 
-    def _upload_tar_file_inner(self, tarfile):
+    def _upload_tar_file_inner(self, tar_data):
         self.phy_container.start()
         print("uploading files")
-        self.phy_container.put_archive(path="/home/sage/sage",data=tarfile)
+        self.phy_container.put_archive(path="/home/sage/sage", data=tar_data)
 
-    def run_task_solver(self,command,request_id):
+    def run_task_solver(self, command, request_id):
         print("running commands")
         self.phy_container.start()
-        a = self.phy_container.exec_run(cmd=command,workdir="/home/sage/sage",tty=True)
+        a = self.phy_container.exec_run(cmd=command, workdir="/home/sage/sage", tty=True)
         output_st = a.output.decode("utf-8").strip()
         if not output_st:
             print("error: no output log from task request")
         output_log_entries = output_st.split("\n")
-        isCorrect = output_log_entries[-1]=="True"
-        self.call_observers(request_id,isCorrect)
-        
+        isCorrect = output_log_entries[-1] == "True"
+        self.call_observers(request_id, isCorrect)
 
-    def add_result_observer(self,o):
-        self.result_observers.append(o)
+    def add_result_observer(self, observer):
+        self.result_observers.append(observer)
 
-    def call_observers(self,request_id, result):
-        for o in self.result_observers:
-            o(request_id,result)
+    def call_observers(self, request_id, result):
+        for observer in self.result_observers:
+            observer(request_id, result)
 
     def vanish(self):
         try:

@@ -1,15 +1,10 @@
-from cProfile import run
-from basic_evaluator import BasicEvaluator
-from docker_manager import DockerManager
-import time
-
-from rabbitmq_client import MessageQueueMiddleware
-
 import signal
 import sys
 import time
 
-
+from basic_evaluator import BasicEvaluator
+from docker_manager import DockerManager
+from rabbitmq_client import MessageQueueMiddleware
 
 ALL_EVALUATORS = [BasicEvaluator]
 
@@ -17,17 +12,19 @@ BROKER_HOST = "127.0.0.1"
 MAX_ACTIVE_CONTAINERS = 100
 READY_CONTAINERS = 1
 
+
 def run_forever():
     while True:
         time.sleep(10)
+
 
 def main():
     print("starting evaluator microservice")
 
     # initializing docker manager
-    docker_manager = DockerManager(MAX_ACTIVE_CONTAINERS,READY_CONTAINERS)
+    docker_manager = DockerManager(MAX_ACTIVE_CONTAINERS, READY_CONTAINERS)
 
-    def cleanup(*args):
+    def cleanup():
         print("\nClearing docker containers")
         docker_manager.clear_all_containers()
         sys.exit(0)
@@ -45,11 +42,9 @@ def main():
         def on_request_received(ch, method, properties, body):
             instance.on_request_received(body)
     
-        msg_queue_middleware.consume(queue_name,on_request_received)
+        msg_queue_middleware.consume(queue_name, on_request_received)
 
     run_forever()
-    
-    
 
 
 if __name__ == '__main__':
