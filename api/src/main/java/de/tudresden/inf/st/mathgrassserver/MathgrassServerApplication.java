@@ -20,26 +20,20 @@ import java.util.Arrays;
 @EnableSwagger2
 @EnableWebMvc
 public class MathgrassServerApplication {
-
 	public static void main(String[] args) {
+		// run spring application
 		SpringApplication.run(MathgrassServerApplication.class, args);
 
+		// instantiate connection for communication with evaluator message broker
 		MessageBrokerConn brokerConn = MessageBrokerConn.getInstance();
-
 		try {
-
 			brokerConn.connect();
-
 		} catch (Exception e) {
 			System.err.println("No message queue available. Aborting...");
 
 			// TODO - shutdown application more gracefully
 			System.exit(0);
-
 		}
-
-
-
 	}
 
 	@Bean
