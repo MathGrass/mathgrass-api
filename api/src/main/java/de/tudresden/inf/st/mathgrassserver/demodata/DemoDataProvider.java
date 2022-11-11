@@ -8,16 +8,46 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * This class fills up the repositories with generated demo data.
+ */
 @Profile("demodata")
 @Component
 public class DemoDataProvider {
+    /**
+     * Graph repository.
+     */
     private final GraphRepository graphRepo;
+
+    /**
+     * Task repository.
+     */
     private final TaskRepository taskRepo;
+
+    /**
+     * Tag repository.
+     */
     private final TagRepository tagRepo;
+
+    /**
+     * Task template repository.
+     */
     private final TaskTemplateRepository taskTemplateRepo;
+
+    /**
+     * Task solver repository.
+     */
     private final  TaskSolverRepository taskSolverRepo;
 
-
+    /**
+     * Constructor.
+     *
+     * @param graphRepo graph repository
+     * @param taskRepo task repository
+     * @param tagRepo tag repository
+     * @param taskTemplateRepo task template repository
+     * @param taskSolverRepo task solver repository
+     */
     public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, TagRepository tagRepo, TaskTemplateRepository taskTemplateRepo, TaskSolverRepository taskSolverRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
@@ -26,25 +56,34 @@ public class DemoDataProvider {
         this.taskSolverRepo = taskSolverRepo;
     }
 
+    /**
+     * Initialize graphs.
+     */
     @PostConstruct
     private void initGraphs() {
+        // if task repository already contains elements don't do anything
         if (!taskRepo.findAll().isEmpty()) {
             return;
         }
 
-        addDynamicGraphTask();
-        addSimpleGraph();
-
+        // create tasks
+        createDynamicTask();
+        createStaticTask();
     }
 
-    private void addDynamicGraphTask() {
-        GraphEntity graph1 = new GraphEntity();
-        graph1.setLabel("label1");
+    /**
+     * Generate a dynamic graph task.
+     */
+    private void createDynamicTask() {
+        // create graph entity
+        GraphEntity graph = new GraphEntity();
+        graph.setLabel("label1");
         TagEntity e1 = new TagEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
-        graph1.setTags(List.of(e1));
+        graph.setTags(List.of(e1));
 
+        // create vertices
         VertexEntity vertex1 = new VertexEntity();
         vertex1.setLabel("1");
         vertex1.setX(10);
@@ -65,6 +104,7 @@ public class DemoDataProvider {
         vertex4.setX(70);
         vertex4.setY(10);
 
+        // create edges
         EdgeEntity edge1 = new EdgeEntity();
         edge1.setV1(vertex1);
         edge1.setV2(vertex2);
@@ -81,14 +121,17 @@ public class DemoDataProvider {
         edge4.setV1(vertex4);
         edge4.setV2(vertex1);
 
-        graph1.setVertices(List.of(vertex1, vertex2, vertex3, vertex4));
-        graph1.setEdges(List.of(edge1, edge2, edge3, edge4));
-        graphRepo.save(graph1);
+        // add vertices and edges to graph
+        graph.setVertices(List.of(vertex1, vertex2, vertex3, vertex4));
+        graph.setEdges(List.of(edge1, edge2, edge3, edge4));
+        graphRepo.save(graph);
 
+        // create task
         TaskEntity demoTask1 = new TaskEntity();
-        demoTask1.setGraph(graph1);
+        demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with evaluation in Sage");
 
+        // create task solver
         TaskSolverEntity taskSolver = new TaskSolverEntity();
         taskSolver.setLabel("task solver label");
         taskSolver.setExecutionDescriptor("""
@@ -128,6 +171,7 @@ public class DemoDataProvider {
                                 
                 """);
 
+        // create task template
         TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
         taskTemplateEntity.setLabel("task template label");
         taskTemplateEntity.setTaskSolver(taskSolver);
@@ -138,14 +182,19 @@ public class DemoDataProvider {
         taskRepo.save(demoTask1);
     }
 
-    private void addSimpleGraph() {
-        GraphEntity graph1 = new GraphEntity();
-        graph1.setLabel("label1");
+    /**
+     * Generate a simple graph.
+     */
+    private void createStaticTask() {
+        // create graph
+        GraphEntity graph = new GraphEntity();
+        graph.setLabel("label1");
         TagEntity e1 = new TagEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
-        graph1.setTags(List.of(e1));
+        graph.setTags(List.of(e1));
 
+        // create vertices
         VertexEntity vertex1 = new VertexEntity();
         final String LABEL_SOURCE = "1";
         vertex1.setLabel(LABEL_SOURCE);
@@ -157,16 +206,19 @@ public class DemoDataProvider {
         vertex2.setX(60);
         vertex2.setY(60);
 
+        // create edges
         EdgeEntity edge1 = new EdgeEntity();
         edge1.setV1(vertex1);
         edge1.setV2(vertex2);
 
-        graph1.setVertices(List.of(vertex1, vertex2));
-        graph1.setEdges(List.of(edge1));
-        graphRepo.save(graph1);
+        // add vertices and edges to graph
+        graph.setVertices(List.of(vertex1, vertex2));
+        graph.setEdges(List.of(edge1));
+        graphRepo.save(graph);
 
+        // create task
         TaskEntity demoTask1 = new TaskEntity();
-        demoTask1.setGraph(graph1);
+        demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
         demoTask1.setQuestion("What's the label of the source vertex?");
         demoTask1.setAnswer(LABEL_SOURCE);
