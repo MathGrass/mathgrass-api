@@ -76,6 +76,7 @@ class DockerContainer:
         result = self.phy_container.exec_run(cmd=command, workdir="/home/sage/sage", tty=True)
 
         # process result
+        # TODO: use exit code to get result
         output_string = result.output.decode("utf-8").strip()
         if not output_string:
             logging.error(f"No output log from task request {request_id} received!")
