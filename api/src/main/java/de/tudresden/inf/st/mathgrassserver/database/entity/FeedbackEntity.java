@@ -1,17 +1,16 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
+
 @Table(name = "feedbacks")
 @Entity
 public class FeedbackEntity {
-
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
 
         @Column
         private String content;
-
 
         public Long getId() {
                 return id;

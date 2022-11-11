@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Table(name = "vertices")
 @Entity
 public class VertexEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,7 +17,6 @@ public class VertexEntity {
 
     @Column
     private String label;
-
 
     public int getX() {
         return x;
@@ -51,7 +49,4 @@ public class VertexEntity {
     public Long getId() {
         return id;
     }
-
-
-
 }

@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class TaskCollectionEntity {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<TaskEntity> tasks;
 
-
     public List<TaskEntity> getTasks() {
         return tasks;
     }
@@ -41,6 +39,4 @@ public class TaskCollectionEntity {
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }
-
-
 }

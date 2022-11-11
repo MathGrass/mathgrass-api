@@ -1,13 +1,11 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "tasktemplates")
 @Entity
 public class TaskTemplateEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,7 +18,6 @@ public class TaskTemplateEntity {
         return id;
     }
 
-
     @Column
     private String label = null;
 
@@ -29,7 +26,6 @@ public class TaskTemplateEntity {
 
     @OneToOne
     private TaskSolverEntity taskSolver = null;
-
 
     //TODO: remove cascade?
     @ManyToMany(cascade = CascadeType.ALL)

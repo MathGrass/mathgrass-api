@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Table(name = "taskresults")
 @Entity
 public class TaskResultEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

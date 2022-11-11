@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Table(name = "tags")
 @Entity
 public class TagEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,5 +27,4 @@ public class TagEntity {
     public Long getId() {
         return id;
     }
-
 }

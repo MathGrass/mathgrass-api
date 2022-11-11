@@ -1,7 +1,5 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.List;
 @Table(name = "tasks")
 @Entity
 public class TaskEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -58,7 +55,6 @@ public class TaskEntity {
 
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true,fetch = FetchType.EAGER)
     private List<TaskHintEntity> hints;
-
 
     public TaskTemplateEntity getTaskTemplate() {
         return taskTemplate;

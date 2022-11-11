@@ -1,12 +1,10 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 
 @Table(name = "taskhints")
 @Entity
 public class TaskHintEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,7 +16,6 @@ public class TaskHintEntity {
     public Long getId() {
         return id;
     }
-
 
     @Column
     private String label = null;

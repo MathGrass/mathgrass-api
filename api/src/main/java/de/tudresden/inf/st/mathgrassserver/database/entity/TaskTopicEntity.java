@@ -1,9 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
-
 @Table(name = "tasktopics")
 @Entity
 public class TaskTopicEntity {

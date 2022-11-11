@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Table(name = "edges")
 @Entity
 public class EdgeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -43,7 +42,6 @@ public class EdgeEntity {
         this.label = label;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -51,7 +49,4 @@ public class EdgeEntity {
     public Long getId() {
         return id;
     }
-
-
-
 }

@@ -1,12 +1,10 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 
 @Table(name = "tasksolvers")
 @Entity
 public class TaskSolverEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -49,8 +47,4 @@ public class TaskSolverEntity {
     public Long getId() {
         return id;
     }
-
-
-
-
 }

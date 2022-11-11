@@ -6,7 +6,6 @@ import java.util.List;
 @Table(name = "graphs")
 @Entity
 public class GraphEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,7 +17,6 @@ public class GraphEntity {
     public Long getId() {
         return id;
     }
-
 
     @Column
     private String label = null;
