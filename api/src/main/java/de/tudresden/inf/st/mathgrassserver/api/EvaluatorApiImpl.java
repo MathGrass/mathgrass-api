@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 
 @RestController
 public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi {
-
+    // TODO: replace with Websockets
     private final ExecutorService longPollingTaskThreads = Executors.newFixedThreadPool(5);
     final TaskRepository taskRepository;
     final TaskResultRepository taskResultRepository;
