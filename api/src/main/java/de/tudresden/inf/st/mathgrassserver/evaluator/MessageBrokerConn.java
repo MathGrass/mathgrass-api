@@ -89,10 +89,9 @@ public class MessageBrokerConn {
      * Send a message to the evaluator.
      *
      * @param queue message type
-     * @param msg message
-     * @return status whether message has been sent successfully or not
+     * @param msg   message
      */
-    public boolean send(Queue queue, String msg) {
+    public void send(Queue queue, String msg) {
         // if not connected try to connect
         if (!this.isConnected()) {
             System.out.println("Connecting right before sending message. Try doing that when initializing the program");
@@ -102,19 +101,14 @@ public class MessageBrokerConn {
             catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("Cannot send because connection to broker could not be established");
-
-                return false;
             }
-        }
-
-        // send message
-        try {
-            channel.basicPublish("", queue.toString(), null, msg.getBytes());
-
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        } else {
+            // send message
+            try {
+                channel.basicPublish("", queue.toString(), null, msg.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
