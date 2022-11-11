@@ -9,80 +9,80 @@ import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class can convert {@link Graph} to {@link GraphEntity} and vice versa.
+ */
 public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
-
-    
+    /**
+     * Tag repository.
+     */
     TagRepository tagRepository;
 
-
+    /**
+     * Constructor.
+     *
+     * @param tagRepository tag repository
+     */
     public GraphTransformer(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Graph toDto(GraphEntity entity) {
-
         Graph graph = new Graph();
+
         graph.setId(entity.getId());
-
-        //Label
         graph.setLabel(entity.getLabel());
-
-        //Edges
         graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
-
-
-        //Vertices
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
-
-
-        //Tags
         graph.setTags(new TagTransformer().toDtoList(entity.getTags()));
-
 
         return graph;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GraphEntity toEntity(Graph dto) {
         //TODO: check consistency (are all vertices of edges in the list of vertices)
         GraphEntity entity = new GraphEntity();
-        entity.setId(dto.getId());
 
-        //Label
+        entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());
 
-        // Vertices
+        // vertices
         entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));
-
-        HashMap<Integer,HashMap<Integer,VertexEntity>> map = new HashMap<>();
+        HashMap<Integer,HashMap<Integer,VertexEntity>> vertexMap = new HashMap<>();
         for (VertexEntity vertex : entity.getVertices()) {
-            if (map.containsKey(vertex.getX())) {
-                if (map.get(vertex.getX()).containsKey(vertex.getY())) {
+            if (vertexMap.containsKey(vertex.getX())) {
+                if (vertexMap.get(vertex.getX()).containsKey(vertex.getY())) {
                     throw new IllegalArgumentException("error creating graph - double vertex");
                 }
-                map.get(vertex.getX()).put(vertex.getY(),vertex);
+                vertexMap.get(vertex.getX()).put(vertex.getY(),vertex);
             }
             else {
                 HashMap<Integer,VertexEntity> innerMap = new HashMap<>();
                 innerMap.put(vertex.getY(),vertex);
-                map.put(vertex.getX(),innerMap);
+                vertexMap.put(vertex.getX(),innerMap);
             }
-
         }
 
-        // Edges
+        // edges
         List<EdgeEntity> edgeList = new EdgeTransformer().toEntityList(dto.getEdges());
         for (EdgeEntity edgeEntity : edgeList) {
             VertexEntity vertex1 = edgeEntity.getV1();
-            edgeEntity.setV1(map.get(vertex1.getX()).get(vertex1.getY()));
+            edgeEntity.setV1(vertexMap.get(vertex1.getX()).get(vertex1.getY()));
 
             VertexEntity vertex2 = edgeEntity.getV2();
-            edgeEntity.setV2(map.get(vertex2.getX()).get(vertex2.getY()));
+            edgeEntity.setV2(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
         }
         entity.setEdges(edgeList);
 
-        //Tags
+        // tags
         entity.setTags(new TagTransformer().toEntityList(dto.getTags()));
 
         return entity;
