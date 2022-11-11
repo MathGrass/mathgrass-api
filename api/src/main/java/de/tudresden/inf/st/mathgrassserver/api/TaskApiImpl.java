@@ -63,13 +63,15 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
 
     @Override
     public ResponseEntity<TaskHint> getHintForTask(Long taskId, Integer hintLevel) {
-        TaskEntity taskEntity = taskRepository.findById(taskId).get();
+        /*TaskEntity taskEntity = taskRepository.findById(taskId).get();
         List<TaskHintEntity> taskHints = taskEntity.getHints();
         if (taskHints.size() <= hintLevel) {
             return notFound();
         }
         return ok(new TaskHintTransformer().toDto(taskHints.get(hintLevel)));
-
+*/
+        // dummy impl
+        return ok(new TaskHint().id(0L).content("This is hint #" + hintLevel));
     }
 
     @Override
