@@ -1,6 +1,8 @@
 package de.tudresden.inf.st.mathgrassserver;
 
 import de.tudresden.inf.st.mathgrassserver.evaluator.MessageBrokerConn;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,17 +22,23 @@ import java.util.Arrays;
 @EnableSwagger2
 @EnableWebMvc
 public class MathgrassServerApplication {
+	/**
+	 * Logger.
+	 */
+	private static final Logger logger = LogManager.getLogger(MathgrassServerApplication.class);
+
 	public static void main(String[] args) {
 		// run spring application
 		SpringApplication.run(MathgrassServerApplication.class, args);
+		logger.info("Spring application started!");
 
 		// instantiate connection for communication with evaluator message broker
 		MessageBrokerConn brokerConn = MessageBrokerConn.getInstance();
 		try {
 			brokerConn.connect();
+			logger.info("Connection to message broker established!");
 		} catch (Exception e) {
-			// TODO: add logger
-			System.err.println("No message queue available. Aborting...");
+			logger.error("No message queue available. Aborting...");
 
 			// TODO - shutdown application more gracefully
 			System.exit(0);

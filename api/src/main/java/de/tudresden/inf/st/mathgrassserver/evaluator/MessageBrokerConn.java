@@ -3,6 +3,8 @@ package de.tudresden.inf.st.mathgrassserver.evaluator;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -26,6 +28,11 @@ public class MessageBrokerConn {
      * Rabbitmq channel to evaluator.
      */
     private Channel channel;
+
+    /**
+     * Logger.
+     */
+    private static final Logger logger = LogManager.getLogger(MessageBrokerConn.class);
 
     /**
      * Empty constructor.
@@ -79,7 +86,7 @@ public class MessageBrokerConn {
         // create connection
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
-        System.out.println("Connected to message broker");
+        logger.info("Connected to message broker");
 
         // update connection status
         connected = true;
@@ -89,18 +96,18 @@ public class MessageBrokerConn {
      * Send a message to the evaluator.
      *
      * @param queue message type
-     * @param msg   message
+     * @param msg message
      */
     public void send(Queue queue, String msg) {
         // if not connected try to connect
         if (!this.isConnected()) {
-            System.out.println("Connecting right before sending message. Try doing that when initializing the program");
+            logger.info("Connecting right before sending message. Try doing that when initializing the program");
             try {
                 this.connect();
             }
             catch (Exception e) {
+                logger.error("Cannot send because connection to broker could not be established!");
                 e.printStackTrace();
-                System.err.println("Cannot send because connection to broker could not be established");
             }
         } else {
             // send message
