@@ -2,12 +2,30 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class represents a hint in a {@link TaskEntity}, which can give information to the tasks answer.
+ */
 @Table(name = "taskhints")
 @Entity
 public class TaskHintEntity {
+    /**
+     * ID of hint.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    /**
+     * Label of hint.
+     */
+    @Column
+    private String label = null;
+
+    /**
+     * Content of hint.
+     */
+    @Column
+    private String content = null;
 
     public void setId(Long id) {
         this.id = id;
@@ -16,12 +34,6 @@ public class TaskHintEntity {
     public Long getId() {
         return id;
     }
-
-    @Column
-    private String label = null;
-
-    @Column
-    private String content = null;
 
     public String getLabel() {
         return label;

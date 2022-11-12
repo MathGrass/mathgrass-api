@@ -15,8 +15,8 @@ public class EdgeTransformer extends ModelTransformer<Edge, EdgeEntity> {
         Edge edge = new Edge();
 
         edge.setLabel(entity.getLabel());
-        edge.setFirstVertex(new VertexTransformer().toDto(entity.getV1()));
-        edge.setSecondVertex(new VertexTransformer().toDto(entity.getV2()));
+        edge.setFirstVertex(new VertexTransformer().toDto(entity.getSourceVertex()));
+        edge.setSecondVertex(new VertexTransformer().toDto(entity.getTargetVertex()));
         return edge;
     }
 
@@ -28,8 +28,8 @@ public class EdgeTransformer extends ModelTransformer<Edge, EdgeEntity> {
         EdgeEntity edgeEntity = new EdgeEntity();
 
         edgeEntity.setLabel(dto.getLabel());
-        edgeEntity.setV1(new VertexTransformer().toEntity(dto.getFirstVertex()));
-        edgeEntity.setV2(new VertexTransformer().toEntity(dto.getSecondVertex()));
+        edgeEntity.setSourceVertex(new VertexTransformer().toEntity(dto.getFirstVertex()));
+        edgeEntity.setTargetVertex(new VertexTransformer().toEntity(dto.getSecondVertex()));
 
         return edgeEntity;
     }

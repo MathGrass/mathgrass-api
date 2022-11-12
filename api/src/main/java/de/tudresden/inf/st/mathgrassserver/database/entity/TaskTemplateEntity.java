@@ -3,12 +3,49 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a task template, which can be used to create dynamic {@link TaskEntity}s.
+ */
 @Table(name = "tasktemplates")
 @Entity
 public class TaskTemplateEntity {
+    /**
+     * ID of task template.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    /**
+     * Label of task template.
+     */
+    @Column
+    private String label = null;
+
+    /**
+     * Question of task template.
+     */
+    @Column
+    private String question = null;
+
+    /**
+     * Task solver of task template.
+     */
+    @OneToOne
+    private TaskSolverEntity taskSolver = null;
+
+    //TODO: remove cascade?
+    /**
+     * Tags of task template.
+     */
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<TagEntity> tags;
+
+    /**
+     * Hints of task template.
+     */
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
+    private List<TaskHintEntity> hints;
 
     public void setId(Long id) {
         this.id = id;
@@ -18,33 +55,12 @@ public class TaskTemplateEntity {
         return id;
     }
 
-    @Column
-    private String label = null;
-
-    @Column
-    private String question = null;
-
-    @OneToOne
-    private TaskSolverEntity taskSolver = null;
-
-    //TODO: remove cascade?
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<TagEntity> tags;
-
-    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<TaskHintEntity> hints;
-
-
     public List<TaskHintEntity> getHints() {
         return hints;
     }
 
     public void setHints(List<TaskHintEntity> hints) {
         this.hints = hints;
-    }
-
-    public TaskTemplateEntity() {
-
     }
 
     public void setLabel(String label) {

@@ -74,11 +74,11 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         // edges
         List<EdgeEntity> edgeList = new EdgeTransformer().toEntityList(dto.getEdges());
         for (EdgeEntity edgeEntity : edgeList) {
-            VertexEntity vertex1 = edgeEntity.getV1();
-            edgeEntity.setV1(vertexMap.get(vertex1.getX()).get(vertex1.getY()));
+            VertexEntity vertex1 = edgeEntity.getSourceVertex();
+            edgeEntity.setSourceVertex(vertexMap.get(vertex1.getX()).get(vertex1.getY()));
 
-            VertexEntity vertex2 = edgeEntity.getV2();
-            edgeEntity.setV2(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
+            VertexEntity vertex2 = edgeEntity.getTargetVertex();
+            edgeEntity.setTargetVertex(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
         }
         entity.setEdges(edgeList);
 

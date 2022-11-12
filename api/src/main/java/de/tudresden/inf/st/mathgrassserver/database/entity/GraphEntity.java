@@ -3,12 +3,43 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a graph, which consists of {@link EdgeEntity}s and {@link VertexEntity}s.
+ * Additionally, the graph can be labelled and tagged with multiple {@link TagEntity}s.
+ */
 @Table(name = "graphs")
 @Entity
 public class GraphEntity {
+    /**
+     * ID of graph.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    /**
+     * Label of graph.
+     */
+    @Column
+    private String label = null;
+
+    /**
+     * Tags of graph.
+     */
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<TagEntity> tags;
+
+    /**
+     * Edges of graph.
+     */
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
+    private List<EdgeEntity> edges;
+
+    /**
+     * Vertices of graph.
+     */
+    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
+    private List<VertexEntity> vertices;
 
     public void setId(Long id) {
         this.id = id;
@@ -16,22 +47,6 @@ public class GraphEntity {
 
     public Long getId() {
         return id;
-    }
-
-    @Column
-    private String label = null;
-
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<TagEntity> tags;
-
-    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<EdgeEntity> edges;
-
-    @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<VertexEntity> vertices;
-
-    public GraphEntity() {
-
     }
 
     public String getLabel() {

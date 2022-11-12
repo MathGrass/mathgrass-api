@@ -3,13 +3,22 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a collection of {@link TaskEntity}s.
+ */
 @Table(name = "taskcollections")
 @Entity
 public class TaskCollectionEntity {
+    /**
+     * ID of task collection.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of task collection.
+     */
     @Column
     private String label;
 

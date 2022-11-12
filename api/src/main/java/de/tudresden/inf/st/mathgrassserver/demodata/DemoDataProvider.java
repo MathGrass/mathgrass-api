@@ -106,20 +106,20 @@ public class DemoDataProvider {
 
         // create edges
         EdgeEntity edge1 = new EdgeEntity();
-        edge1.setV1(vertex1);
-        edge1.setV2(vertex2);
+        edge1.setSourceVertex(vertex1);
+        edge1.setTargetVertex(vertex2);
 
         EdgeEntity edge2 = new EdgeEntity();
-        edge2.setV1(vertex2);
-        edge2.setV2(vertex3);
+        edge2.setSourceVertex(vertex2);
+        edge2.setTargetVertex(vertex3);
 
         EdgeEntity edge3 = new EdgeEntity();
-        edge3.setV1(vertex3);
-        edge3.setV2(vertex4);
+        edge3.setSourceVertex(vertex3);
+        edge3.setTargetVertex(vertex4);
 
         EdgeEntity edge4 = new EdgeEntity();
-        edge4.setV1(vertex4);
-        edge4.setV2(vertex1);
+        edge4.setSourceVertex(vertex4);
+        edge4.setTargetVertex(vertex1);
 
         // add vertices and edges to graph
         graph.setVertices(List.of(vertex1, vertex2, vertex3, vertex4));
@@ -208,8 +208,8 @@ public class DemoDataProvider {
 
         // create edges
         EdgeEntity edge1 = new EdgeEntity();
-        edge1.setV1(vertex1);
-        edge1.setV2(vertex2);
+        edge1.setSourceVertex(vertex1);
+        edge1.setTargetVertex(vertex2);
 
         // add vertices and edges to graph
         graph.setVertices(List.of(vertex1, vertex2));
