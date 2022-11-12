@@ -33,7 +33,7 @@ class Graph:
 class Vertex:
     """ This class represents a vertex consisting of coordinates and a label.
     """
-    def __init__(self, id: int, label: str, x: float, y: float):
+    def __init__(self, id: int, label: str, x: int, y: int):
         """ Initialize a Vertex instance.
 
         :param id: ID of vertex
