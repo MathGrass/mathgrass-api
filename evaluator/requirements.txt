@@ -1,3 +1,0 @@
-pika
-docker
-psycopg2-binary
