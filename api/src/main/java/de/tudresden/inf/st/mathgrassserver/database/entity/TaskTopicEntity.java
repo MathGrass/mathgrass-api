@@ -1,18 +1,32 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a task topic which can be used to categorize a {@link TaskEntity}.
+ */
 @Table(name = "tasktopics")
 @Entity
 public class TaskTopicEntity {
+    /**
+     * ID of task topic.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of task topic.
+     */
     @Column
     private String label;
+
+    /**
+     * Task entities in the task topic.
+     */
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    List<TaskEntity> tasks;
 
     public String getLabel() {
         return label;
@@ -29,9 +43,6 @@ public class TaskTopicEntity {
     public Long getId() {
         return id;
     }
-
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<TaskEntity> tasks;
 
     public List<TaskEntity> getTasks() {
         return tasks;

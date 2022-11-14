@@ -2,23 +2,36 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class represents a vertex in a {@link GraphEntity}.
+ */
 @Table(name = "vertices")
 @Entity
 public class VertexEntity {
-
+    /**
+     * ID of vertex.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * X coordinate of vertex.
+     */
     @Column
     private int x;
 
+    /**
+     * Y coordinate of vertex.
+     */
     @Column
     private int y;
 
+    /**
+     * Label of vertex.
+     */
     @Column
     private String label;
-
 
     public int getX() {
         return x;
@@ -51,7 +64,4 @@ public class VertexEntity {
     public Long getId() {
         return id;
     }
-
-
-
 }

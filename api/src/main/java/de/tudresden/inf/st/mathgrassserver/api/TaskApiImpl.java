@@ -15,20 +15,50 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+/**
+ * This class contains functionality to manage {@link Task}s.
+ */
 @RestController
 public class TaskApiImpl extends AbstractApiElement implements TaskApi {
-
+    /**
+     * Task repository.
+     */
     final TaskRepository taskRepository;
 
+    /**
+     * Task solver repository.
+     */
     final TaskSolverRepository taskSolverRepository;
 
+    /**
+     * Graph repository.
+     */
     final GraphRepository graphRepository;
+
+    /**
+     * Tag repository.
+     */
     final TagRepository tagRepository;
+
+    /**
+     * Task template repository.
+     */
     final TaskTemplateRepository taskTemplateRepository;
 
-    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository, GraphRepository graphRepository, TagRepository tagRepository,TaskTemplateRepository taskTemplateRepository) {
+    /**
+     * Constructor.
+     *
+     * @param taskRepository task repository
+     * @param taskSolverRepository task solver repository
+     * @param graphRepository graph repository
+     * @param tagRepository tag repository
+     * @param taskTemplateRepository task template repository
+     */
+    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository,
+                       GraphRepository graphRepository, TagRepository tagRepository,
+                       TaskTemplateRepository taskTemplateRepository) {
         this.taskRepository = taskRepository;
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
@@ -36,74 +66,168 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         this.taskTemplateRepository = taskTemplateRepository;
     }
 
-
+    /**
+     * Add feedback to a task.
+     *
+     * @param taskId ID of task
+     * @param feedback feedback to add to task
+     * @return Response
+     */
     @Override
     public ResponseEntity<Void> addTaskFeedback(Long taskId, Feedback feedback) {
-        checkExistence(taskId, taskRepository);
-        TaskEntity taskEntity = taskRepository.findById(taskId).get();
-        taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
-        taskRepository.save(taskEntity);
-        return ok();
+        // get task entity
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            TaskEntity taskEntity = optTaskEntity.get();
+
+            // add feedback and save
+            taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
+            taskRepository.save(taskEntity);
+
+            return ok();
+        } else {
+            return notFound();
+        }
     }
 
+    /**
+     * Add a hint to a task.
+     * @param taskId ID of task
+     * @param taskHint hint to add to task
+     * @return Response
+     */
     @Override
-    public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint feedback) {
-        checkExistence(taskId, taskRepository);
-        TaskEntity taskEntity = taskRepository.findById(taskId).get();
-        taskEntity.getHints().add(new TaskHintTransformer().toEntity(feedback));
-        taskRepository.save(taskEntity);
-        return ok();
+    public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint taskHint) {
+        // get task entity
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            TaskEntity taskEntity = optTaskEntity.get();
+
+            // add feedback and save
+            taskEntity.getHints().add(new TaskHintTransformer().toEntity(taskHint));
+            taskRepository.save(taskEntity);
+
+            return ok();
+        } else {
+            return notFound();
+        }
     }
 
+    /**
+     * Create a new task and save to database.
+     *
+     * @param body task to create
+     * @return Response with task ID
+     */
     @Override
     public ResponseEntity<Long> createTask(Task body) {
-        TaskEntity taskEntity = taskRepository.save(new TaskTransformer(taskSolverRepository, graphRepository, tagRepository, taskTemplateRepository).toEntity(body));
+        TaskEntity taskEntity = taskRepository.save(
+                new TaskTransformer(taskSolverRepository, graphRepository, tagRepository, taskTemplateRepository)
+                        .toEntity(body));
+
         return ok(taskEntity.getId());
     }
 
+    /**
+     * Get a hint for a task.
+     *
+     * @param taskId ID of task
+     * @param hintLevel level of hint
+     * @return Response with hint
+     */
     @Override
     public ResponseEntity<TaskHint> getHintForTask(Long taskId, Integer hintLevel) {
-        TaskEntity taskEntity = taskRepository.findById(taskId).get();
-        List<TaskHintEntity> taskHints = taskEntity.getHints();
-        if (taskHints.size() <= hintLevel) {
+        // get task entity
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            // load hints and get hint of specified level
+            List<TaskHintEntity> taskHints = optTaskEntity.get().getHints();
+            if (taskHints.size() <= hintLevel) {
+                return notFound();
+            }
+
+            return ok(new TaskHintTransformer().toDto(taskHints.get(hintLevel)));
+        } else {
             return notFound();
         }
-        return ok(new TaskHintTransformer().toDto(taskHints.get(hintLevel)));
-
     }
 
+    /**
+     * Get a list of the IDs of all tasks.
+     *
+     * @return Response with list of IDs
+     */
     @Override
     public ResponseEntity<List<TaskIdLabelTuple>> getIdsOfAllTasks() {
-        List<TaskIdLabelTuple> taskIds = taskRepository.findAll().stream().map(taskEntity -> new TaskIdLabelTuple().label(taskEntity.getLabel()).id(taskEntity.getId())).collect(Collectors.toList());
+        // find all tasks and extract IDs
+        List<TaskIdLabelTuple> taskIds = taskRepository.findAll().stream()
+                .map(taskEntity -> new TaskIdLabelTuple().label(taskEntity.getLabel()).id(taskEntity.getId()))
+                .toList();
+
         return ok(taskIds);
     }
 
+    /**
+     * Get a task by its ID.
+     *
+     * @param taskId ID of task to get
+     * @return Response with task
+     */
     @Override
-    public ResponseEntity<Task> getTaskById(Long id) {
-        checkExistence(id, taskRepository);
+    public ResponseEntity<Task> getTaskById(Long taskId) {
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            Task task = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository)
+                    .toDto(optTaskEntity.get());
 
-        TaskEntity taskEntity = taskRepository.findById(id).get();
-        Task task = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository).toDto(taskEntity);
-        return ok(task);
+            return ok(task);
+        } else {
+            return notFound();
+        }
     }
 
+    /**
+     * Get feedback for a task.
+     *
+     * @param taskId ID of task
+     * @return Response with feedback
+     */
     @Override
     public ResponseEntity<List<Feedback>> getTaskFeedback(Long taskId) {
-        checkExistence(taskId, taskRepository);
-        TaskEntity taskEntity = taskRepository.findById(taskId).get();
-        List<Feedback> out = new FeedbackTransformer().toDtoList(taskEntity.getFeedbacks());
-        return ok(out);
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            TaskEntity taskEntity = optTaskEntity.get();
+            List<Feedback> feedbacks = new FeedbackTransformer().toDtoList(taskEntity.getFeedbacks());
+
+            return ok(feedbacks);
+        } else {
+            return notFound();
+        }
     }
 
-
+    /**
+     * Update a task.
+     *
+     * @param taskId ID of task
+     * @param task new task to replace old task with
+     * @return Response
+     */
     @Override
-    public ResponseEntity<Void> updateTask(Long id, Task task) {
-        checkExistence(id, taskRepository);
+    public ResponseEntity<Void> updateTask(Long taskId, Task task) {
+        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        if (optTaskEntity.isPresent()) {
+            // create task entity
+            TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,
+                    taskTemplateRepository).toEntity(task);
+            taskEntity.setId(taskId);
 
-        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository).toEntity(task);
-        taskEntity.setId(id);
-        taskRepository.save(taskEntity);
-        return ok();
+            // save to database
+            taskRepository.save(taskEntity);
+
+            return ok();
+        } else {
+            return notFound();
+        }
     }
 
 

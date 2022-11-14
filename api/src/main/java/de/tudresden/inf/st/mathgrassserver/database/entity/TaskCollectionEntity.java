@@ -1,16 +1,24 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a collection of {@link TaskEntity}s.
+ */
 @Table(name = "taskcollections")
 @Entity
 public class TaskCollectionEntity {
+    /**
+     * ID of task collection.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of task collection.
+     */
     @Column
     private String label;
 
@@ -33,7 +41,6 @@ public class TaskCollectionEntity {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<TaskEntity> tasks;
 
-
     public List<TaskEntity> getTasks() {
         return tasks;
     }
@@ -41,6 +48,4 @@ public class TaskCollectionEntity {
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }
-
-
 }

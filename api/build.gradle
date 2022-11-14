@@ -4,7 +4,6 @@ buildscript {
 	}
 }
 
-
 plugins {
 	id 'org.springframework.boot' version '2.7.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -15,39 +14,27 @@ group = 'de.tudresden.inf.st'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-
-
 repositories {
 	mavenCentral()
 }
-
-
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	implementation 'io.swagger:swagger-annotations:1.6.7'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-
 	implementation 'com.rabbitmq:amqp-client:5.16.0'
-
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
-
 	implementation 'org.postgresql:postgresql:42.5.0'
-
 	implementation 'com.google.code.gson:gson:2.9.1'
-
-
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1'
-
-
+	implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
+	implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
 }
 
 tasks.named('test') {

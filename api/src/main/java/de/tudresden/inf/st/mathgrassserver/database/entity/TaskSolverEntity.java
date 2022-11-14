@@ -1,19 +1,29 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
-
 import javax.persistence.*;
 
+/**
+ * This class represents a task solver, containing an execution descriptor which can be used to evaluate a task result.
+ */
 @Table(name = "tasksolvers")
 @Entity
 public class TaskSolverEntity {
-
+    /**
+     * ID of task solver.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of task solver.
+     */
     @Column
     String label;
 
+    /**
+     * Execution script.
+     */
     @Column
     String executionDescriptor;
 
@@ -49,8 +59,4 @@ public class TaskSolverEntity {
     public Long getId() {
         return id;
     }
-
-
-
-
 }

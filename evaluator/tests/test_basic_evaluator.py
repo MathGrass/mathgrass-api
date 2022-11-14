@@ -27,8 +27,7 @@ class BasicEvaluatorTest(unittest.TestCase):
         database.get_basic_eval_request_data = lambda task_id: mock_basic_eval_request_function(task_id)
 
         def add_evaluation_result(request_id, is_correct, time):
-            self.assertTrue(is_correct,"Evaluation result is not correct")
-            
+            self.assertTrue(is_correct, "Evaluation result is not correct")
 
         database.add_evaluation_result = add_evaluation_result
 
@@ -37,8 +36,6 @@ class BasicEvaluatorTest(unittest.TestCase):
 
     def test_smoke_test_run_evaluator(self):
         self.evaluator.run(self.request)
-        
-
 
 
 if __name__ == '__main__':

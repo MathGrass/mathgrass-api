@@ -2,26 +2,47 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class represents the result of a {@link TaskEntity}, containing the users given answer, as well as
+ * evaluation and submission dates.
+ */
 @Table(name = "taskresults")
 @Entity
 public class TaskResultEntity {
-
+    /**
+     * ID of task result.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Task of result.
+     */
     @ManyToOne
     private TaskEntity task;
 
+    /**
+     * Given answer.
+     */
     @Column
     private String answer;
 
+    /**
+     * Date of evaluation.
+     */
     @Column
     private String evaluationDate;
 
+    /**
+     * Date of submission.
+     */
     @Column
     private String submissionDate;
 
+    /**
+     * Correctness of given answer.
+     */
     @Column
     private boolean answerTrue;
 

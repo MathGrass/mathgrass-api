@@ -23,32 +23,60 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class handles the communication with the evaluator, which includes the triggering of evaluation tasks and
+ * the receiving of solutions.
+ */
 @RestController
 public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi {
-
+    // TODO: replace with Websockets
+    /**
+     * Thread pool for long polling, used for retrieving results.
+     */
     private final ExecutorService longPollingTaskThreads = Executors.newFixedThreadPool(5);
+    /**
+     * Task repository.
+     */
     final TaskRepository taskRepository;
+    /**
+     * Task result repository.
+     */
     final TaskResultRepository taskResultRepository;
 
+    /**
+     * Constructor.
+     *
+     * @param taskRepository task repository
+     * @param taskResultRepository task result repository
+     */
     public EvaluatorApiImpl(TaskRepository taskRepository, TaskResultRepository taskResultRepository) {
         this.taskRepository = taskRepository;
         this.taskResultRepository = taskResultRepository;
     }
 
-
+    /**
+     * Get the {@link ResponseEntity} for a task result.
+     *
+     * @param id ID of task result
+     * @return task result object
+     */
     @Override
     public ResponseEntity<TaskResult> getTaskResult(Long id) {
-        TaskResultEntity taskResultEntity = taskResultRepository.findById(id).get();
-        return ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity));
+        Optional<TaskResultEntity> optTaskResultEntity = taskResultRepository.findById(id);
+
+        if (optTaskResultEntity.isPresent()) {
+            return ok(new TaskResultTransformer(taskRepository).toDto(optTaskResultEntity.get()));
+        } else {
+            return notFound();
+        }
     }
 
-    @ApiOperation(value = "", notes = "Long poll the result for an evaluation process", response = TaskResult.class, tags = {})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "successful operation", response = TaskResult.class)})
-    @RequestMapping(value = "/evaluator/longPollTaskResult/{resultId}",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@ApiParam(value = "ID of task", required = true) @PathVariable("resultId") Long resultId) {
+    @ApiOperation(value = "", notes = "Long poll the result for an evaluation process", response = TaskResult.class,
+            tags = {})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "successful operation", response = TaskResult.class)})
+    @GetMapping(value = "/evaluator/longPollTaskResult/{resultId}", produces = {"application/json"})
+    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@ApiParam(value = "ID of task", required = true)
+                                                                  @PathVariable("resultId") Long resultId) {
         // TODO - this is "rapid prototyping" for simulating a WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
         DeferredResult<ResponseEntity<TaskResult>> output = new DeferredResult<>();
@@ -83,46 +111,73 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         return output;
     }
 
-
     // TODO: include in OpenAPI-Spec - datatype + request/response
+
+    /**
+     * Record containing the answer given by the user.
+     *
+     * @param answer user specified answer
+     */
     record UserAnswer(String answer){}
-    @RequestMapping(value = "/evaluator/staticEvaluation/{taskId}",
-            consumes = {"application/json"},
-            produces = {"application/json"},
-            method = RequestMethod.POST)
+
+    /**
+     * Get the assessment for a task ID and a {@link UserAnswer}.
+     *
+     * @param taskId ID of task
+     * @param answer answer of user
+     * @return {@link ResponseEntity} containing a boolean determining the correctness of the answer
+     */
+    @PostMapping(value = "/evaluator/staticEvaluation/{taskId}", consumes = {"application/json"},
+            produces = {"application/json"})
     public ResponseEntity<Boolean> getStaticAssessment(
             @ApiParam(value = "ID of task", required = true) @PathVariable("taskId") Long taskId,
             @ApiParam(value = "Answer of student", required = true) @RequestBody UserAnswer answer) {
-        Optional<TaskEntity> task = taskRepository.findById(taskId);
-        if (task.isPresent()) {
-            return ok(Boolean.valueOf(task.get().getAnswer().equals(answer.answer())));
+        // load task from repository
+        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        if (optTask.isPresent()) {
+            // compare answers
+            String expectedAnswer = optTask.get().getAnswer();
+
+            return ok(expectedAnswer.equals(answer.answer()));
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
+    /**
+     * Send a task to the evaluator and run the task.
+     *
+     * @param taskId ID of task
+     * @param answer answer given by user
+     * @return ID of task result
+     */
     @Override
     public ResponseEntity<Long> runTask(Long taskId, String answer) {
+        // get task from repository
+        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        if (optTask.isEmpty()) {
+            return notFound();
+        }
 
-        checkExistence(taskId, taskRepository);
+        TaskEntity task = optTask.get();
 
-        TaskEntity task = taskRepository.findById(taskId).get();
-
-        // save result to db
+        // set up task result entity
         TaskResultEntity taskResult = new TaskResultEntity();
         taskResult.setTask(task);
         taskResult.setAnswer(answer);
-
         taskResult.setSubmissionDate(LocalDateTime.now().toString());
 
-        long taskResuldId = taskResultRepository.save(taskResult).getId();
+        // save to db
+        long taskResultId = taskResultRepository.save(taskResult).getId();
 
+        // check if answer is dynamic
         boolean isDynamicAnswer = task.getTaskTemplate() != null;
 
+        // if answer is dynamic it is necessary to use evaluator
         if (isDynamicAnswer) {
-            new TaskManager().runTask(taskResuldId, task.getId(), answer);
+            new TaskManager().runTask(taskResultId, task.getId(), answer);
         }
 
-        return ok(taskResuldId);
+        return ok(taskResultId);
     }
 }

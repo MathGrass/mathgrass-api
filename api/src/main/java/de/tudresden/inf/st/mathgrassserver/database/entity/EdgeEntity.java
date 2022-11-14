@@ -2,37 +2,52 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class represents an Edge in a {@link GraphEntity}.
+ * An edge is directed, which means it has a source and a target {@link VertexEntity}.
+ */
 @Table(name = "edges")
 @Entity
 public class EdgeEntity {
-
+    /**
+     * ID of edge.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of edge.
+     */
     @Column
     private String label;
 
+    /**
+     * Source vertex.
+     */
     @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
-    private VertexEntity v1;
+    private VertexEntity sourceVertex;
 
+    /**
+     * Target vertex.
+     */
     @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
-    private VertexEntity v2;
+    private VertexEntity targetVertex;
 
-    public VertexEntity getV1() {
-        return v1;
+    public VertexEntity getSourceVertex() {
+        return sourceVertex;
     }
 
-    public void setV1(VertexEntity v1) {
-        this.v1 = v1;
+    public void setSourceVertex(VertexEntity v1) {
+        this.sourceVertex = v1;
     }
 
-    public VertexEntity getV2() {
-        return v2;
+    public VertexEntity getTargetVertex() {
+        return targetVertex;
     }
 
-    public void setV2(VertexEntity v2) {
-        this.v2 = v2;
+    public void setTargetVertex(VertexEntity v2) {
+        this.targetVertex = v2;
     }
 
     public String getLabel() {
@@ -43,7 +58,6 @@ public class EdgeEntity {
         this.label = label;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -51,7 +65,4 @@ public class EdgeEntity {
     public Long getId() {
         return id;
     }
-
-
-
 }

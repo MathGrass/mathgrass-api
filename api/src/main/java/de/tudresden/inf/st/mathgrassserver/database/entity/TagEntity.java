@@ -2,14 +2,22 @@ package de.tudresden.inf.st.mathgrassserver.database.entity;
 
 import javax.persistence.*;
 
+/**
+ * This class represent tags, which can be used to add additional information to graphs.
+ */
 @Table(name = "tags")
 @Entity
 public class TagEntity {
-
+    /**
+     * ID of tag.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Label of tag.
+     */
     @Column
     private String label;
 
@@ -28,5 +36,4 @@ public class TagEntity {
     public Long getId() {
         return id;
     }
-
 }

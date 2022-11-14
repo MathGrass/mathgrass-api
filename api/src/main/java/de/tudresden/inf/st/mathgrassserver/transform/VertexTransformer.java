@@ -3,7 +3,13 @@ package de.tudresden.inf.st.mathgrassserver.transform;
 import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
 import de.tudresden.inf.st.mathgrassserver.model.Vertex;
 
+/**
+ * This class can convert {@link Vertex} to {@link VertexEntity} and vice versa.
+ */
 public class VertexTransformer extends ModelTransformer<Vertex, VertexEntity> {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vertex toDto(VertexEntity entity) {
         Vertex v = new Vertex();
@@ -15,6 +21,9 @@ public class VertexTransformer extends ModelTransformer<Vertex, VertexEntity> {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VertexEntity toEntity(Vertex dto) {
         VertexEntity entity = new VertexEntity();
