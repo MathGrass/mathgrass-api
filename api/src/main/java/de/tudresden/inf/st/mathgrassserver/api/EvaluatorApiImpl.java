@@ -79,6 +79,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
                                                                   @PathVariable("resultId") Long resultId) {
         // TODO - this is "rapid prototyping" for simulating a WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
+        // TODO websockets: listen to rabbitmq publish
         DeferredResult<ResponseEntity<TaskResult>> output = new DeferredResult<>();
 
         longPollingTaskThreads.execute(() -> {
