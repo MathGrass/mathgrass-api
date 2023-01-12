@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,10 +34,10 @@ public class WebSocketController {
      * @param message message
      * @return response
      */
-    @PostMapping("/submitResult")
+    @MessageMapping("/submitResult")
     public ResponseEntity<Void> sendMessage(@RequestBody TaskSubmissionMessage message) {
         // this also calls broadcastMessage
-        template.convertAndSend("/topic/message", message);
+        template.convertAndSend("/topic/resultSubmitted", message);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -49,9 +48,9 @@ public class WebSocketController {
      * @param message message
      */
     @MessageMapping("/sendMessage")
-    public void receiveMessage(@Payload TaskSubmissionMessage message) {
+    public void onMessage(@Payload String message) {
         // handle message
-        logger.info("Received message! Task ID: {}, Answer: {}", message.getTaskId(), message.getAnswer());
+        logger.info("Received message: {}", message);
     }
 
     /**
