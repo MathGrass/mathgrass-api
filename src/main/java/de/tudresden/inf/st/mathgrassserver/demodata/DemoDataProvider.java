@@ -222,7 +222,9 @@ public class DemoDataProvider {
         TaskEntity demoTask1 = new TaskEntity();
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
-        demoTask1.setQuestion("What's the label of the source vertex?");
+
+        QuestionEntity question = new QuestionEntity();
+        question.setQuestion("What's the label of the source vertex?");
         demoTask1.setAnswer(LABEL_SOURCE);
 
         taskRepo.save(demoTask1);

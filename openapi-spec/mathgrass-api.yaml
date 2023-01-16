@@ -647,6 +647,10 @@ components:
       properties:
         question:
           type: string
+        isDynamicQuestion:
+          type: boolean
+        taskSolver:
+          $ref: '#/components/schemas/TaskSolver'
         questionType:
           type: string
           enum:
@@ -700,12 +704,10 @@ components:
           format: int64
         template:
           $ref: '#/components/schemas/TaskTemplate'
-          nullable: true
         graph:
           $ref: '#/components/schemas/Graph'
         hints:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/TaskHint'
         feedback:
@@ -714,7 +716,7 @@ components:
             type: integer
             format: int64
         question:
-          type: string
+          $ref: '#/components/schemas/Question'
         label:
           type: string
         answer:

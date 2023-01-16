@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrassserver.database.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,9 @@ public class TaskEntity {
     /**
      * Question of task.
      */
-    @Column
-    private String question;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToOne
+    private QuestionEntity question;
 
     /**
      * Label of task.
@@ -67,11 +70,11 @@ public class TaskEntity {
         return id;
     }
 
-    public String getQuestion() {
+    public QuestionEntity getQuestion() {
         return question;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestion(QuestionEntity question) {
         this.question = question;
     }
 

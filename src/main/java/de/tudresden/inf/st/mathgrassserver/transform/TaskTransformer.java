@@ -62,7 +62,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         Task dto = new Task();
 
         dto.setId(entity.getId());
-        dto.setQuestion(entity.getQuestion());
+        //dto.setQuestion(entity.getQuestion());
         dto.setLabel(entity.getLabel());
 
         // answer should not be sent to student
@@ -85,7 +85,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         if (getUsedRole() != null) {
             List<TaskHintEntity> hints = entity.getHints();
             List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
-            dto.setHints(JsonNullable.of(taskHints));
+            dto.setHints(taskHints);
         }
 
         // template
@@ -102,7 +102,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(dto.getId());
 
-        taskEntity.setQuestion(dto.getQuestion());
+        //taskEntity.setQuestion(dto.getQuestion());
         taskEntity.setLabel(dto.getLabel());
         taskEntity.setAnswer(dto.getAnswer());
 
@@ -123,8 +123,8 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         taskEntity.setGraph(graphEntity);
 
         // hints
-        if (dto.getHints().isPresent() && !dto.getHints().get().isEmpty()) {
-            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints().get());
+        if (dto.getHints() != null && !dto.getHints().isEmpty()) {
+            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
             taskEntity.setHints(hintEntities);
         }
 
