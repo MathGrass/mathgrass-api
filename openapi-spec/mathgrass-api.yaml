@@ -472,14 +472,14 @@ paths:
                 type: integer
                 format: int64
       x-codegen-request-body-name: taskSolver
-  /tag/{tagId}:
+  /label/{labelId}:
     get:
-      description: Returns a tag
-      operationId: getTagById
+      description: Returns a label
+      operationId: getLabelById
       parameters:
-      - name: tagId
+      - name: labelId
         in: path
-        description: ID of tag
+        description: ID of label
         required: true
         schema:
           type: integer
@@ -490,11 +490,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tag'
-  /tag:
+                $ref: '#/components/schemas/Label'
+  /label:
     get:
-      description: Get all tags
-      operationId: getTags
+      description: Get all labels
+      operationId: getLabels
       responses:
         200:
           description: successful operation
@@ -503,15 +503,15 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Tag'
+                  $ref: '#/components/schemas/Label'
     post:
-      description: Creates a tag
-      operationId: createTag
+      description: Creates a label
+      operationId: createLabel
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tag'
+              $ref: '#/components/schemas/Label'
         required: true
       responses:
         200:
@@ -519,8 +519,8 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Tag'
-      x-codegen-request-body-name: tag
+                $ref: '#/components/schemas/Label'
+      x-codegen-request-body-name: label
   /evaluator/runTask/{taskId}:
     post:
       description: Run a task with an answer
@@ -578,10 +578,10 @@ components:
           format: int64
         label:
           type: string
-        tags:
+        labels:
           type: array
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: '#/components/schemas/Label'
         edges:
           type: array
           items:
@@ -624,7 +624,7 @@ components:
           $ref: '#/components/schemas/Vertex'
         label:
           type: string
-    Tag:
+    Label:
       type: object
       properties:
         id:
@@ -676,10 +676,10 @@ components:
           nullable: true
           items:
             $ref: '#/components/schemas/TaskHint'
-        tags:
+        labels:
           type: array
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: '#/components/schemas/Label'
     Task:
       type: object
       properties:

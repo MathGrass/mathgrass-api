@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrassserver.transform;
 import de.tudresden.inf.st.mathgrassserver.database.entity.EdgeEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.VertexEntity;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.LabelRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 
 import java.util.HashMap;
@@ -16,15 +16,15 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
     /**
      * Tag repository.
      */
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     /**
      * Constructor.
      *
-     * @param tagRepository tag repository
+     * @param labelRepository tag repository
      */
-    public GraphTransformer(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
+    public GraphTransformer(LabelRepository labelRepository) {
+        this.labelRepository = labelRepository;
     }
 
     /**
@@ -38,7 +38,7 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         graph.setLabel(entity.getLabel());
         graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
-        graph.setTags(new TagTransformer().toDtoList(entity.getTags()));
+        graph.setLabels(new TagTransformer().toDtoList(entity.getTags()));
 
         return graph;
     }
@@ -83,7 +83,7 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         entity.setEdges(edgeList);
 
         // tags
-        entity.setTags(new TagTransformer().toEntityList(dto.getTags()));
+        entity.setTags(new TagTransformer().toEntityList(dto.getLabels()));
 
         return entity;
     }

@@ -9,6 +9,7 @@ import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ class TaskApiImplTest {
     TaskSolverRepository taskSolverRepository;
 
     @Autowired
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     @Autowired
     TaskApiImpl taskApiImpl;
@@ -49,7 +50,7 @@ class TaskApiImplTest {
                 .setTaskRepository(taskRepository)
                 .setTaskSolverRepository(taskSolverRepository)
                 .setTaskTemplateRepository(taskTemplateRepository)
-                .setTagRepository(tagRepository);
+                .setTagRepository(labelRepository);
     }
 
     @Test
@@ -110,8 +111,8 @@ class TaskApiImplTest {
         TaskHint taskHint = new TaskHint();
         taskHint.setLabel(label);
         taskHint.setContent(content);
-        staticTask.setHints(Arrays.asList(taskHint));
-        TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(staticTask));
+        staticTask.setHints(JsonNullable.of(Arrays.asList(taskHint)));
+        TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(staticTask));
 
         ResponseEntity<TaskHint> response = taskApiImpl.getHintForTask(entity.getId(),0);
         assertEquals(response.getStatusCodeValue(),200);
@@ -140,7 +141,7 @@ class TaskApiImplTest {
 
 
         List<FeedbackEntity> feedbacks = Arrays.asList(f1,f2);
-        TaskEntity entity = new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task);
+        TaskEntity entity = new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task);
         entity.setFeedbacks(feedbacks);
         taskRepository.save(entity);
 
@@ -157,7 +158,7 @@ class TaskApiImplTest {
         String newQuestion = "new question?";
         String newLabel = "new label";
         Task task = this.testHelper.prepareExampleDynamicTask();
-        TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task));
+        TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task));
         task.setQuestion(newQuestion);
         task.setLabel(newLabel);
 
@@ -165,7 +166,7 @@ class TaskApiImplTest {
         taskApiImpl.updateTask(entity.getId(),task);
 
         //check
-        entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task));
+        entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task));
         assertEquals(entity.getQuestion(),newQuestion);
         assertEquals(entity.getLabel(),newLabel);
     }

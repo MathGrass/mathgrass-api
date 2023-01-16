@@ -2,11 +2,13 @@ package de.tudresden.inf.st.mathgrassserver.transform;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.*;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.LabelRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
+import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
     /**
      * Tag repository.
      */
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     /**
      * Task template repository.
@@ -41,14 +43,14 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
      *
      * @param taskSolverRepository task solver repository
      * @param graphRepository graph repository
-     * @param tagRepository tag repository
+     * @param labelRepository tag repository
      * @param taskTemplateRepository task template repository
      */
     public TaskTransformer(TaskSolverRepository taskSolverRepository, GraphRepository graphRepository,
-                           TagRepository tagRepository, TaskTemplateRepository taskTemplateRepository) {
+                           LabelRepository labelRepository, TaskTemplateRepository taskTemplateRepository) {
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
-        this.tagRepository = tagRepository;
+        this.labelRepository = labelRepository;
         this.taskTemplateRepository = taskTemplateRepository;
     }
 
@@ -76,12 +78,14 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         dto.setFeedback(feedbackIds);
 
         // graph
-        Graph graph = new GraphTransformer(tagRepository).toDto(entity.getGraph());
+        Graph graph = new GraphTransformer(labelRepository).toDto(entity.getGraph());
         dto.setGraph(graph);
 
         // hints
         if (getUsedRole() != null) {
-            dto.setHints(new TaskHintTransformer().toDtoList(entity.getHints()));
+            List<TaskHintEntity> hints = entity.getHints();
+            List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
+            dto.setHints(JsonNullable.of(taskHints));
         }
 
         // template
@@ -106,7 +110,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         GraphEntity graphEntity;
         Long graphId = dto.getGraph().getId();
         if (dto.getGraph().getId() == null || !graphRepository.existsById(graphId)) {
-            graphEntity = new GraphTransformer(tagRepository).toEntity(dto.getGraph());
+            graphEntity = new GraphTransformer(labelRepository).toEntity(dto.getGraph());
             graphRepository.save(graphEntity);
         } else {
             Optional<GraphEntity> optGraphEntity = graphRepository.findById(graphId);
@@ -119,8 +123,8 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         taskEntity.setGraph(graphEntity);
 
         // hints
-        if (!dto.getHints().isEmpty()) {
-            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
+        if (dto.getHints().isPresent() && !dto.getHints().get().isEmpty()) {
+            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints().get());
             taskEntity.setHints(hintEntities);
         }
 

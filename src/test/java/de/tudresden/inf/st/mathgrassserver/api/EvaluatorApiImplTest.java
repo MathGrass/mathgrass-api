@@ -6,6 +6,7 @@ import de.tudresden.inf.st.mathgrassserver.model.*;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -41,7 +42,7 @@ class EvaluatorApiImplTest {
         testHelper.setGraphRepository(graphRepository);
         testHelper.setTaskSolverRepository(taskSolverRepository);
         testHelper.setTaskTemplateRepository(taskTemplateRepository);
-        testHelper.setTagRepository(tagRepository);
+        testHelper.setTagRepository(labelRepository);
     }
 
     @Test
@@ -82,9 +83,9 @@ class EvaluatorApiImplTest {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setTaskSolver(taskSolverId);
         taskTemplate.setQuestion("Count all edges!");
-        taskTemplate.setHints(new ArrayList<>());
+        taskTemplate.setHints(JsonNullable.of(new ArrayList<>()));
         taskTemplate.setLabel("Edge Counter");
-        taskTemplate.setTags(new ArrayList<>());
+        taskTemplate.setLabels(new ArrayList<>());
 
         long taskTemplateId = taskTemplateApiImpl.createTaskTemplate(taskTemplate).getBody();
         taskTemplate.setId(taskTemplateId);
@@ -96,7 +97,7 @@ class EvaluatorApiImplTest {
         task.setGraph(graph);
         task.setTemplate(taskTemplate);
         task.setLabel("Aufgabe 1");
-        task.setHints(new ArrayList<>());
+        task.setHints(JsonNullable.of(new ArrayList<>()));
         task.setFeedback(new ArrayList<>());
         long taskId = taskApiImpl.createTask(task).getBody();
 
@@ -112,7 +113,7 @@ class EvaluatorApiImplTest {
     GraphRepository graphRepository;
 
     @Autowired
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     @Autowired
     TaskTemplateRepository taskTemplateRepository;
@@ -123,7 +124,7 @@ class EvaluatorApiImplTest {
     @Test
     public void runTask() {
         Task task = testHelper.prepareExampleDynamicTask();
-        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task);
+        TaskEntity taskEntity = new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task);
         long id = taskRepository.save(taskEntity).getId();
 
         evaluatorApiImpl.runTask(id, "3");

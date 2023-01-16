@@ -1,31 +1,31 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
-import de.tudresden.inf.st.mathgrassserver.database.entity.TagEntity;
-import de.tudresden.inf.st.mathgrassserver.model.Tag;
+import de.tudresden.inf.st.mathgrassserver.database.entity.LabelEntity;
+import de.tudresden.inf.st.mathgrassserver.model.Label;
 
 /**
- * This class can convert {@link Tag} to {@link TagEntity} and vice versa.
+ * This class can convert {@link Label} to {@link LabelEntity} and vice versa.
  */
-public class TagTransformer extends ModelTransformer<Tag, TagEntity> {
+public class TagTransformer extends ModelTransformer<Label, LabelEntity> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Tag toDto(TagEntity entity) {
-        Tag tag = new Tag();
-        tag.setId(entity.getId());
-        tag.setLabel(entity.getLabel());
-        return tag;
+    public Label toDto(LabelEntity entity) {
+        Label label = new Label();
+        label.setId(entity.getId());
+        label.setLabel(entity.getLabel());
+        return label;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TagEntity toEntity(Tag dto) {
-        TagEntity tagEntity = new TagEntity();
-        tagEntity.setId(dto.getId());
-        tagEntity.setLabel(dto.getLabel());
-        return tagEntity;
+    public LabelEntity toEntity(Label dto) {
+        LabelEntity labelEntity = new LabelEntity();
+        labelEntity.setId(dto.getId());
+        labelEntity.setLabel(dto.getLabel());
+        return labelEntity;
     }
 }

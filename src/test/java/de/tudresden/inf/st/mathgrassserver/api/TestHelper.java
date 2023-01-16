@@ -10,6 +10,7 @@ import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskSolverTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTemplateTransformer;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,8 +42,8 @@ public class TestHelper {
         return this;
     }
 
-    public TestHelper setTagRepository(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
+    public TestHelper setTagRepository(LabelRepository labelRepository) {
+        this.labelRepository = labelRepository;
         return this;
     }
 
@@ -55,7 +56,7 @@ public class TestHelper {
     TaskSolverRepository taskSolverRepository;
 
     
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     TaskRepository taskRepository;
     
@@ -131,19 +132,19 @@ public class TestHelper {
 
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setQuestion("Zähle alle Kanten");
-        taskTemplate.setHints(new ArrayList<>());
+        taskTemplate.setHints(JsonNullable.of(new ArrayList<>()));
         taskTemplate.setLabel("Kantenzähler");
-        taskTemplate.setTags(new ArrayList<>());
+        taskTemplate.setLabels(new ArrayList<>());
         taskTemplate.setTaskSolver(solverEntity.getId());
 
         return taskTemplate;
     }
 
 
-    public static Tag createTag() {
-        Tag tag = new Tag();
-        tag.setLabel("TestTag");
-        return tag;
+    public static Label createLabel() {
+        Label label = new Label();
+        label.setLabel("TestTag");
+        return label;
     }
 
 
@@ -152,14 +153,14 @@ public class TestHelper {
         task1.setLabel("Task 1");
         Task task2 = prepareExampleDynamicTask();
         task2.setLabel("Task 2");
-        TaskEntity taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task1));
+        TaskEntity taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task1));
         task1.setId(taskEntity1.getId());
-        TaskEntity taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task2));
+        TaskEntity taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task2));
         task2.setId(taskEntity2.getId());
 
-        taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task1));
+        taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task1));
         task1.setId(taskEntity1.getId());
-        taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository,tagRepository,taskTemplateRepository).toEntity(task2));
+        taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task2));
         task2.setId(taskEntity2.getId());
 
 
@@ -178,7 +179,7 @@ public class TestHelper {
 
     private Task getTaskWithSavedGraph() {
         Graph graph = getExampleGraph();
-        GraphEntity graphEntity = new GraphTransformer(tagRepository).toEntity(graph);
+        GraphEntity graphEntity = new GraphTransformer(labelRepository).toEntity(graph);
         graphEntity = graphRepository.save(graphEntity);
         graph.setId(graphEntity.getId());
 
@@ -193,7 +194,7 @@ public class TestHelper {
 
         Task task = new Task();
         task.setGraph(graph);
-        task.setHints(Arrays.asList(taskHint1,taskHint2));
+        task.setHints(JsonNullable.of(Arrays.asList(taskHint1,taskHint2)));
         task.setLabel("Kanten zählen");
         task.setQuestion("Wie viele Kanten gibt es?");
         task.setAnswer("5");

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * This class represents a graph, which consists of {@link EdgeEntity}s and {@link VertexEntity}s.
- * Additionally, the graph can be labelled and tagged with multiple {@link TagEntity}s.
+ * Additionally, the graph can be labelled and tagged with multiple {@link LabelEntity}s.
  */
 @Table(name = "graphs")
 @Entity
@@ -27,7 +27,7 @@ public class GraphEntity {
      * Tags of graph.
      */
     @ManyToMany(cascade = CascadeType.MERGE)
-    private List<TagEntity> tags;
+    private List<LabelEntity> tags;
 
     /**
      * Edges of graph.
@@ -57,11 +57,11 @@ public class GraphEntity {
         this.label = label;
     }
 
-    public List<TagEntity> getTags() {
+    public List<LabelEntity> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagEntity> tags) {
+    public void setTags(List<LabelEntity> tags) {
         this.tags = tags;
     }
 

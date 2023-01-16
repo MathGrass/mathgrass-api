@@ -40,7 +40,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     /**
      * Tag repository.
      */
-    final TagRepository tagRepository;
+    final LabelRepository labelRepository;
 
     /**
      * Task template repository.
@@ -53,16 +53,16 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @param taskRepository task repository
      * @param taskSolverRepository task solver repository
      * @param graphRepository graph repository
-     * @param tagRepository tag repository
+     * @param labelRepository tag repository
      * @param taskTemplateRepository task template repository
      */
     public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository,
-                       GraphRepository graphRepository, TagRepository tagRepository,
+                       GraphRepository graphRepository, LabelRepository labelRepository,
                        TaskTemplateRepository taskTemplateRepository) {
         this.taskRepository = taskRepository;
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
-        this.tagRepository = tagRepository;
+        this.labelRepository = labelRepository;
         this.taskTemplateRepository = taskTemplateRepository;
     }
 
@@ -122,7 +122,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     @Override
     public ResponseEntity<Long> createTask(Task body) {
         TaskEntity taskEntity = taskRepository.save(
-                new TaskTransformer(taskSolverRepository, graphRepository, tagRepository, taskTemplateRepository)
+                new TaskTransformer(taskSolverRepository, graphRepository, labelRepository, taskTemplateRepository)
                         .toEntity(body));
 
         return ok(taskEntity.getId());
@@ -177,7 +177,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     public ResponseEntity<Task> getTaskById(Long taskId) {
         Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            Task task = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,taskTemplateRepository)
+            Task task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository,taskTemplateRepository)
                     .toDto(optTaskEntity.get());
 
             return ok(task);
@@ -217,7 +217,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // create task entity
-            TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, tagRepository,
+            TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository,
                     taskTemplateRepository).toEntity(task);
             taskEntity.setId(taskId);
 
