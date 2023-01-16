@@ -46,7 +46,7 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
         if (getUsedRole() != null) {
             List<TaskHintEntity> hints = entity.getHints();
             List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
-            dto.setHints(JsonNullable.of(taskHints));
+            dto.setHints(taskHints);
         }
 
         dto.setQuestion(entity.getQuestion());
@@ -70,7 +70,7 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
             entity.setId(dto.getId());
 
             entity.setLabel(dto.getLabel());
-            entity.setHints(new TaskHintTransformer().toEntityList(dto.getHints().get()));
+            entity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
             entity.setQuestion(dto.getQuestion());
             entity.setTaskSolver(optSolverEntity.get());
             entity.setTags(new TagTransformer().toEntityList(dto.getLabels()));
