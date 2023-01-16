@@ -9,6 +9,7 @@ info:
   license:
     name: "MIT"
     url: "https://github.com/MathGrass/mathgrass-api"
+
 paths:
   /graph/{graphId}:
     get:
@@ -568,6 +569,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskResult'
+
 components:
   schemas:
     Graph:
@@ -576,8 +578,6 @@ components:
         id:
           type: integer
           format: int64
-        label:
-          type: string
         labels:
           type: array
           items:
@@ -590,12 +590,12 @@ components:
           type: array
           items:
               $ref: '#/components/schemas/Vertex'
-              nullable: false
+      required:
+        - id
+        - edges
+        - vertices
     Vertex:
       title: Vertex
-      required:
-        - x
-        - y
       type: object
       properties:
         id:
@@ -615,6 +615,10 @@ components:
           format: int32
         label:
           type: string
+      required:
+        - x
+        - y
+        - id
     Edge:
       type: object
       properties:
@@ -624,6 +628,9 @@ components:
           $ref: '#/components/schemas/Vertex'
         label:
           type: string
+      required:
+        - firstVertex
+        - secondVertex
     Label:
       type: object
       properties:
@@ -632,6 +639,9 @@ components:
           format: int64
         label:
           type: string
+      required:
+        - id
+        - label
     Question:
       type: object
       properties:
@@ -648,6 +658,9 @@ components:
           type: array
           items:
             type: string
+      required:
+        - question
+        - questionType
     TaskSolver:
       type: object
       properties:
@@ -673,7 +686,6 @@ components:
           format: int64
         hints:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/TaskHint'
         labels:
@@ -688,6 +700,7 @@ components:
           format: int64
         template:
           $ref: '#/components/schemas/TaskTemplate'
+          nullable: true
         graph:
           $ref: '#/components/schemas/Graph'
         hints:
@@ -706,6 +719,10 @@ components:
           type: string
         answer:
           type: string
+      required:
+        - question
+        - id
+        - graph
     TaskIdLabelTuple:
       type: object
       properties:
@@ -714,6 +731,9 @@ components:
           format: int64
         label:
           type: string
+      required:
+        - id
+        - label
     TaskHint:
       type: object
       properties:
@@ -724,6 +744,9 @@ components:
           type: string
         content:
           type: string
+      required:
+        - id
+        - content
     TaskResult:
       type: object
       properties:
@@ -775,16 +798,3 @@ components:
           items:
             type: integer
             format: int64
-  securitySchemes:
-    mathgrass_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://mathgrass.swagger.io/oauth/dialog
-          scopes:
-            write:exercising: modify entities of exercising
-            read:exercising: read exercising
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header

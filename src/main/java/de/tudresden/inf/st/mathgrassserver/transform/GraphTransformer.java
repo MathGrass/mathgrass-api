@@ -35,7 +35,6 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         Graph graph = new Graph();
 
         graph.setId(entity.getId());
-        graph.setLabel(entity.getLabel());
         graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
         graph.setLabels(new TagTransformer().toDtoList(entity.getTags()));
@@ -52,7 +51,6 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
         GraphEntity entity = new GraphEntity();
 
         entity.setId(dto.getId());
-        entity.setLabel(dto.getLabel());
 
         // vertices
         entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));

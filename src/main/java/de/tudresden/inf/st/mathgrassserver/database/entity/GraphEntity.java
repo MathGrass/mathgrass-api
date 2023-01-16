@@ -20,8 +20,8 @@ public class GraphEntity {
     /**
      * Label of graph.
      */
-    @Column
-    private String label = null;
+    @ElementCollection
+    private List<String> labels = null;
 
     /**
      * Tags of graph.
@@ -49,12 +49,12 @@ public class GraphEntity {
         return id;
     }
 
-    public String getLabel() {
-        return label;
+    public List<String> getLabels() {
+        return labels;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 
     public List<LabelEntity> getTags() {

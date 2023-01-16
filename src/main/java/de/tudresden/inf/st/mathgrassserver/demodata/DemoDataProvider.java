@@ -77,7 +77,6 @@ public class DemoDataProvider {
     private void createDynamicTask() {
         // create graph entity
         GraphEntity graph = new GraphEntity();
-        graph.setLabel("label1");
         LabelEntity e1 = new LabelEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
@@ -176,6 +175,10 @@ public class DemoDataProvider {
         taskTemplateEntity.setLabel("task template label");
         taskTemplateEntity.setTaskSolver(taskSolver);
         taskTemplateEntity.setQuestion("How many edges does the graph have? (evaluation via Sage)");
+        TaskHintEntity e11 = new TaskHintEntity();
+        e11.setContent("Asd");
+        e11.setLabel("Asd");
+        taskTemplateEntity.setHints(List.of(e11));
         taskTemplateRepo.save(taskTemplateEntity);
         demoTask1.setTaskTemplate(taskTemplateEntity);
 
@@ -188,7 +191,6 @@ public class DemoDataProvider {
     private void createStaticTask() {
         // create graph
         GraphEntity graph = new GraphEntity();
-        graph.setLabel("label1");
         LabelEntity e1 = new LabelEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
