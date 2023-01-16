@@ -1,6 +1,6 @@
 buildscript {
 	dependencies {
-		classpath('io.swagger:swagger-codegen:2.2.2')
+		classpath('org.openapitools:openapi-generator:6.2.1')
 	}
 }
 
@@ -50,11 +50,10 @@ sourceSets {
     }
  }
 
+import org.openapitools.codegen.DefaultGenerator
+import org.openapitools.codegen.config.CodegenConfigurator
 
-import io.swagger.codegen.DefaultGenerator
-import io.swagger.codegen.config.CodegenConfigurator
-
-def swaggerSourceFile = 'openapi-spec/graphex-minimal.yaml'
+def swaggerSourceFile = 'openapi-spec/mathgrass-api.yaml'
 def swaggerTargetFolder = 'src/generated/java'
 
 task generateApi {
@@ -62,7 +61,7 @@ task generateApi {
 		def config = new CodegenConfigurator()
 		config.setInputSpec("file:///$projectDir/$swaggerSourceFile")
 		config.setOutputDir("$projectDir")
-		config.setLang('spring')
+		config.setGeneratorName('spring')
 		config.setAdditionalProperties([
 				'interfaceOnly' : 'true',
 				'apiPackage'    : 'de.tudresden.inf.st.mathgrassserver.apiModel',
