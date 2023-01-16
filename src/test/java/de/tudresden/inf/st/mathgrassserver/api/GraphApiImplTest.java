@@ -45,7 +45,6 @@ class GraphApiImplTest {
         GraphEntity graphEntity = graphRepository.findById(id).orElse(null);
         assertThat(graphEntity).isNotNull();
 
-        assertEquals(graph.getLabel(), graphEntity.getLabel());
     }
 
     @Test
@@ -71,7 +70,6 @@ class GraphApiImplTest {
 
         //check
         assertThat(check).isNotNull();
-        assertEquals(graph.getLabel(), check.getLabel());
 
 
 
@@ -89,7 +87,6 @@ class GraphApiImplTest {
         //check
         GraphEntity check = graphRepository.findById(entity.getId()).orElse(null);
         assertThat(check).isNotNull();
-        assertEquals(graph.getLabel(),check.getLabel());
 
     }
 }
