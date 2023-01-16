@@ -1,10 +1,14 @@
 package de.tudresden.inf.st.mathgrassserver.transform;
 
+import de.tudresden.inf.st.mathgrassserver.database.entity.TaskHintEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.model.TaskTemplate;
+import org.openapitools.jackson.nullable.JsonNullable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,14 +44,16 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
 
         // TODO: check role
         if (getUsedRole() != null) {
-            dto.setHints(new TaskHintTransformer().toDtoList(entity.getHints()));
+            List<TaskHintEntity> hints = entity.getHints();
+            List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
+            dto.setHints(JsonNullable.of(taskHints));
         }
 
         dto.setQuestion(entity.getQuestion());
         dto.setTaskSolver(entity.getTaskSolver().getId());
 
         // tags
-        dto.setTags(new TagTransformer().toDtoList(entity.getTags()));
+        dto.setLabels(new TagTransformer().toDtoList(entity.getTags()));
 
         return dto;
     }
@@ -64,10 +70,10 @@ public class TaskTemplateTransformer extends ModelTransformer<TaskTemplate, Task
             entity.setId(dto.getId());
 
             entity.setLabel(dto.getLabel());
-            entity.setHints(new TaskHintTransformer().toEntityList(dto.getHints()));
+            entity.setHints(new TaskHintTransformer().toEntityList(dto.getHints().get()));
             entity.setQuestion(dto.getQuestion());
             entity.setTaskSolver(optSolverEntity.get());
-            entity.setTags(new TagTransformer().toEntityList(dto.getTags()));
+            entity.setTags(new TagTransformer().toEntityList(dto.getLabels()));
 
             return entity;
         } else {

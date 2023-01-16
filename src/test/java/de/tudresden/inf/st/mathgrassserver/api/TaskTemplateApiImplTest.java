@@ -83,8 +83,8 @@ class TaskTemplateApiImplTest {
 
         //check
         assertNotNull(hint);
-        assertEquals( taskTemplateOrig.getHints().get(0).getLabel(),hint.getLabel());
-        assertEquals( taskTemplateOrig.getHints().get(0).getContent(),hint.getContent());
+        assertEquals( taskTemplateOrig.getHints().get().get(0).getLabel(),hint.getLabel());
+        assertEquals( taskTemplateOrig.getHints().get().get(0).getContent(),hint.getContent());
     }
 
     @Test

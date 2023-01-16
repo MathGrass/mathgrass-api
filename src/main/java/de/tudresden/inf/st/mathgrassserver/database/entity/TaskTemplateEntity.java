@@ -39,7 +39,7 @@ public class TaskTemplateEntity {
      * Tags of task template.
      */
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<TagEntity> tags;
+    private List<LabelEntity> tags;
 
     /**
      * Hints of task template.
@@ -87,11 +87,11 @@ public class TaskTemplateEntity {
         this.taskSolver = taskSolver;
     }
 
-    public List<TagEntity> getTags() {
+    public List<LabelEntity> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagEntity> tags) {
+    public void setTags(List<LabelEntity> tags) {
         this.tags = tags;
     }
 }

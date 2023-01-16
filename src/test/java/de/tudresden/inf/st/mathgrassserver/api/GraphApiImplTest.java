@@ -2,7 +2,7 @@ package de.tudresden.inf.st.mathgrassserver.api;
 
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.LabelRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +26,14 @@ class GraphApiImplTest {
     GraphRepository graphRepository;
 
     @Autowired
-    TagRepository tagRepository;
+    LabelRepository labelRepository;
 
     @BeforeEach
     void setUp() {
         assertThat(graphApiImpl).isNotNull();
         testHelper = new TestHelper()
-                .setTagRepository(tagRepository)
-        .setTagRepository(tagRepository);
+                .setTagRepository(labelRepository)
+        .setTagRepository(labelRepository);
     }
 
     @Test
@@ -64,7 +64,7 @@ class GraphApiImplTest {
 
 
         Graph graph = getExampleGraph();
-        GraphEntity entity = graphRepository.save(new GraphTransformer(tagRepository).toEntity(graph));
+        GraphEntity entity = graphRepository.save(new GraphTransformer(labelRepository).toEntity(graph));
 
         //get
         Graph check = graphApiImpl.getGraphById(entity.getId()).getBody();
@@ -81,7 +81,7 @@ class GraphApiImplTest {
     void updateGraph() {
         //create
         Graph graph = getExampleGraph();
-        GraphEntity entity = graphRepository.save(new GraphTransformer(tagRepository).toEntity(graph));
+        GraphEntity entity = graphRepository.save(new GraphTransformer(labelRepository).toEntity(graph));
 
         //update
         graphApiImpl.updateGraph(entity.getId(),graph);

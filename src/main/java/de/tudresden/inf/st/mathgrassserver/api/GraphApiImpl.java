@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrassserver.api;
 import de.tudresden.inf.st.mathgrassserver.apiModel.GraphApi;
 import de.tudresden.inf.st.mathgrassserver.database.entity.GraphEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrassserver.database.repository.TagRepository;
+import de.tudresden.inf.st.mathgrassserver.database.repository.LabelRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
 import de.tudresden.inf.st.mathgrassserver.transform.GraphTransformer;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +24,17 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
     /**
      * Tag repository.
      */
-    final TagRepository tagRepository;
+    final LabelRepository labelRepository;
 
     /**
      * Constructor.
      *
      * @param graphRepository graph repository
-     * @param tagRepository tag repository
+     * @param labelRepository tag repository
      */
-    public GraphApiImpl(GraphRepository graphRepository, TagRepository tagRepository) {
+    public GraphApiImpl(GraphRepository graphRepository, LabelRepository labelRepository) {
         this.graphRepository = graphRepository;
-        this.tagRepository = tagRepository;
+        this.labelRepository = labelRepository;
     }
 
     /**
@@ -59,7 +59,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
         Optional<GraphEntity> optGraphEntity = graphRepository.findById(graphId);
 
         if (optGraphEntity.isPresent()) {
-            Graph graph = new GraphTransformer(this.tagRepository).toDto(optGraphEntity.get());
+            Graph graph = new GraphTransformer(this.labelRepository).toDto(optGraphEntity.get());
             return ok(graph);
         } else {
             return notFound();
@@ -96,7 +96,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      */
     private long save(Graph graph, long id) {
         // create graph entity
-        GraphEntity entity = new GraphTransformer(tagRepository).toEntity(graph);
+        GraphEntity entity = new GraphTransformer(labelRepository).toEntity(graph);
 
         // set ID if this is an update
         if (id != -1) {

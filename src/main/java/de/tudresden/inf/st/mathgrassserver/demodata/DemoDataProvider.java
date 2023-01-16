@@ -27,7 +27,7 @@ public class DemoDataProvider {
     /**
      * Tag repository.
      */
-    private final TagRepository tagRepo;
+    private final LabelRepository tagRepo;
 
     /**
      * Task template repository.
@@ -48,7 +48,7 @@ public class DemoDataProvider {
      * @param taskTemplateRepo task template repository
      * @param taskSolverRepo task solver repository
      */
-    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, TagRepository tagRepo, TaskTemplateRepository taskTemplateRepo, TaskSolverRepository taskSolverRepo) {
+    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, LabelRepository tagRepo, TaskTemplateRepository taskTemplateRepo, TaskSolverRepository taskSolverRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
@@ -78,7 +78,7 @@ public class DemoDataProvider {
         // create graph entity
         GraphEntity graph = new GraphEntity();
         graph.setLabel("label1");
-        TagEntity e1 = new TagEntity();
+        LabelEntity e1 = new LabelEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
@@ -189,7 +189,7 @@ public class DemoDataProvider {
         // create graph
         GraphEntity graph = new GraphEntity();
         graph.setLabel("label1");
-        TagEntity e1 = new TagEntity();
+        LabelEntity e1 = new LabelEntity();
         e1.setLabel("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
