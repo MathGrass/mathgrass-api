@@ -62,9 +62,9 @@ public class DemoDataProvider {
     @PostConstruct
     private void initGraphs() {
         // if task repository already contains elements don't do anything
-        if (!taskRepo.findAll().isEmpty()) {
+/*        if (!taskRepo.findAll().isEmpty()) {
             return;
-        }
+        }*/
 
         // create tasks
         createDynamicTask();
@@ -225,6 +225,7 @@ public class DemoDataProvider {
 
         QuestionEntity question = new QuestionEntity();
         question.setQuestion("What's the label of the source vertex?");
+        demoTask1.setQuestion(question);
         demoTask1.setAnswer(LABEL_SOURCE);
 
         taskRepo.save(demoTask1);

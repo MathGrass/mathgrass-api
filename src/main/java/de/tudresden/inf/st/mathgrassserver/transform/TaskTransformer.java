@@ -6,6 +6,7 @@ import de.tudresden.inf.st.mathgrassserver.database.repository.LabelRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrassserver.database.repository.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrassserver.model.Graph;
+import de.tudresden.inf.st.mathgrassserver.model.Question;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -86,6 +87,11 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
             List<TaskHintEntity> hints = entity.getHints();
             List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
             dto.setHints(taskHints);
+        }
+
+        QuestionEntity question = entity.getQuestion();
+        if(question != null){
+            dto.setQuestion(new Question().question(question.getQuestion()));
         }
 
         // template
