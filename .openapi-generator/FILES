@@ -14,6 +14,8 @@ src/generated/java/de/tudresden/inf/st/mathgrassserver/model/Feedback.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/Graph.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/Label.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/Question.java
+src/generated/java/de/tudresden/inf/st/mathgrassserver/model/RunStaticAssessment200Response.java
+src/generated/java/de/tudresden/inf/st/mathgrassserver/model/RunStaticAssessmentRequest.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/Task.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/TaskCollection.java
 src/generated/java/de/tudresden/inf/st/mathgrassserver/model/TaskHint.java
