@@ -16,6 +16,7 @@ public class QuestionEntity {
     private String question;
 
     private Boolean isDynamicQuestion;
+    private String simpleAnswer;
 
     private Question.QuestionTypeEnum questionType;
 
@@ -61,5 +62,20 @@ public class QuestionEntity {
         this.id = id;
     }
 
+    public String getSimpleAnswer() {
+        return simpleAnswer;
+    }
+
+    public void setSimpleAnswer(String simpleAnswer) {
+        this.simpleAnswer = simpleAnswer;
+    }
+
+    public TaskSolverEntity getTaskSolver() {
+        return taskSolver;
+    }
+
+    public void setTaskSolver(TaskSolverEntity taskSolver) {
+        this.taskSolver = taskSolver;
+    }
 
 }

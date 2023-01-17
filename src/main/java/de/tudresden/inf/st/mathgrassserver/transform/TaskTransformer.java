@@ -91,7 +91,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         QuestionEntity question = entity.getQuestion();
         if(question != null){
-            dto.setQuestion(new Question().question(question.getQuestion()));
+            dto.setQuestion(new Question().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
         }
 
         // template

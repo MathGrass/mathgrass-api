@@ -225,6 +225,8 @@ public class DemoDataProvider {
 
         QuestionEntity question = new QuestionEntity();
         question.setQuestion("What's the label of the source vertex?");
+        question.setSimpleAnswer("1");
+        question.setDynamicQuestion(false);
         demoTask1.setQuestion(question);
         demoTask1.setAnswer(LABEL_SOURCE);
 
