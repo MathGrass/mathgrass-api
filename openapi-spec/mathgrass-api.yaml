@@ -547,8 +547,7 @@ paths:
           content:
             '*/*':
               schema:
-                type: integer
-                format: int64
+                type: boolean
   /evaluator/runTask/{taskId}:
     post:
       description: Run a task with an answer
