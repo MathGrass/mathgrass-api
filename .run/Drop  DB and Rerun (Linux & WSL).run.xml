@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Clear DB and Rerun" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Drop  DB and Rerun (Linux &amp; WSL)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="demodata" />
-    <module name="mathgrass-api.main" />
+    <module name="mathgrass-server.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.tudresden.inf.st.mathgrassserver.MathgrassServerApplication" />
     <method v="2">
       <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_bash" />
