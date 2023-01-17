@@ -1,6 +1,6 @@
 buildscript {
 	dependencies {
-		classpath('org.openapitools:openapi-generator:6.2.1')
+		classpath('io.swagger:swagger-codegen:2.2.2')
 	}
 }
 
