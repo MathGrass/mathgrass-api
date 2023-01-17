@@ -62,9 +62,9 @@ public class DemoDataProvider {
     @PostConstruct
     private void initGraphs() {
         // if task repository already contains elements don't do anything
-/*        if (!taskRepo.findAll().isEmpty()) {
+        if (!taskRepo.findAll().isEmpty()) {
             return;
-        }*/
+        }
 
         // create tasks
         createDynamicTask();
