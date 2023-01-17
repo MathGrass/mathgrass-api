@@ -83,7 +83,7 @@ class EvaluatorApiImplTest {
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setTaskSolver(taskSolverId);
         taskTemplate.setQuestion("Count all edges!");
-        taskTemplate.setHints(JsonNullable.of(new ArrayList<>()));
+        taskTemplate.setHints(new ArrayList<>());
         taskTemplate.setLabel("Edge Counter");
         taskTemplate.setLabels(new ArrayList<>());
 
@@ -97,7 +97,7 @@ class EvaluatorApiImplTest {
         task.setGraph(graph);
         task.setTemplate(taskTemplate);
         task.setLabel("Aufgabe 1");
-        task.setHints(JsonNullable.of(new ArrayList<>()));
+        task.setHints(new ArrayList<>());
         task.setFeedback(new ArrayList<>());
         long taskId = taskApiImpl.createTask(task).getBody();
 

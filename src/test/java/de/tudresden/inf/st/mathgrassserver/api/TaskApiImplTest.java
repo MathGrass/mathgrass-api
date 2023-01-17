@@ -4,6 +4,7 @@ import de.tudresden.inf.st.mathgrassserver.database.entity.FeedbackEntity;
 import de.tudresden.inf.st.mathgrassserver.database.entity.TaskEntity;
 import de.tudresden.inf.st.mathgrassserver.database.repository.*;
 import de.tudresden.inf.st.mathgrassserver.model.Feedback;
+import de.tudresden.inf.st.mathgrassserver.model.Question;
 import de.tudresden.inf.st.mathgrassserver.model.Task;
 import de.tudresden.inf.st.mathgrassserver.model.TaskHint;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskTransformer;
@@ -111,7 +112,7 @@ class TaskApiImplTest {
         TaskHint taskHint = new TaskHint();
         taskHint.setLabel(label);
         taskHint.setContent(content);
-        staticTask.setHints(JsonNullable.of(Arrays.asList(taskHint)));
+        staticTask.setHints(Arrays.asList(taskHint));
         TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(staticTask));
 
         ResponseEntity<TaskHint> response = taskApiImpl.getHintForTask(entity.getId(),0);
@@ -159,7 +160,7 @@ class TaskApiImplTest {
         String newLabel = "new label";
         Task task = this.testHelper.prepareExampleDynamicTask();
         TaskEntity entity = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task));
-        task.setQuestion(newQuestion);
+        task.setQuestion(new Question().question(newQuestion));
         task.setLabel(newLabel);
 
         //trigger

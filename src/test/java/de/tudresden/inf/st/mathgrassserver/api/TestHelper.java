@@ -132,7 +132,7 @@ public class TestHelper {
 
         TaskTemplate taskTemplate = new TaskTemplate();
         taskTemplate.setQuestion("Zähle alle Kanten");
-        taskTemplate.setHints(JsonNullable.of(new ArrayList<>()));
+        taskTemplate.setHints(new ArrayList<>());
         taskTemplate.setLabel("Kantenzähler");
         taskTemplate.setLabels(new ArrayList<>());
         taskTemplate.setTaskSolver(solverEntity.getId());
@@ -194,9 +194,9 @@ public class TestHelper {
 
         Task task = new Task();
         task.setGraph(graph);
-        task.setHints(JsonNullable.of(Arrays.asList(taskHint1,taskHint2)));
+        task.setHints(Arrays.asList(taskHint1,taskHint2));
         task.setLabel("Kanten zählen");
-        task.setQuestion("Wie viele Kanten gibt es?");
+        task.setQuestion(new Question().question("Wie viele Kanten gibt es?"));
         task.setAnswer("5");
 
         return task;
