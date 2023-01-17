@@ -522,6 +522,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/Label'
       x-codegen-request-body-name: label
+  /evaluator/staticAssessment/{taskId}:
+    post:
+      description: Submit an answer to a static task and expect a boolean response
+      operationId: runStaticAssessment
+      parameters:
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Answer of student
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
   /evaluator/runTask/{taskId}:
     post:
       description: Run a task with an answer
@@ -658,6 +685,9 @@ components:
           - number
           - mark_nodes
           - mark_edges
+        answer:
+          type: string
+          nullable: true
         possible_answers:
           type: array
           items:
