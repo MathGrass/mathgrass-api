@@ -10,10 +10,6 @@ import de.tudresden.inf.st.mathgrassserver.model.RunStaticAssessment200Response;
 import de.tudresden.inf.st.mathgrassserver.model.RunStaticAssessmentRequest;
 import de.tudresden.inf.st.mathgrassserver.model.TaskResult;
 import de.tudresden.inf.st.mathgrassserver.transform.TaskResultTransformer;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +24,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class handles the communication with the evaluator, which includes the triggering of evaluation tasks and
+ * This class handles the communication with the evaluator, which includes
+ * the triggering of evaluation tasks and
  * the receiving of solutions.
  */
 @RestController
@@ -37,7 +34,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
     /**
      * Thread pool for long polling, used for retrieving results.
      */
-    private final ExecutorService longPollingTaskThreads = Executors.newFixedThreadPool(5);
+    private final ExecutorService longPollingTaskThreads =
+            Executors.newFixedThreadPool(5);
     /**
      * Task repository.
      */
@@ -53,7 +51,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      * @param taskRepository       task repository
      * @param taskResultRepository task result repository
      */
-    public EvaluatorApiImpl(TaskRepository taskRepository, TaskResultRepository taskResultRepository) {
+    public EvaluatorApiImpl(TaskRepository taskRepository,
+                            TaskResultRepository taskResultRepository) {
         this.taskRepository = taskRepository;
         this.taskResultRepository = taskResultRepository;
     }
@@ -66,7 +65,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      */
     @Override
     public ResponseEntity<TaskResult> getTaskResult(Long id) {
-        Optional<TaskResultEntity> optTaskResultEntity = taskResultRepository.findById(id);
+        Optional<TaskResultEntity> optTaskResultEntity =
+                taskResultRepository.findById(id);
 
         if (optTaskResultEntity.isPresent()) {
             return ok(new TaskResultTransformer(taskRepository).toDto(optTaskResultEntity.get()));
@@ -75,18 +75,19 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         }
     }
 
-    @ApiOperation(value = "", notes = "Long poll the result for an evaluation process", response = TaskResult.class,
-            tags = {})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "successful operation", response = TaskResult.class)})
-    @GetMapping(value = "/evaluator/longPollTaskResult/{resultId}", produces = {"application/json"})
-    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@ApiParam(value = "ID of task", required = true)
-                                                                  @PathVariable("resultId") Long resultId) {
-        // TODO - this is "rapid prototyping" for simulating a WebSocket-connection which notifies the client of a new result
+
+    @GetMapping(value = "/evaluator/longPollTaskResult/{resultId}", produces
+            = {"application/json"})
+    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@PathVariable("resultId") Long resultId) {
+        // TODO - this is "rapid prototyping" for simulating a
+        //  WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
-        DeferredResult<ResponseEntity<TaskResult>> output = new DeferredResult<>();
+        DeferredResult<ResponseEntity<TaskResult>> output =
+                new DeferredResult<>();
 
         longPollingTaskThreads.execute(() -> {
-            TaskResultEntity taskResultEntity = taskResultRepository.findById(resultId).orElse(null);
+            TaskResultEntity taskResultEntity =
+                    taskResultRepository.findById(resultId).orElse(null);
             if (taskResultEntity == null) {
                 return;
             }
@@ -98,7 +99,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
                 while (taskResultEntity.getEvaluationDate() == null && retries < MAX_RETRIES) {
                     try {
                         Thread.sleep(SLEEP_TIME_BETWEEN_DB_LOOKUPS);
-                        taskResultEntity = taskResultRepository.findById(resultId).orElse(null);
+                        taskResultEntity =
+                                taskResultRepository.findById(resultId).orElse(null);
                         retries++;
                         if (taskResultEntity != null && taskResultEntity.getEvaluationDate() != null) {
                             output.setResult(ok(new TaskResultTransformer(taskRepository).toDto(taskResultEntity)));
@@ -117,14 +119,17 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
 
     @Override
     public ResponseEntity<RunStaticAssessment200Response> runStaticAssessment(
-            @Parameter(name = "taskId", description = "ID of task", required = true) @PathVariable("taskId") Long taskId,
-            @Parameter(name = "RunStaticAssessmentRequest", description = "Submitted answer", required = true) @Valid @RequestBody RunStaticAssessmentRequest runStaticAssessmentRequest
+            @Parameter(name = "taskId", description = "ID of task", required
+                    = true) @PathVariable("taskId") Long taskId,
+            @Parameter(name = "RunStaticAssessmentRequest", description =
+                    "Submitted answer", required = true) @Valid @RequestBody RunStaticAssessmentRequest runStaticAssessmentRequest
     ) {
         Optional<TaskEntity> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
             // compare answers
             String expectedAnswer = optTask.get().getAnswer();
-            boolean result = expectedAnswer.equals(runStaticAssessmentRequest.getAnswer());
+            boolean result =
+                    expectedAnswer.equals(runStaticAssessmentRequest.getAnswer());
             return ok(new RunStaticAssessment200Response().isAssessmentCorrect(result));
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
