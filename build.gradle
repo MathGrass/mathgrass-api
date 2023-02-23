@@ -68,7 +68,6 @@ tasks.register('generateApi') {
         springCodeGenConfig.setOutputDir("$projectDir")
         springCodeGenConfig.setGeneratorName('spring')
         springCodeGenConfig.setAdditionalProperties([
-                'documentationProvider': 'springdoc',
                 'interfaceOnly'        : 'true',
                 'apiPackage'           : 'de.tudresden.inf.st.mathgrassserver.apiModel',
                 'modelPackage'         : 'de.tudresden.inf.st.mathgrassserver.model',
@@ -89,6 +88,7 @@ tasks.register('generateApi') {
     }
 }
 
+// execute generateApi task before building the whole project
 compileJava {
     dependsOn generateApi
 }
