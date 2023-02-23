@@ -57,6 +57,7 @@ def apiSpecSourceFile = 'openapi-spec/mathgrass-api.yaml'
 def generatedApiTargetFolder = 'src/generated/java'
 def generatedPlantUmlTargetFolder = 'openapi-spec'
 
+
 tasks.register('generateApi') {
     doLast {
         project.delete(
@@ -86,4 +87,8 @@ tasks.register('generateApi') {
         new DefaultGenerator().opts(plantUmlCodeGenConfig.toClientOptInput()).generate()
 
     }
+}
+
+compileJava {
+    dependsOn generateApi
 }
