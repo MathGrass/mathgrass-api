@@ -43,7 +43,7 @@ public class WebSocketController {
     }
 
     /**
-     * Handle messages sent to '/app/sendMessage'.
+     * Handle messages sent to '/app/sendMessage'. Mainly used for development purposes to test connection to client.
      *
      * @param message message
      */
