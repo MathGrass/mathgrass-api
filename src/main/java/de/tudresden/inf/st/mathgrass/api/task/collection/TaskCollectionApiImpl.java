@@ -1,7 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.task.collection;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskCollectionApi;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class contains functionality to create and get {@link TaskCollection}s.
+ * This class contains functionality to create and get {@link de.tudresden.inf.st.mathgrass.api.model.TaskCollection}s.
  */
 @RestController
 public class TaskCollectionApiImpl extends AbstractApiElement implements TaskCollectionApi {
@@ -44,9 +43,9 @@ public class TaskCollectionApiImpl extends AbstractApiElement implements TaskCol
      * @return Response with created task collection
      */
     @Override
-    public ResponseEntity<TaskCollection> createTaskCollection(TaskCollection taskCollection) {
+    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskCollection> createTaskCollection(de.tudresden.inf.st.mathgrass.api.model.TaskCollection taskCollection) {
         // create task collection and save
-        TaskCollectionEntity entity = new TaskCollectionTransformer(taskRepository).toEntity(taskCollection);
+        TaskCollection entity = new TaskCollectionTransformer(taskRepository).toEntity(taskCollection);
         taskCollectionRepository.save(entity);
 
         // set ID with new ID of entity
@@ -61,8 +60,8 @@ public class TaskCollectionApiImpl extends AbstractApiElement implements TaskCol
      * @return Response with task collection
      */
     @Override
-    public ResponseEntity<TaskCollection> getTaskCollectionById(Long taskCollectionId) {
-        Optional<TaskCollectionEntity> optTaskCollection = taskCollectionRepository.findById(taskCollectionId);
+    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskCollection> getTaskCollectionById(Long taskCollectionId) {
+        Optional<TaskCollection> optTaskCollection = taskCollectionRepository.findById(taskCollectionId);
         if (optTaskCollection.isPresent()) {
             return ok(new TaskCollectionTransformer(taskRepository).toDto(optTaskCollection.get()));
         } else {
@@ -76,8 +75,8 @@ public class TaskCollectionApiImpl extends AbstractApiElement implements TaskCol
      * @return Response with list of task collections
      */
     @Override
-    public ResponseEntity<List<TaskCollection>> getTaskCollections() {
-        List<TaskCollectionEntity> collections = taskCollectionRepository.findAll();
+    public ResponseEntity<List<de.tudresden.inf.st.mathgrass.api.model.TaskCollection>> getTaskCollections() {
+        List<TaskCollection> collections = taskCollectionRepository.findAll();
 
         return ok(new TaskCollectionTransformer(this.taskRepository).toDtoList(collections));
     }

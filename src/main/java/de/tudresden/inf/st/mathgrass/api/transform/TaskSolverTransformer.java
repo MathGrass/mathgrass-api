@@ -1,18 +1,17 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrass.api.model.TaskSolver;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
 
 /**
- * This class can convert {@link TaskSolver} to {@link TaskSolverEntity} and vice versa.
+ * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.TaskSolver} to {@link TaskSolver} and vice versa.
  */
-public class TaskSolverTransformer extends ModelTransformer<TaskSolver, TaskSolverEntity> {
+public class TaskSolverTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.TaskSolver, TaskSolver> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public TaskSolver toDto(TaskSolverEntity entity) {
-        TaskSolver out = new TaskSolver();
+    public de.tudresden.inf.st.mathgrass.api.model.TaskSolver toDto(TaskSolver entity) {
+        de.tudresden.inf.st.mathgrass.api.model.TaskSolver out = new de.tudresden.inf.st.mathgrass.api.model.TaskSolver();
         out.setId(entity.getId());
         out.setLabel(entity.getLabel());
         out.setExecutionDescriptor(entity.getExecutionDescriptor());
@@ -23,7 +22,7 @@ public class TaskSolverTransformer extends ModelTransformer<TaskSolver, TaskSolv
      * {@inheritDoc}
      */
     @Override
-    public TaskSolverEntity toEntity(TaskSolver dto) {
-        return new TaskSolverEntity(dto.getLabel(),dto.getExecutionDescriptor() );
+    public TaskSolver toEntity(de.tudresden.inf.st.mathgrass.api.model.TaskSolver dto) {
+        return new TaskSolver(dto.getLabel(),dto.getExecutionDescriptor() );
     }
 }

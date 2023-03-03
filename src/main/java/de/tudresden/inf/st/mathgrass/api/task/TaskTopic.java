@@ -1,28 +1,32 @@
-package de.tudresden.inf.st.mathgrass.api.task.collection;
-
-import de.tudresden.inf.st.mathgrass.api.task.Task;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import javax.persistence.*;
 import java.util.List;
 
 /**
- * This class represents a collection of {@link Task}s.
+ * This class represents a task topic which can be used to categorize a {@link Task}.
  */
-@Table(name = "taskcollections")
+@Table(name = "tasktopics")
 @Entity
-public class TaskCollectionEntity {
+public class TaskTopic {
     /**
-     * ID of task collection.
+     * ID of task topic.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
-     * Label of task collection.
+     * Label of task topic.
      */
     @Column
     private String label;
+
+    /**
+     * Task entities in the task topic.
+     */
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    List<Task> tasks;
 
     public String getLabel() {
         return label;
@@ -39,9 +43,6 @@ public class TaskCollectionEntity {
     public Long getId() {
         return id;
     }
-
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<Task> tasks;
 
     public List<Task> getTasks() {
         return tasks;

@@ -1,9 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.task;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -28,7 +28,7 @@ public class Task {
      */
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne
-    private QuestionEntity question;
+    private Question question;
 
     /**
      * Label of task.
@@ -53,7 +53,7 @@ public class Task {
      * Feedbacks of task.
      */
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<FeedbackEntity> feedbacks;
+    private List<Feedback> feedbacks;
 
     /**
      * Hints of task.
@@ -69,11 +69,11 @@ public class Task {
         return id;
     }
 
-    public QuestionEntity getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(QuestionEntity question) {
+    public void setQuestion(Question question) {
         this.question = question;
     }
 
@@ -93,7 +93,7 @@ public class Task {
         this.graph = graph;
     }
 
-    public void setFeedbacks(List<FeedbackEntity> feedbacks) {
+    public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
 
@@ -113,11 +113,11 @@ public class Task {
         this.answer = answer;
     }
 
-    public List<FeedbackEntity> getFeedbacks() {
+    public List<Feedback> getFeedbacks() {
         return feedbacks;
     }
 
-    public void setFeedbacks(ArrayList<FeedbackEntity> feedbacks) {
+    public void setFeedbacks(ArrayList<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
 }

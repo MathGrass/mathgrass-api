@@ -1,16 +1,15 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.model.Question;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 
-public class QuestionTransformer extends ModelTransformer<Question, QuestionEntity>{
+public class QuestionTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.Question, Question>{
     @Override
-    public Question toDto(QuestionEntity entity) {
+    public de.tudresden.inf.st.mathgrass.api.model.Question toDto(Question entity) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    public QuestionEntity toEntity(Question dto) {
+    public Question toEntity(de.tudresden.inf.st.mathgrass.api.model.Question dto) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }

@@ -1,14 +1,13 @@
 package de.tudresden.inf.st.mathgrass.api.task.question;
 
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrass.api.model.Question;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class QuestionEntity {
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,12 +17,12 @@ public class QuestionEntity {
     private Boolean isDynamicQuestion;
     private String simpleAnswer;
 
-    private Question.QuestionTypeEnum questionType;
+    private de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum questionType;
 
     @ElementCollection
     private List<String> possibleAnswers = null;
     @ManyToOne
-    private TaskSolverEntity taskSolver;
+    private TaskSolver taskSolver;
 
 
     public List<String> getPossibleAnswers() {
@@ -50,11 +49,11 @@ public class QuestionEntity {
         isDynamicQuestion = dynamicQuestion;
     }
 
-    public Question.QuestionTypeEnum getQuestionType() {
+    public de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum getQuestionType() {
         return questionType;
     }
 
-    public void setQuestionType(Question.QuestionTypeEnum questionType) {
+    public void setQuestionType(de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum questionType) {
         this.questionType = questionType;
     }
 
@@ -70,11 +69,11 @@ public class QuestionEntity {
         this.simpleAnswer = simpleAnswer;
     }
 
-    public TaskSolverEntity getTaskSolver() {
+    public TaskSolver getTaskSolver() {
         return taskSolver;
     }
 
-    public void setTaskSolver(TaskSolverEntity taskSolver) {
+    public void setTaskSolver(TaskSolver taskSolver) {
         this.taskSolver = taskSolver;
     }
 

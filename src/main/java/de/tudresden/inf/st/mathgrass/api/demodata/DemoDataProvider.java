@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.demodata;
 
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.label.Label;
@@ -9,7 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -138,7 +138,7 @@ public class DemoDataProvider {
         demoTask1.setLabel("Task with evaluation in Sage");
 
         // create task solver
-        TaskSolverEntity taskSolver = new TaskSolverEntity();
+        TaskSolver taskSolver = new TaskSolver();
         taskSolver.setLabel("task solver label");
         taskSolver.setExecutionDescriptor("""
                 from sage.all import *
@@ -223,7 +223,7 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
 
-        QuestionEntity question = new QuestionEntity();
+        Question question = new Question();
         question.setQuestion("What's the label of the source vertex?");
         question.setSimpleAnswer("1");
         question.setDynamicQuestion(false);

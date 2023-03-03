@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
@@ -8,9 +8,8 @@ import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
-import de.tudresden.inf.st.mathgrass.api.model.Question;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,7 @@ public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgr
 
         // feedbacks
         ArrayList<Long> feedbackIds = new ArrayList<>();
-        for (FeedbackEntity feedbackEntity : entity.getFeedbacks() ) {
+        for (Feedback feedbackEntity : entity.getFeedbacks() ) {
             feedbackIds.add(feedbackEntity.getId());
         }
         dto.setFeedback(feedbackIds);
@@ -83,9 +82,9 @@ public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgr
             dto.setHints(taskHints);
         }
 
-        QuestionEntity question = entity.getQuestion();
+        Question question = entity.getQuestion();
         if(question != null){
-            dto.setQuestion(new Question().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
+            dto.setQuestion(new de.tudresden.inf.st.mathgrass.api.model.Question().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
         }
 
         return dto;

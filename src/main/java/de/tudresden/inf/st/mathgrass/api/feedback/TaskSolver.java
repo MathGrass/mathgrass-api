@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Table(name = "tasksolvers")
 @Entity
-public class TaskSolverEntity {
+public class TaskSolver {
     /**
      * ID of task solver.
      */
@@ -27,11 +27,11 @@ public class TaskSolverEntity {
     @Column
     String executionDescriptor;
 
-    public TaskSolverEntity() {
+    public TaskSolver() {
 
     }
 
-    public TaskSolverEntity(String label, String executionDescriptor) {
+    public TaskSolver(String label, String executionDescriptor) {
         this.label = label;
         this.executionDescriptor = executionDescriptor;
     }

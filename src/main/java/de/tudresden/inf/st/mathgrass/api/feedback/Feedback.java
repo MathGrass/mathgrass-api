@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Table(name = "feedbacks")
 @Entity
-public class FeedbackEntity {
+public class Feedback {
         /**
          * ID of feedback.
          */

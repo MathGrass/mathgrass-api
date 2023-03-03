@@ -1,17 +1,16 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.task.Task;
-import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * This class can convert {@link TaskCollection} to {@link TaskCollectionEntity} and vice versa.
+ * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.TaskCollection} to {@link TaskCollection} and vice versa.
  */
-public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, TaskCollectionEntity> {
+public class TaskCollectionTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.TaskCollection, TaskCollection> {
     /**
      * Task repository.
      */
@@ -30,8 +29,8 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, 
      * {@inheritDoc}
      */
     @Override
-    public TaskCollection toDto(TaskCollectionEntity entity) {
-        TaskCollection dto = new TaskCollection();
+    public de.tudresden.inf.st.mathgrass.api.model.TaskCollection toDto(TaskCollection entity) {
+        de.tudresden.inf.st.mathgrass.api.model.TaskCollection dto = new de.tudresden.inf.st.mathgrass.api.model.TaskCollection();
         dto.setId(entity.getId());
         dto.setLabel(entity.getLabel());
 
@@ -46,8 +45,8 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, 
      * {@inheritDoc}
      */
     @Override
-    public TaskCollectionEntity toEntity(TaskCollection dto) {
-        TaskCollectionEntity entity = new TaskCollectionEntity();
+    public TaskCollection toEntity(de.tudresden.inf.st.mathgrass.api.model.TaskCollection dto) {
+        TaskCollection entity = new TaskCollection();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());
 

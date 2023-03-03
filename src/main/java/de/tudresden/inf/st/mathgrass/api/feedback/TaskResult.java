@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Table(name = "taskresults")
 @Entity
-public class TaskResultEntity {
+public class TaskResult {
     /**
      * ID of task result.
      */

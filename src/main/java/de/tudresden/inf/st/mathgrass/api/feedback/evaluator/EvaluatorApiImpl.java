@@ -2,12 +2,11 @@ package de.tudresden.inf.st.mathgrass.api.feedback.evaluator;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessment200Response;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessmentRequest;
-import de.tudresden.inf.st.mathgrass.api.model.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.apiModel.EvaluatorApi;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskResultTransformer;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -64,8 +63,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      * @return task result object
      */
     @Override
-    public ResponseEntity<TaskResult> getTaskResult(Long id) {
-        Optional<TaskResultEntity> optTaskResultEntity =
+    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult> getTaskResult(Long id) {
+        Optional<TaskResult> optTaskResultEntity =
                 taskResultRepository.findById(id);
 
         if (optTaskResultEntity.isPresent()) {
@@ -78,15 +77,15 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
 
     @GetMapping(value = "/evaluator/longPollTaskResult/{resultId}", produces
             = {"application/json"})
-    DeferredResult<ResponseEntity<TaskResult>> longPollTaskResult(@PathVariable("resultId") Long resultId) {
+    DeferredResult<ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult>> longPollTaskResult(@PathVariable("resultId") Long resultId) {
         // TODO - this is "rapid prototyping" for simulating a
         //  WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
-        DeferredResult<ResponseEntity<TaskResult>> output =
+        DeferredResult<ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult>> output =
                 new DeferredResult<>();
 
         longPollingTaskThreads.execute(() -> {
-            TaskResultEntity taskResultEntity =
+            TaskResult taskResultEntity =
                     taskResultRepository.findById(resultId).orElse(null);
             if (taskResultEntity == null) {
                 return;
@@ -154,7 +153,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         Task task = optTask.get();
 
         // set up task result entity
-        TaskResultEntity taskResult = new TaskResultEntity();
+        TaskResult taskResult = new TaskResult();
         taskResult.setTask(task);
         taskResult.setAnswer(answer);
         taskResult.setSubmissionDate(LocalDateTime.now().toString());
