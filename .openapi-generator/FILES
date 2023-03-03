@@ -1,4 +1,3 @@
-README.md
 pom.xml
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/ApiUtil.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/EvaluatorApi.java
