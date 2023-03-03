@@ -5,10 +5,12 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
+import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
-import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
+import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 
 import java.util.ArrayList;
@@ -16,9 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.Task} to {@link Task} and vice versa.
+ * This class can convert {@link TaskDTO} to {@link Task} and vice versa.
  */
-public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.Task, Task> {
+public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
     /**
      * Task solver repository.
      */
@@ -52,8 +54,8 @@ public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgr
      * {@inheritDoc}
      */
     @Override
-    public de.tudresden.inf.st.mathgrass.api.model.Task toDto(Task entity) {
-        de.tudresden.inf.st.mathgrass.api.model.Task dto = new de.tudresden.inf.st.mathgrass.api.model.Task();
+    public TaskDTO toDto(Task entity) {
+        TaskDTO dto = new TaskDTO();
 
         dto.setId(entity.getId());
         //dto.setQuestion(entity.getQuestion());
@@ -78,13 +80,13 @@ public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgr
         // hints
         if (getUsedRole() != null) {
             List<Hint> hints = entity.getHints();
-            List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
+            List<HintDTO> taskHints = new TaskHintTransformer().toDtoList(hints);
             dto.setHints(taskHints);
         }
 
         Question question = entity.getQuestion();
         if(question != null){
-            dto.setQuestion(new de.tudresden.inf.st.mathgrass.api.model.Question().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
+            dto.setQuestion(new QuestionDTO().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
         }
 
         return dto;
@@ -94,7 +96,7 @@ public class TaskTransformer extends ModelTransformer<de.tudresden.inf.st.mathgr
      * {@inheritDoc}
      */
     @Override
-    public Task toEntity(de.tudresden.inf.st.mathgrass.api.model.Task dto) {
+    public Task toEntity(TaskDTO dto) {
         Task taskEntity = new Task();
         taskEntity.setId(dto.getId());
 

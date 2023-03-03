@@ -8,7 +8,7 @@ entity EdgeDTO {
     label: String
 }
 
-entity Feedback {
+entity FeedbackDTO {
     id: Long
     content: String
 }
@@ -20,15 +20,21 @@ entity GraphDTO {
     * vertices: List<VertexDTO>
 }
 
+entity HintDTO {
+    * id: Long
+    label: String
+    * content: String
+}
+
 entity LabelDTO {
     * id: Long
     * label: String
 }
 
-entity Question {
+entity QuestionDTO {
     * question: String
     isDynamicQuestion: Boolean
-    taskSolver: TaskSolver
+    taskSolver: TaskSolverDTO
     * questionType: String
     answer: String
     possible_answers: List<String>
@@ -42,34 +48,28 @@ entity RunStaticAssessmentRequest {
     * answer: String
 }
 
-entity Task {
-    * id: Long
-    * graph: GraphDTO
-    hints: List<TaskHint>
-    feedback: List<Long>
-    * question: Question
-    label: String
-    answer: String
-}
-
-entity TaskCollection {
+entity TaskCollectionDTO {
     id: Long
     label: String
     tasks: List<Long>
 }
 
-entity TaskHint {
+entity TaskDTO {
     * id: Long
+    * graph: GraphDTO
+    hints: List<HintDTO>
+    feedback: List<Long>
+    * question: QuestionDTO
     label: String
-    * content: String
+    answer: String
 }
 
-entity TaskIdLabelTuple {
+entity TaskIdLabelTupleDTO {
     * id: Long
     * label: String
 }
 
-entity TaskResult {
+entity TaskResultDTO {
     id: Long
     task: Long
     answer: String
@@ -78,7 +78,7 @@ entity TaskResult {
     answerTrue: Boolean
 }
 
-entity TaskSolver {
+entity TaskSolverDTO {
     id: Long
     label: String
     executionDescriptor: String
@@ -92,14 +92,14 @@ entity VertexDTO {
 }
 
 
-Task -- GraphDTO : graph
-Task -- "0..*" TaskHint : hints
-Task -- Question : question
 GraphDTO -- "0..*" LabelDTO : labels
 GraphDTO -- "0..*" EdgeDTO : edges
 GraphDTO -- "0..*" VertexDTO : vertices
+TaskDTO -- GraphDTO : graph
+TaskDTO -- "0..*" HintDTO : hints
+TaskDTO -- QuestionDTO : question
 EdgeDTO -- VertexDTO : firstVertex
 EdgeDTO -- VertexDTO : secondVertex
-Question -- TaskSolver : taskSolver
+QuestionDTO -- TaskSolverDTO : taskSolver
 
 @enduml

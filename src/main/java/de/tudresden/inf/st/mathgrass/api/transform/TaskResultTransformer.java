@@ -1,15 +1,16 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResult;
+import de.tudresden.inf.st.mathgrass.api.model.TaskResultDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 
 import java.util.Optional;
 
 /**
- * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.TaskResult} to {@link TaskResult} and vice versa.
+ * This class can convert {@link TaskResultDTO} to {@link TaskResult} and vice versa.
  */
-public class TaskResultTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.TaskResult, TaskResult> {
+public class TaskResultTransformer extends ModelTransformer<TaskResultDTO, TaskResult> {
     /**
      * Task repository.
      */
@@ -28,8 +29,8 @@ public class TaskResultTransformer extends ModelTransformer<de.tudresden.inf.st.
      * {@inheritDoc}
      */
     @Override
-    public de.tudresden.inf.st.mathgrass.api.model.TaskResult toDto(TaskResult entity) {
-        de.tudresden.inf.st.mathgrass.api.model.TaskResult dto = new de.tudresden.inf.st.mathgrass.api.model.TaskResult();
+    public TaskResultDTO toDto(TaskResult entity) {
+        TaskResultDTO dto = new TaskResultDTO();
         dto.setTask(entity.getTask().getId());
         dto.setId(entity.getId());
         dto.setSubmissionDate(entity.getSubmissionDate());
@@ -44,7 +45,7 @@ public class TaskResultTransformer extends ModelTransformer<de.tudresden.inf.st.
      * {@inheritDoc}
      */
     @Override
-    public TaskResult toEntity(de.tudresden.inf.st.mathgrass.api.model.TaskResult dto) {
+    public TaskResult toEntity(TaskResultDTO dto) {
         TaskResult entity = new TaskResult();
 
         Optional<Task> optTask = taskRepository.findById(dto.getTask());

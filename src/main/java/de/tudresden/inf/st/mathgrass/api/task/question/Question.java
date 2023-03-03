@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrass.api.task.question;
 
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
+import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Question {
     private Boolean isDynamicQuestion;
     private String simpleAnswer;
 
-    private de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum questionType;
+    private QuestionDTO.QuestionTypeEnum questionType;
 
     @ElementCollection
     private List<String> possibleAnswers = null;
@@ -49,11 +50,11 @@ public class Question {
         isDynamicQuestion = dynamicQuestion;
     }
 
-    public de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum getQuestionType() {
+    public QuestionDTO.QuestionTypeEnum getQuestionType() {
         return questionType;
     }
 
-    public void setQuestionType(de.tudresden.inf.st.mathgrass.api.model.Question.QuestionTypeEnum questionType) {
+    public void setQuestionType(QuestionDTO.QuestionTypeEnum questionType) {
         this.questionType = questionType;
     }
 

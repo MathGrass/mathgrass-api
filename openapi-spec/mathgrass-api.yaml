@@ -85,7 +85,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskIdLabelTuple'
+                  $ref: '#/components/schemas/TaskIdLabelTupleDTO'
     post:
       description: Creates a task
       operationId: createTask
@@ -93,7 +93,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Task'
+              $ref: '#/components/schemas/TaskDTO'
         required: true
       responses:
         200:
@@ -122,7 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Task'
+                $ref: '#/components/schemas/TaskDTO'
     put:
       description: Updates a task
       operationId: updateTask
@@ -138,7 +138,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Task'
+              $ref: '#/components/schemas/TaskDTO'
         required: true
       responses:
         200:
@@ -162,7 +162,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskHint'
+              $ref: '#/components/schemas/HintDTO'
         required: true
       responses:
         200:
@@ -193,7 +193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskHint'
+                $ref: '#/components/schemas/HintDTO'
   /taskCollection:
     get:
       description: Get all task collection
@@ -206,7 +206,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskCollection'
+                  $ref: '#/components/schemas/TaskCollectionDTO'
     post:
       description: Creates a task collection
       operationId: createTaskCollection
@@ -214,7 +214,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskCollection'
+              $ref: '#/components/schemas/TaskCollectionDTO'
         required: true
       responses:
         200:
@@ -222,7 +222,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/TaskCollection'
+                $ref: '#/components/schemas/TaskCollectionDTO'
       x-codegen-request-body-name: taskCollection
   /taskCollection/{taskCollectionId}:
     get:
@@ -242,7 +242,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskCollection'
+                $ref: '#/components/schemas/TaskCollectionDTO'
   /taskSolver/{taskSolverId}:
     get:
       description: Returns a task solver
@@ -261,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskSolver'
+                $ref: '#/components/schemas/TaskSolverDTO'
   /taskSolver:
     post:
       description: Creates a task solver
@@ -270,7 +270,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskSolver'
+              $ref: '#/components/schemas/TaskSolverDTO'
         required: true
       responses:
         200:
@@ -412,7 +412,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResult'
+                $ref: '#/components/schemas/TaskResultDTO'
 
 components:
   schemas:
@@ -486,7 +486,7 @@ components:
       required:
         - id
         - label
-    Question:
+    QuestionDTO:
       type: object
       properties:
         question:
@@ -494,7 +494,7 @@ components:
         isDynamicQuestion:
           type: boolean
         taskSolver:
-          $ref: '#/components/schemas/TaskSolver'
+          $ref: '#/components/schemas/TaskSolverDTO'
         questionType:
           type: string
           enum:
@@ -512,7 +512,7 @@ components:
       required:
         - question
         - questionType
-    TaskSolver:
+    TaskSolverDTO:
       type: object
       properties:
         id:
@@ -522,7 +522,7 @@ components:
           type: string
         executionDescriptor:
           type: string
-    Task:
+    TaskDTO:
       type: object
       properties:
         id:
@@ -533,14 +533,14 @@ components:
         hints:
           type: array
           items:
-            $ref: '#/components/schemas/TaskHint'
+            $ref: '#/components/schemas/HintDTO'
         feedback:
           type: array
           items:
             type: integer
             format: int64
         question:
-          $ref: '#/components/schemas/Question'
+          $ref: '#/components/schemas/QuestionDTO'
         label:
           type: string
         answer:
@@ -549,7 +549,7 @@ components:
         - question
         - id
         - graph
-    TaskIdLabelTuple:
+    TaskIdLabelTupleDTO:
       type: object
       properties:
         id:
@@ -560,7 +560,7 @@ components:
       required:
         - id
         - label
-    TaskHint:
+    HintDTO:
       type: object
       properties:
         id:
@@ -573,7 +573,7 @@ components:
       required:
         - id
         - content
-    TaskResult:
+    TaskResultDTO:
       type: object
       properties:
         id:
@@ -590,7 +590,7 @@ components:
           type: string
         answerTrue:
           type: boolean
-    Feedback:
+    FeedbackDTO:
       type: object
       properties:
         id:
@@ -598,7 +598,7 @@ components:
           format: int64
         content:
           type: string
-    TaskCollection:
+    TaskCollectionDTO:
       type: object
       properties:
         id:

@@ -1,5 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
+import de.tudresden.inf.st.mathgrass.api.model.TaskCollectionDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -8,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.TaskCollection} to {@link TaskCollection} and vice versa.
+ * This class can convert {@link TaskCollectionDTO} to {@link TaskCollection} and vice versa.
  */
-public class TaskCollectionTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.TaskCollection, TaskCollection> {
+public class TaskCollectionTransformer extends ModelTransformer<TaskCollectionDTO, TaskCollection> {
     /**
      * Task repository.
      */
@@ -29,8 +30,8 @@ public class TaskCollectionTransformer extends ModelTransformer<de.tudresden.inf
      * {@inheritDoc}
      */
     @Override
-    public de.tudresden.inf.st.mathgrass.api.model.TaskCollection toDto(TaskCollection entity) {
-        de.tudresden.inf.st.mathgrass.api.model.TaskCollection dto = new de.tudresden.inf.st.mathgrass.api.model.TaskCollection();
+    public TaskCollectionDTO toDto(TaskCollection entity) {
+        TaskCollectionDTO dto = new TaskCollectionDTO();
         dto.setId(entity.getId());
         dto.setLabel(entity.getLabel());
 
@@ -45,7 +46,7 @@ public class TaskCollectionTransformer extends ModelTransformer<de.tudresden.inf
      * {@inheritDoc}
      */
     @Override
-    public TaskCollection toEntity(de.tudresden.inf.st.mathgrass.api.model.TaskCollection dto) {
+    public TaskCollection toEntity(TaskCollectionDTO dto) {
         TaskCollection entity = new TaskCollection();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());

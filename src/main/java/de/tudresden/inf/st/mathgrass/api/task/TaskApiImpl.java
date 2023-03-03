@@ -4,9 +4,10 @@ import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
-import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTuple;
+import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
+import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTupleDTO;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class contains functionality to manage {@link de.tudresden.inf.st.mathgrass.api.model.Task}s.
+ * This class contains functionality to manage {@link TaskDTO}s.
  */
 @RestController
 public class TaskApiImpl extends AbstractApiElement implements TaskApi {
@@ -78,7 +79,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response
      */
     @Override
-    public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint taskHint) {
+    public ResponseEntity<Void> addTaskHint(Long taskId, HintDTO taskHint) {
         // get task entity
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
@@ -101,7 +102,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with task ID
      */
     @Override
-    public ResponseEntity<Long> createTask(de.tudresden.inf.st.mathgrass.api.model.Task body) {
+    public ResponseEntity<Long> createTask(TaskDTO body) {
         Task taskEntity = taskRepository.save(
                 new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
                         .toEntity(body));
@@ -117,7 +118,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with hint
      */
     @Override
-    public ResponseEntity<TaskHint> getHintForTask(Long taskId, Integer hintLevel) {
+    public ResponseEntity<HintDTO> getHintForTask(Long taskId, Integer hintLevel) {
         // get task entity
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
@@ -139,10 +140,10 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with list of IDs
      */
     @Override
-    public ResponseEntity<List<TaskIdLabelTuple>> getIdsOfAllTasks() {
+    public ResponseEntity<List<TaskIdLabelTupleDTO>> getIdsOfAllTasks() {
         // find all tasks and extract IDs
-        List<TaskIdLabelTuple> taskIds = taskRepository.findAll().stream()
-                .map(taskEntity -> new TaskIdLabelTuple().label(taskEntity.getLabel()).id(taskEntity.getId()))
+        List<TaskIdLabelTupleDTO> taskIds = taskRepository.findAll().stream()
+                .map(taskEntity -> new TaskIdLabelTupleDTO().label(taskEntity.getLabel()).id(taskEntity.getId()))
                 .toList();
 
         return ok(taskIds);
@@ -155,10 +156,10 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with task
      */
     @Override
-    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.Task> getTaskById(Long taskId) {
+    public ResponseEntity<TaskDTO> getTaskById(Long taskId) {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            de.tudresden.inf.st.mathgrass.api.model.Task task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
+            TaskDTO task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
                     .toDto(optTaskEntity.get());
 
             return ok(task);
@@ -175,7 +176,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response
      */
     @Override
-    public ResponseEntity<Void> updateTask(Long taskId, de.tudresden.inf.st.mathgrass.api.model.Task task) {
+    public ResponseEntity<Void> updateTask(Long taskId, TaskDTO task) {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // create task entity

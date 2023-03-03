@@ -1,6 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.feedback.evaluator;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
+import de.tudresden.inf.st.mathgrass.api.model.TaskResultDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -63,7 +64,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      * @return task result object
      */
     @Override
-    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult> getTaskResult(Long id) {
+    public ResponseEntity<TaskResultDTO> getTaskResult(Long id) {
         Optional<TaskResult> optTaskResultEntity =
                 taskResultRepository.findById(id);
 
@@ -77,11 +78,11 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
 
     @GetMapping(value = "/evaluator/longPollTaskResult/{resultId}", produces
             = {"application/json"})
-    DeferredResult<ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult>> longPollTaskResult(@PathVariable("resultId") Long resultId) {
+    DeferredResult<ResponseEntity<TaskResultDTO>> longPollTaskResult(@PathVariable("resultId") Long resultId) {
         // TODO - this is "rapid prototyping" for simulating a
         //  WebSocket-connection which notifies the client of a new result
         // change asap, integrate in OpenAPI-spec
-        DeferredResult<ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskResult>> output =
+        DeferredResult<ResponseEntity<TaskResultDTO>> output =
                 new DeferredResult<>();
 
         longPollingTaskThreads.execute(() -> {

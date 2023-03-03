@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrass.api.feedback;
 
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskSolverApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
+import de.tudresden.inf.st.mathgrass.api.model.TaskSolverDTO;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 /**
- * This class contains functionality to create and get {@link de.tudresden.inf.st.mathgrass.api.model.TaskSolver}s.
+ * This class contains functionality to create and get {@link TaskSolverDTO}s.
  */
 @RestController
 public class TaskSolverApiImpl extends AbstractApiElement implements TaskSolverApi {
@@ -34,7 +35,7 @@ public class TaskSolverApiImpl extends AbstractApiElement implements TaskSolverA
      * @return Response with ID of created task solver
      */
     @Override
-    public ResponseEntity<Long> createTaskSolver(de.tudresden.inf.st.mathgrass.api.model.TaskSolver body) {
+    public ResponseEntity<Long> createTaskSolver(TaskSolverDTO body) {
         TaskSolver entity = this.taskSolverRepository.save(new TaskSolverTransformer().toEntity(body));
 
         return ok(entity.getId());
@@ -47,10 +48,10 @@ public class TaskSolverApiImpl extends AbstractApiElement implements TaskSolverA
      * @return Response with task solver
      */
     @Override
-    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.TaskSolver> getTaskSolverById(Long taskSolverId) {
+    public ResponseEntity<TaskSolverDTO> getTaskSolverById(Long taskSolverId) {
         Optional<TaskSolver> optSolver = taskSolverRepository.findById(taskSolverId);
         if (optSolver.isPresent()) {
-            de.tudresden.inf.st.mathgrass.api.model.TaskSolver taskSolver = new TaskSolverTransformer().toDto(optSolver.get());
+            TaskSolverDTO taskSolver = new TaskSolverTransformer().toDto(optSolver.get());
             return ResponseEntity.ok(taskSolver);
         } else {
             return notFound();

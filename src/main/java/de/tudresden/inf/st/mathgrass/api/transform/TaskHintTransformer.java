@@ -1,18 +1,18 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
+import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
 
 /**
- * This class can convert {@link TaskHint} to {@link Hint} and vice versa.
+ * This class can convert {@link HintDTO} to {@link Hint} and vice versa.
  */
-public class TaskHintTransformer extends ModelTransformer<TaskHint, Hint> {
+public class TaskHintTransformer extends ModelTransformer<HintDTO, Hint> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public TaskHint toDto(Hint entity) {
-        TaskHint dto = new TaskHint();
+    public HintDTO toDto(Hint entity) {
+        HintDTO dto = new HintDTO();
         dto.setId(entity.getId());
         dto.setLabel(entity.getLabel());
         dto.setContent(entity.getContent());
@@ -24,7 +24,7 @@ public class TaskHintTransformer extends ModelTransformer<TaskHint, Hint> {
      * {@inheritDoc}
      */
     @Override
-    public Hint toEntity(TaskHint dto) {
+    public Hint toEntity(HintDTO dto) {
         Hint entity = new Hint();
         entity.setId(dto.getId());
         entity.setContent(dto.getContent());

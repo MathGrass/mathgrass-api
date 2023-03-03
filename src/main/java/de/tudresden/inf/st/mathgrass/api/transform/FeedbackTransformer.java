@@ -1,17 +1,18 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
+import de.tudresden.inf.st.mathgrass.api.model.FeedbackDTO;
 
 /**
- * This class can convert {@link de.tudresden.inf.st.mathgrass.api.model.Feedback} to {@link Feedback} and vice versa.
+ * This class can convert {@link FeedbackDTO} to {@link Feedback} and vice versa.
  */
-public class FeedbackTransformer extends ModelTransformer<de.tudresden.inf.st.mathgrass.api.model.Feedback, Feedback> {
+public class FeedbackTransformer extends ModelTransformer<FeedbackDTO, Feedback> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public de.tudresden.inf.st.mathgrass.api.model.Feedback toDto(Feedback entity) {
-        de.tudresden.inf.st.mathgrass.api.model.Feedback feedback = new de.tudresden.inf.st.mathgrass.api.model.Feedback();
+    public FeedbackDTO toDto(Feedback entity) {
+        FeedbackDTO feedback = new FeedbackDTO();
         feedback.setId(entity.getId());
         feedback.setContent(entity.getContent());
 
@@ -22,7 +23,7 @@ public class FeedbackTransformer extends ModelTransformer<de.tudresden.inf.st.ma
      * {@inheritDoc}
      */
     @Override
-    public Feedback toEntity(de.tudresden.inf.st.mathgrass.api.model.Feedback dto) {
+    public Feedback toEntity(FeedbackDTO dto) {
         Feedback entity = new Feedback();
         entity.setId(dto.getId());
         entity.setContent(dto.getContent());
