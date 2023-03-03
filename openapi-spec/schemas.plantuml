@@ -2,9 +2,9 @@
 
 title MathGrass Schemas Diagram
 
-entity Edge {
-    * firstVertex: Vertex
-    * secondVertex: Vertex
+entity EdgeDTO {
+    * firstVertex: VertexDTO
+    * secondVertex: VertexDTO
     label: String
 }
 
@@ -13,11 +13,11 @@ entity Feedback {
     content: String
 }
 
-entity Graph {
+entity GraphDTO {
     * id: Long
     labels: List<Label>
-    * edges: List<Edge>
-    * vertices: List<Vertex>
+    * edges: List<EdgeDTO>
+    * vertices: List<VertexDTO>
 }
 
 entity Label {
@@ -44,7 +44,7 @@ entity RunStaticAssessmentRequest {
 
 entity Task {
     * id: Long
-    * graph: Graph
+    * graph: GraphDTO
     hints: List<TaskHint>
     feedback: List<Long>
     * question: Question
@@ -84,7 +84,7 @@ entity TaskSolver {
     executionDescriptor: String
 }
 
-entity Vertex {
+entity VertexDTO {
     * id: Long
     * x: Integer
     * y: Integer
@@ -92,14 +92,14 @@ entity Vertex {
 }
 
 
-Task -- Graph : graph
+Task -- GraphDTO : graph
 Task -- "0..*" TaskHint : hints
 Task -- Question : question
-Graph -- "0..*" Label : labels
-Graph -- "0..*" Edge : edges
-Graph -- "0..*" Vertex : vertices
+GraphDTO -- "0..*" Label : labels
+GraphDTO -- "0..*" EdgeDTO : edges
+GraphDTO -- "0..*" VertexDTO : vertices
+EdgeDTO -- VertexDTO : firstVertex
+EdgeDTO -- VertexDTO : secondVertex
 Question -- TaskSolver : taskSolver
-Edge -- Vertex : firstVertex
-Edge -- Vertex : secondVertex
 
 @enduml

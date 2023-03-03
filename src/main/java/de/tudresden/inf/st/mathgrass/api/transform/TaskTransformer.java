@@ -6,7 +6,7 @@ import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
-import de.tudresden.inf.st.mathgrass.api.model.Graph;
+import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.Question;
 import de.tudresden.inf.st.mathgrass.api.model.Task;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
@@ -72,7 +72,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         dto.setFeedback(feedbackIds);
 
         // graph
-        Graph graph = new GraphTransformer(labelRepository).toDto(entity.getGraph());
+        GraphDTO graph = new GraphTransformer(labelRepository).toDto(entity.getGraph());
         dto.setGraph(graph);
 
         // hints

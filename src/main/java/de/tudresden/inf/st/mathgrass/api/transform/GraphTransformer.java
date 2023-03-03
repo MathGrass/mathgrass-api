@@ -4,15 +4,15 @@ import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
-import de.tudresden.inf.st.mathgrass.api.model.Graph;
+import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * This class can convert {@link Graph} to {@link GraphEntity} and vice versa.
+ * This class can convert {@link GraphDTO} to {@link GraphEntity} and vice versa.
  */
-public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
+public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
     /**
      * Tag repository.
      */
@@ -31,8 +31,8 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
      * {@inheritDoc}
      */
     @Override
-    public Graph toDto(GraphEntity entity) {
-        Graph graph = new Graph();
+    public GraphDTO toDto(GraphEntity entity) {
+        GraphDTO graph = new GraphDTO();
 
         graph.setId(entity.getId());
         graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
@@ -46,7 +46,7 @@ public class GraphTransformer extends ModelTransformer<Graph, GraphEntity> {
      * {@inheritDoc}
      */
     @Override
-    public GraphEntity toEntity(Graph dto) {
+    public GraphEntity toEntity(GraphDTO dto) {
         //TODO: check consistency (are all vertices of edges in the list of vertices)
         GraphEntity entity = new GraphEntity();
 

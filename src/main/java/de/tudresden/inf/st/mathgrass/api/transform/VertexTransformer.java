@@ -1,18 +1,18 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
-import de.tudresden.inf.st.mathgrass.api.model.Vertex;
+import de.tudresden.inf.st.mathgrass.api.model.VertexDTO;
 
 /**
- * This class can convert {@link Vertex} to {@link VertexEntity} and vice versa.
+ * This class can convert {@link VertexDTO} to {@link VertexEntity} and vice versa.
  */
-public class VertexTransformer extends ModelTransformer<Vertex, VertexEntity> {
+public class VertexTransformer extends ModelTransformer<VertexDTO, VertexEntity> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vertex toDto(VertexEntity entity) {
-        Vertex v = new Vertex();
+    public VertexDTO toDto(VertexEntity entity) {
+        VertexDTO v = new VertexDTO();
         v.setId(entity.getId());
         v.setLabel(entity.getLabel());
         v.setX(entity.getX());
@@ -25,7 +25,7 @@ public class VertexTransformer extends ModelTransformer<Vertex, VertexEntity> {
      * {@inheritDoc}
      */
     @Override
-    public VertexEntity toEntity(Vertex dto) {
+    public VertexEntity toEntity(VertexDTO dto) {
         VertexEntity entity = new VertexEntity();
         entity.setLabel(dto.getLabel());
         entity.setX(dto.getX());

@@ -7,9 +7,9 @@ src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/LabelApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskCollectionApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskSolverApi.java
-src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Edge.java
+src/generated/java/de/tudresden/inf/st/mathgrass/api/model/EdgeDTO.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Feedback.java
-src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Graph.java
+src/generated/java/de/tudresden/inf/st/mathgrass/api/model/GraphDTO.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Label.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Question.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/RunStaticAssessment200Response.java
@@ -20,4 +20,4 @@ src/generated/java/de/tudresden/inf/st/mathgrass/api/model/TaskHint.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/TaskIdLabelTuple.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/TaskResult.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/TaskSolver.java
-src/generated/java/de/tudresden/inf/st/mathgrass/api/model/Vertex.java
+src/generated/java/de/tudresden/inf/st/mathgrass/api/model/VertexDTO.java

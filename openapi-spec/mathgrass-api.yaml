@@ -29,7 +29,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Graph'
+                $ref: '#/components/schemas/GraphDTO'
     put:
       description: Update a graph
       operationId: updateGraph
@@ -46,7 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Graph'
+              $ref: '#/components/schemas/GraphDTO'
         required: true
       responses:
         200:
@@ -62,7 +62,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Graph'
+              $ref: '#/components/schemas/GraphDTO'
         required: true
       responses:
         200:
@@ -461,7 +461,7 @@ paths:
 
 components:
   schemas:
-    Graph:
+    GraphDTO:
       type: object
       properties:
         id:
@@ -474,16 +474,16 @@ components:
         edges:
           type: array
           items:
-            $ref: '#/components/schemas/Edge'
+            $ref: '#/components/schemas/EdgeDTO'
         vertices:
           type: array
           items:
-              $ref: '#/components/schemas/Vertex'
+              $ref: '#/components/schemas/VertexDTO'
       required:
         - id
         - edges
         - vertices
-    Vertex:
+    VertexDTO:
       title: Vertex
       type: object
       properties:
@@ -508,13 +508,13 @@ components:
         - x
         - y
         - id
-    Edge:
+    EdgeDTO:
       type: object
       properties:
         firstVertex:
-          $ref: '#/components/schemas/Vertex'
+          $ref: '#/components/schemas/VertexDTO'
         secondVertex:
-          $ref: '#/components/schemas/Vertex'
+          $ref: '#/components/schemas/VertexDTO'
         label:
           type: string
       required:
@@ -574,7 +574,7 @@ components:
           type: integer
           format: int64
         graph:
-          $ref: '#/components/schemas/Graph'
+          $ref: '#/components/schemas/GraphDTO'
         hints:
           type: array
           items:
