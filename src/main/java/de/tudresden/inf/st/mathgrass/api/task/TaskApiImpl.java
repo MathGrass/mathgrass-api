@@ -73,22 +73,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @param feedback feedback to add to task
      * @return Response
      */
-    @Override
-    public ResponseEntity<Void> addTaskFeedback(Long taskId, Feedback feedback) {
-        // get task entity
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
-        if (optTaskEntity.isPresent()) {
-            TaskEntity taskEntity = optTaskEntity.get();
 
-            // add feedback and save
-            taskEntity.getFeedbacks().add(new FeedbackTransformer().toEntity(feedback));
-            taskRepository.save(taskEntity);
-
-            return ok();
-        } else {
-            return notFound();
-        }
-    }
 
     /**
      * Add a hint to a task.
@@ -181,25 +166,6 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
                     .toDto(optTaskEntity.get());
 
             return ok(task);
-        } else {
-            return notFound();
-        }
-    }
-
-    /**
-     * Get feedback for a task.
-     *
-     * @param taskId ID of task
-     * @return Response with feedback
-     */
-    @Override
-    public ResponseEntity<List<Feedback>> getTaskFeedback(Long taskId) {
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
-        if (optTaskEntity.isPresent()) {
-            TaskEntity taskEntity = optTaskEntity.get();
-            List<Feedback> feedbacks = new FeedbackTransformer().toDtoList(taskEntity.getFeedbacks());
-
-            return ok(feedbacks);
         } else {
             return notFound();
         }
