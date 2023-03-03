@@ -1,0 +1,57 @@
+@startuml
+class Question
+class GraphQuestion
+class FormQuestion
+
+Question <|-- FormQuestion
+Question <|-- GraphQuestion
+
+class Answer
+class StaticAnswer
+class DynamicAnswer
+
+Answer <|-- StaticAnswer
+Answer <|-- DynamicAnswer
+
+class Hint
+class TextualHint
+class DynamicHint
+class GraphicalHint
+
+Hint <|-- TextualHint
+Hint <|-- DynamicHint
+Hint <|-- GraphicalHint
+
+Question --> Hint
+
+
+FormQuestion --> Answer
+GraphQuestion --> GraphMarking : answer
+GraphicalHint --> GraphMarking
+
+GraphMarking -left-> Vertex
+GraphMarking -left-> Edge
+
+class Label
+Question --> Label
+Graph --> Label
+
+class Graph
+class Edge {
+    label: string
+}
+class Vertex {
+    label: String
+    x: int [0.99]
+    y: int [0..99]
+}
+Graph *-- "*" Edge: edges
+Graph *-- "*" Vertex: vertices
+Edge --> "1" Vertex: sourceVertex
+Edge --> "1" Vertex: targetVertex
+
+Question --> Graph
+
+
+@enduml
+
