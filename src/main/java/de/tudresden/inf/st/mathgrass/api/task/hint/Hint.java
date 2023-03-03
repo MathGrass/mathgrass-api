@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.task.hint;
 
-import de.tudresden.inf.st.mathgrass.api.transform.Task;
+import de.tudresden.inf.st.mathgrass.api.task.Task;
 
 import javax.persistence.*;
 

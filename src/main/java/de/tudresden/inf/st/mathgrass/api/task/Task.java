@@ -1,8 +1,9 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;

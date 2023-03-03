@@ -1,6 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.model.Question;
+import de.tudresden.inf.st.mathgrass.api.task.question.QuestionEntity;
 
 public class QuestionTransformer extends ModelTransformer<Question, QuestionEntity>{
     @Override

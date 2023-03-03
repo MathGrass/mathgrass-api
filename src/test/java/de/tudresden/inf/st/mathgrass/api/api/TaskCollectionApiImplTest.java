@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
 import org.junit.jupiter.api.BeforeEach;
