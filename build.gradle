@@ -69,8 +69,8 @@ tasks.register('generateApi') {
         springCodeGenConfig.setGeneratorName('spring')
         springCodeGenConfig.setAdditionalProperties([
                 'interfaceOnly'        : 'true',
-                'apiPackage'           : 'de.tudresden.inf.st.mathgrassserver.apiModel',
-                'modelPackage'         : 'de.tudresden.inf.st.mathgrassserver.model',
+                'apiPackage'           : 'de.tudresden.inf.st.mathgrass.api.apiModel',
+                'modelPackage'         : 'de.tudresden.inf.st.mathgrass.api.model',
                 'sourceFolder'         : generatedApiTargetFolder
         ])
         new DefaultGenerator().opts(springCodeGenConfig.toClientOptInput()).generate()
