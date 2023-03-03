@@ -5,7 +5,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
-import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.Question;
 import de.tudresden.inf.st.mathgrass.api.model.Task;
@@ -77,7 +77,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         // hints
         if (getUsedRole() != null) {
-            List<TaskHintEntity> hints = entity.getHints();
+            List<Hint> hints = entity.getHints();
             List<TaskHint> taskHints = new TaskHintTransformer().toDtoList(hints);
             dto.setHints(taskHints);
         }
@@ -120,7 +120,7 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
 
         // hints
         if (dto.getHints() != null && !dto.getHints().isEmpty()) {
-            List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
+            List<Hint> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
             taskEntity.setHints(hintEntities);
         }
 

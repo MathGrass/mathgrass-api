@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrass.api.hint;
+package de.tudresden.inf.st.mathgrass.api.task.hint;
 
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Table(name = "taskhints")
 @Entity
-public class TaskHintEntity {
+public class Hint {
     /**
      * ID of hint.
      */

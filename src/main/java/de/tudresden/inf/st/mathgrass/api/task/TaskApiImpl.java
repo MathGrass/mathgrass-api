@@ -5,13 +5,11 @@ import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
-import de.tudresden.inf.st.mathgrass.api.model.Feedback;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.Task;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
 import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTuple;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
-import de.tudresden.inf.st.mathgrass.api.transform.FeedbackTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
 import org.springframework.http.ResponseEntity;
@@ -126,7 +124,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // load hints and get hint of specified level
-            List<TaskHintEntity> taskHints = optTaskEntity.get().getHints();
+            List<Hint> taskHints = optTaskEntity.get().getHints();
             if (taskHints.size() <= hintLevel) {
                 return notFound();
             }

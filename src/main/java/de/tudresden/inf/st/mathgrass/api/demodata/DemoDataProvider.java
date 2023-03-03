@@ -8,7 +8,7 @@ import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
-import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.transform.QuestionEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import org.springframework.context.annotation.Profile;
@@ -178,7 +178,7 @@ public class DemoDataProvider {
                 """);
 
 
-        TaskHintEntity e11 = new TaskHintEntity();
+        Hint e11 = new Hint();
         e11.setContent("Asd");
         e11.setLabel("Asd");
 

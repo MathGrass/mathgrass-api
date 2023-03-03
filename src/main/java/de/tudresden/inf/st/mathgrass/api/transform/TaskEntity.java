@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
-import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import org.hibernate.annotations.Cascade;
 
@@ -58,7 +58,7 @@ public class TaskEntity {
      * Hints of task.
      */
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<TaskHintEntity> hints;
+    private List<Hint> hints;
 
     public void setId(Long id) {
         this.id = id;
@@ -96,11 +96,11 @@ public class TaskEntity {
         this.feedbacks = feedbacks;
     }
 
-    public List<TaskHintEntity> getHints() {
+    public List<Hint> getHints() {
         return hints;
     }
 
-    public void setHints(List<TaskHintEntity> hints) {
+    public void setHints(List<Hint> hints) {
         this.hints = hints;
     }
 
