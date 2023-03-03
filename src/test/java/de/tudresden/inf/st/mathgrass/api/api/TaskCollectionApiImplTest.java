@@ -3,15 +3,15 @@ package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionApiImpl;
-import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionRepository;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionApiImpl;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionRepository;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 
 import java.util.List;

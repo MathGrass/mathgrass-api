@@ -1,8 +1,9 @@
-package de.tudresden.inf.st.mathgrass.api.task;
+package de.tudresden.inf.st.mathgrass.api.task.collection;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskCollectionApi;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

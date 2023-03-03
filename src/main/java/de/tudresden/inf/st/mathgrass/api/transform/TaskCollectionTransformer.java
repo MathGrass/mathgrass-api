@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.task.Task;
-import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
 

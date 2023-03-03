@@ -1,4 +1,6 @@
-package de.tudresden.inf.st.mathgrass.api.task;
+package de.tudresden.inf.st.mathgrass.api.task.collection;
+
+import de.tudresden.inf.st.mathgrass.api.task.Task;
 
 import javax.persistence.*;
 import java.util.List;
