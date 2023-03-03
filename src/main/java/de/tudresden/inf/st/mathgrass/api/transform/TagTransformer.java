@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.LabelEntity;
+import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Label;
 
 /**

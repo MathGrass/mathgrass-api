@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrass.api.model.TaskSolver;
 
 /**

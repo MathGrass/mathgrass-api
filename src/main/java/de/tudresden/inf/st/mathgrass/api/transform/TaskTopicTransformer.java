@@ -1,8 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskTopicEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskRepository;
+import task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTopic;
 
 import java.util.List;

@@ -1,7 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.LabelEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.label.LabelApiImpl;
+import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.Label;
 import de.tudresden.inf.st.mathgrass.api.transform.TagTransformer;
 import org.junit.jupiter.api.Test;

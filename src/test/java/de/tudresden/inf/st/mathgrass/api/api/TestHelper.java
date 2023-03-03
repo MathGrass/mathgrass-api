@@ -1,17 +1,19 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskTemplateEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
-import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrass.api.model.*;
 import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import task.TaskRepository;
+import task.TaskTemplateRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;

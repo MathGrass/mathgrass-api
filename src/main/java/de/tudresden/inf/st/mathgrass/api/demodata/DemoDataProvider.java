@@ -1,11 +1,21 @@
 package de.tudresden.inf.st.mathgrass.api.demodata;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.*;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
-import de.tudresden.inf.st.mathgrass.api.database.entity.*;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
+import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
+import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.QuestionEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import task.TaskRepository;
+import task.TaskTemplateRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

@@ -1,9 +1,10 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskTopicEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskTopicRepository;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicEntity;
+import task.TaskRepository;
+import task.TaskTopicApiImpl;
+import task.TaskTopicRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTopic;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicTransformer;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,10 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.FeedbackEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
-import de.tudresden.inf.st.mathgrass.api.database.repository.*;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Feedback;
 import de.tudresden.inf.st.mathgrass.api.model.Question;
 import de.tudresden.inf.st.mathgrass.api.model.Task;
@@ -14,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import task.TaskApiImpl;
+import task.TaskRepository;
+import task.TaskTemplateRepository;
 
 import java.util.Arrays;
 import java.util.List;

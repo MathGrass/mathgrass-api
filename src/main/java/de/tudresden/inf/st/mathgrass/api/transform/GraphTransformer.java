@@ -1,9 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.EdgeEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.VertexEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.Graph;
 
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.EdgeEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Edge;
 
 /**

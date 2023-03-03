@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.FeedbackEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Feedback;
 
 /**

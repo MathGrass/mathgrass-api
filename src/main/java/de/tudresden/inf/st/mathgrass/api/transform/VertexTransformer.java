@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.VertexEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Vertex;
 
 /**

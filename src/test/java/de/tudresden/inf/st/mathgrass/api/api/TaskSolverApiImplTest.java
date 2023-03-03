@@ -1,7 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverApiImpl;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskSolver;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
 import org.junit.jupiter.api.BeforeEach;

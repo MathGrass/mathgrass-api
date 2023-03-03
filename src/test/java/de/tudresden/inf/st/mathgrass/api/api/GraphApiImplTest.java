@@ -1,8 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.GraphEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.database.repository.LabelRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphApiImpl;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.Graph;
 import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
 import org.junit.jupiter.api.BeforeEach;

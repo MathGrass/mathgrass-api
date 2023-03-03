@@ -1,9 +1,10 @@
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskHintEntity;
-import de.tudresden.inf.st.mathgrass.api.database.entity.TaskTemplateEntity;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrass.api.database.repository.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import task.TaskTemplateApiImpl;
+import task.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTemplate;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateTransformer;
