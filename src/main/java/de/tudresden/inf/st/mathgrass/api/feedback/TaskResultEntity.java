@@ -1,11 +1,11 @@
 package de.tudresden.inf.st.mathgrass.api.feedback;
 
-import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.Task;
 
 import javax.persistence.*;
 
 /**
- * This class represents the result of a {@link TaskEntity}, containing the users given answer, as well as
+ * This class represents the result of a {@link Task}, containing the users given answer, as well as
  * evaluation and submission dates.
  */
 @Table(name = "taskresults")
@@ -22,7 +22,7 @@ public class TaskResultEntity {
      * Task of result.
      */
     @ManyToOne
-    private TaskEntity task;
+    private Task task;
 
     /**
      * Given answer.
@@ -80,11 +80,11 @@ public class TaskResultEntity {
         this.answer = answer;
     }
 
-    public TaskEntity getTask() {
+    public Task getTask() {
         return task;
     }
 
-    public void setTask(TaskEntity task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 

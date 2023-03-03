@@ -10,7 +10,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.transform.QuestionEntity;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.Task;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -133,7 +133,7 @@ public class DemoDataProvider {
         graphRepo.save(graph);
 
         // create task
-        TaskEntity demoTask1 = new TaskEntity();
+        Task demoTask1 = new Task();
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with evaluation in Sage");
 
@@ -219,7 +219,7 @@ public class DemoDataProvider {
         graphRepo.save(graph);
 
         // create task
-        TaskEntity demoTask1 = new TaskEntity();
+        Task demoTask1 = new Task();
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
 

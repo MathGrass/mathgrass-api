@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * This class represents a task topic which can be used to categorize a {@link TaskEntity}.
+ * This class represents a task topic which can be used to categorize a {@link Task}.
  */
 @Table(name = "tasktopics")
 @Entity
@@ -26,7 +26,7 @@ public class TaskTopicEntity {
      * Task entities in the task topic.
      */
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<TaskEntity> tasks;
+    List<Task> tasks;
 
     public String getLabel() {
         return label;
@@ -44,11 +44,11 @@ public class TaskTopicEntity {
         return id;
     }
 
-    public List<TaskEntity> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<TaskEntity> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 }

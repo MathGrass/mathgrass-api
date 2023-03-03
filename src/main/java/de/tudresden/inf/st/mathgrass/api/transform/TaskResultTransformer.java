@@ -47,7 +47,7 @@ public class TaskResultTransformer extends ModelTransformer<TaskResult, TaskResu
     public TaskResultEntity toEntity(TaskResult dto) {
         TaskResultEntity entity = new TaskResultEntity();
 
-        Optional<TaskEntity> optTask = taskRepository.findById(dto.getTask());
+        Optional<Task> optTask = taskRepository.findById(dto.getTask());
         if (optTask.isPresent()) {
             entity.setTask(optTask.get());
             entity.setId(dto.getId());

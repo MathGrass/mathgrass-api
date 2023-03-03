@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.feedback.evaluator;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.Task;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultEntity;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultRepository;
@@ -124,7 +124,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
             @Parameter(name = "RunStaticAssessmentRequest", description =
                     "Submitted answer", required = true) @Valid @RequestBody RunStaticAssessmentRequest runStaticAssessmentRequest
     ) {
-        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
             // compare answers
             String expectedAnswer = optTask.get().getAnswer();
@@ -146,12 +146,12 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
     @Override
     public ResponseEntity<Long> runTask(Long taskId, String answer) {
         // get task from repository
-        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isEmpty()) {
             return notFound();
         }
 
-        TaskEntity task = optTask.get();
+        Task task = optTask.get();
 
         // set up task result entity
         TaskResultEntity taskResult = new TaskResultEntity();

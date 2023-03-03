@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * This class represents a collection of {@link TaskEntity}s.
+ * This class represents a collection of {@link Task}s.
  */
 @Table(name = "taskcollections")
 @Entity
@@ -39,13 +39,13 @@ public class TaskCollectionEntity {
     }
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<TaskEntity> tasks;
+    List<Task> tasks;
 
-    public List<TaskEntity> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<TaskEntity> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 }

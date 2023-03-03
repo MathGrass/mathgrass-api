@@ -4,9 +4,8 @@ import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.Task;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.model.Task;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
 import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTuple;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class contains functionality to manage {@link Task}s.
+ * This class contains functionality to manage {@link de.tudresden.inf.st.mathgrass.api.model.Task}s.
  */
 @RestController
 public class TaskApiImpl extends AbstractApiElement implements TaskApi {
@@ -82,9 +81,9 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     @Override
     public ResponseEntity<Void> addTaskHint(Long taskId, TaskHint taskHint) {
         // get task entity
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            TaskEntity taskEntity = optTaskEntity.get();
+            Task taskEntity = optTaskEntity.get();
 
             // add feedback and save
             taskEntity.getHints().add(new TaskHintTransformer().toEntity(taskHint));
@@ -103,8 +102,8 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with task ID
      */
     @Override
-    public ResponseEntity<Long> createTask(Task body) {
-        TaskEntity taskEntity = taskRepository.save(
+    public ResponseEntity<Long> createTask(de.tudresden.inf.st.mathgrass.api.model.Task body) {
+        Task taskEntity = taskRepository.save(
                 new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
                         .toEntity(body));
 
@@ -121,7 +120,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     @Override
     public ResponseEntity<TaskHint> getHintForTask(Long taskId, Integer hintLevel) {
         // get task entity
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+        Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // load hints and get hint of specified level
             List<Hint> taskHints = optTaskEntity.get().getHints();
@@ -157,10 +156,10 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response with task
      */
     @Override
-    public ResponseEntity<Task> getTaskById(Long taskId) {
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+    public ResponseEntity<de.tudresden.inf.st.mathgrass.api.model.Task> getTaskById(Long taskId) {
+        Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            Task task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
+            de.tudresden.inf.st.mathgrass.api.model.Task task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
                     .toDto(optTaskEntity.get());
 
             return ok(task);
@@ -177,11 +176,11 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @return Response
      */
     @Override
-    public ResponseEntity<Void> updateTask(Long taskId, Task task) {
-        Optional<TaskEntity> optTaskEntity = taskRepository.findById(taskId);
+    public ResponseEntity<Void> updateTask(Long taskId, de.tudresden.inf.st.mathgrass.api.model.Task task) {
+        Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // create task entity
-            TaskEntity taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository).toEntity(task);
+            Task taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository).toEntity(task);
             taskEntity.setId(taskId);
 
             // save to database

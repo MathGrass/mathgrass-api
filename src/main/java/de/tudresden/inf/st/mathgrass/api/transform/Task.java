@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Table(name = "tasks")
 @Entity
-public class TaskEntity {
+public class Task {
     /**
      * ID of task.
      */

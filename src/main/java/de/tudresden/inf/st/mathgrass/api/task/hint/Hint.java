@@ -1,11 +1,11 @@
 package de.tudresden.inf.st.mathgrass.api.task.hint;
 
-import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
+import de.tudresden.inf.st.mathgrass.api.transform.Task;
 
 import javax.persistence.*;
 
 /**
- * This class represents a hint in a {@link TaskEntity}, which can give information to the tasks answer.
+ * This class represents a hint in a {@link Task}, which can give information to the tasks answer.
  */
 @Table(name = "taskhints")
 @Entity

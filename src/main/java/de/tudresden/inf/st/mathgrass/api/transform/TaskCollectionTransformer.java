@@ -34,7 +34,7 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, 
         dto.setLabel(entity.getLabel());
 
         // tasks
-        List<Long> tasks = entity.getTasks().stream().map(TaskEntity::getId).toList();
+        List<Long> tasks = entity.getTasks().stream().map(Task::getId).toList();
         dto.setTasks(tasks);
 
         return dto;
@@ -50,7 +50,7 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollection, 
         entity.setLabel(dto.getLabel());
 
         // tasks
-        List<TaskEntity> tasks = dto.getTasks().stream()
+        List<Task> tasks = dto.getTasks().stream()
                 .map(task -> taskRepository.findById(task))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
