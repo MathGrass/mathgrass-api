@@ -1,17 +1,17 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
+import de.tudresden.inf.st.mathgrass.api.label.Label;
 
 import javax.persistence.*;
 import java.util.List;
 
 /**
- * This class represents a graph, which consists of {@link EdgeEntity}s and {@link VertexEntity}s.
- * Additionally, the graph can be labelled and tagged with multiple {@link LabelEntity}s.
+ * This class represents a graph, which consists of {@link Edge}s and {@link Vertex}s.
+ * Additionally, the graph can be labelled and tagged with multiple {@link Label}s.
  */
 @Table(name = "graphs")
 @Entity
-public class GraphEntity {
+public class Graph {
     /**
      * ID of graph.
      */
@@ -29,19 +29,19 @@ public class GraphEntity {
      * Tags of graph.
      */
     @ManyToMany(cascade = CascadeType.MERGE)
-    private List<LabelEntity> tags;
+    private List<Label> tags;
 
     /**
      * Edges of graph.
      */
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<EdgeEntity> edges;
+    private List<Edge> edges;
 
     /**
      * Vertices of graph.
      */
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
-    private List<VertexEntity> vertices;
+    private List<Vertex> vertices;
 
     public void setId(Long id) {
         this.id = id;
@@ -59,27 +59,27 @@ public class GraphEntity {
         this.labels = labels;
     }
 
-    public List<LabelEntity> getTags() {
+    public List<Label> getTags() {
         return tags;
     }
 
-    public void setTags(List<LabelEntity> tags) {
+    public void setTags(List<Label> tags) {
         this.tags = tags;
     }
 
-    public List<EdgeEntity> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 
-    public void setEdges(List<EdgeEntity> edges) {
+    public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
 
-    public List<VertexEntity> getVertices() {
+    public List<Vertex> getVertices() {
         return vertices;
     }
 
-    public void setVertices(List<VertexEntity> vertices) {
+    public void setVertices(List<Vertex> vertices) {
         this.vertices = vertices;
     }
 }

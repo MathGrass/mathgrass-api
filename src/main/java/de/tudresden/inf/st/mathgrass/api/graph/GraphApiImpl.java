@@ -55,7 +55,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      */
     @Override
     public ResponseEntity<GraphDTO> getGraphById(Long graphId) {
-        Optional<GraphEntity> optGraphEntity = graphRepository.findById(graphId);
+        Optional<Graph> optGraphEntity = graphRepository.findById(graphId);
 
         if (optGraphEntity.isPresent()) {
             GraphDTO graph = new GraphTransformer(this.labelRepository).toDto(optGraphEntity.get());
@@ -95,7 +95,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      */
     private long save(GraphDTO graph, long id) {
         // create graph entity
-        GraphEntity entity = new GraphTransformer(labelRepository).toEntity(graph);
+        Graph entity = new GraphTransformer(labelRepository).toEntity(graph);
 
         // set ID if this is an update
         if (id != -1) {

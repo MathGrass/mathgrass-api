@@ -3,11 +3,11 @@ package de.tudresden.inf.st.mathgrass.api.graph;
 import javax.persistence.*;
 
 /**
- * This class represents a vertex in a {@link GraphEntity}.
+ * This class represents a vertex in a {@link Graph}.
  */
 @Table(name = "vertices")
 @Entity
-public class VertexEntity {
+public class Vertex {
     /**
      * ID of vertex.
      */

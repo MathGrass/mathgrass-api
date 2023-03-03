@@ -1,8 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
-import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
-import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Edge;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This class can convert {@link GraphDTO} to {@link GraphEntity} and vice versa.
+ * This class can convert {@link GraphDTO} to {@link Graph} and vice versa.
  */
-public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
+public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
     /**
      * Tag repository.
      */
@@ -33,7 +33,7 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
      * {@inheritDoc}
      */
     @Override
-    public GraphDTO toDto(GraphEntity entity) {
+    public GraphDTO toDto(Graph entity) {
         GraphDTO graph = new GraphDTO();
 
         graph.setId(entity.getId());
@@ -51,16 +51,16 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
      * {@inheritDoc}
      */
     @Override
-    public GraphEntity toEntity(GraphDTO dto) {
+    public Graph toEntity(GraphDTO dto) {
         //TODO: check consistency (are all vertices of edges in the list of vertices)
-        GraphEntity entity = new GraphEntity();
+        Graph entity = new Graph();
 
         entity.setId(dto.getId());
 
         // vertices
         entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));
-        HashMap<Integer,HashMap<Integer, VertexEntity>> vertexMap = new HashMap<>();
-        for (VertexEntity vertex : entity.getVertices()) {
+        HashMap<Integer,HashMap<Integer, Vertex>> vertexMap = new HashMap<>();
+        for (Vertex vertex : entity.getVertices()) {
             if (vertexMap.containsKey(vertex.getX())) {
                 if (vertexMap.get(vertex.getX()).containsKey(vertex.getY())) {
                     throw new IllegalArgumentException("error creating graph - double vertex");
@@ -68,19 +68,19 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
                 vertexMap.get(vertex.getX()).put(vertex.getY(),vertex);
             }
             else {
-                HashMap<Integer,VertexEntity> innerMap = new HashMap<>();
+                HashMap<Integer, Vertex> innerMap = new HashMap<>();
                 innerMap.put(vertex.getY(),vertex);
                 vertexMap.put(vertex.getX(),innerMap);
             }
         }
 
         // edges
-        List<EdgeEntity> edgeList = new EdgeTransformer().toEntityList(dto.getEdges());
-        for (EdgeEntity edgeEntity : edgeList) {
-            VertexEntity vertex1 = edgeEntity.getSourceVertex();
+        List<Edge> edgeList = new EdgeTransformer().toEntityList(dto.getEdges());
+        for (Edge edgeEntity : edgeList) {
+            Vertex vertex1 = edgeEntity.getSourceVertex();
             edgeEntity.setSourceVertex(vertexMap.get(vertex1.getX()).get(vertex1.getY()));
 
-            VertexEntity vertex2 = edgeEntity.getTargetVertex();
+            Vertex vertex2 = edgeEntity.getTargetVertex();
             edgeEntity.setTargetVertex(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
         }
         entity.setEdges(edgeList);

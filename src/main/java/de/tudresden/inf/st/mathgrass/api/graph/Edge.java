@@ -3,12 +3,12 @@ package de.tudresden.inf.st.mathgrass.api.graph;
 import javax.persistence.*;
 
 /**
- * This class represents an Edge in a {@link GraphEntity}.
- * An edge is directed, which means it has a source and a target {@link VertexEntity}.
+ * This class represents an Edge in a {@link Graph}.
+ * An edge is directed, which means it has a source and a target {@link Vertex}.
  */
 @Table(name = "edges")
 @Entity
-public class EdgeEntity {
+public class Edge {
     /**
      * ID of edge.
      */
@@ -26,27 +26,27 @@ public class EdgeEntity {
      * Source vertex.
      */
     @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
-    private VertexEntity sourceVertex;
+    private Vertex sourceVertex;
 
     /**
      * Target vertex.
      */
     @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
-    private VertexEntity targetVertex;
+    private Vertex targetVertex;
 
-    public VertexEntity getSourceVertex() {
+    public Vertex getSourceVertex() {
         return sourceVertex;
     }
 
-    public void setSourceVertex(VertexEntity v1) {
+    public void setSourceVertex(Vertex v1) {
         this.sourceVertex = v1;
     }
 
-    public VertexEntity getTargetVertex() {
+    public Vertex getTargetVertex() {
         return targetVertex;
     }
 
-    public void setTargetVertex(VertexEntity v2) {
+    public void setTargetVertex(Vertex v2) {
         this.targetVertex = v2;
     }
 

@@ -3,11 +3,11 @@ package de.tudresden.inf.st.mathgrass.api.demodata;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
-import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
-import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Edge;
+import de.tudresden.inf.st.mathgrass.api.label.Label;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.QuestionEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
@@ -83,47 +83,47 @@ public class DemoDataProvider {
      */
     private void createDynamicTask() {
         // create graph entity
-        GraphEntity graph = new GraphEntity();
-        LabelEntity e1 = new LabelEntity();
+        Graph graph = new Graph();
+        Label e1 = new Label();
         e1.setValue("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
 
         // create vertices
-        VertexEntity vertex1 = new VertexEntity();
+        Vertex vertex1 = new Vertex();
         vertex1.setLabel("1");
         vertex1.setX(10);
         vertex1.setY(10);
 
-        VertexEntity vertex2 = new VertexEntity();
+        Vertex vertex2 = new Vertex();
         vertex2.setLabel("2");
         vertex2.setX(50);
         vertex2.setY(50);
 
-        VertexEntity vertex3 = new VertexEntity();
+        Vertex vertex3 = new Vertex();
         vertex3.setLabel("3");
         vertex3.setX(50);
         vertex3.setY(30);
 
-        VertexEntity vertex4 = new VertexEntity();
+        Vertex vertex4 = new Vertex();
         vertex4.setLabel("4");
         vertex4.setX(70);
         vertex4.setY(10);
 
         // create edges
-        EdgeEntity edge1 = new EdgeEntity();
+        Edge edge1 = new Edge();
         edge1.setSourceVertex(vertex1);
         edge1.setTargetVertex(vertex2);
 
-        EdgeEntity edge2 = new EdgeEntity();
+        Edge edge2 = new Edge();
         edge2.setSourceVertex(vertex2);
         edge2.setTargetVertex(vertex3);
 
-        EdgeEntity edge3 = new EdgeEntity();
+        Edge edge3 = new Edge();
         edge3.setSourceVertex(vertex3);
         edge3.setTargetVertex(vertex4);
 
-        EdgeEntity edge4 = new EdgeEntity();
+        Edge edge4 = new Edge();
         edge4.setSourceVertex(vertex4);
         edge4.setTargetVertex(vertex1);
 
@@ -190,26 +190,26 @@ public class DemoDataProvider {
      */
     private void createStaticTask() {
         // create graph
-        GraphEntity graph = new GraphEntity();
-        LabelEntity e1 = new LabelEntity();
+        Graph graph = new Graph();
+        Label e1 = new Label();
         e1.setValue("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
 
         // create vertices
-        VertexEntity vertex1 = new VertexEntity();
+        Vertex vertex1 = new Vertex();
         final String LABEL_SOURCE = "1";
         vertex1.setLabel(LABEL_SOURCE);
         vertex1.setX(20);
         vertex1.setY(20);
 
-        VertexEntity vertex2 = new VertexEntity();
+        Vertex vertex2 = new Vertex();
         vertex2.setLabel("2");
         vertex2.setX(60);
         vertex2.setY(60);
 
         // create edges
-        EdgeEntity edge1 = new EdgeEntity();
+        Edge edge1 = new Edge();
         edge1.setSourceVertex(vertex1);
         edge1.setTargetVertex(vertex2);
 

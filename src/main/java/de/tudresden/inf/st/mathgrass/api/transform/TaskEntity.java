@@ -2,7 +2,7 @@ package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
-import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a task, containing a {@link GraphEntity} and a question regarding the graph.
+ * This class represents a task, containing a {@link Graph} and a question regarding the graph.
  */
 @Table(name = "tasks")
 @Entity
@@ -40,7 +40,7 @@ public class TaskEntity {
      * Graph of task.
      */
     @ManyToOne
-    private GraphEntity graph = null;
+    private Graph graph = null;
 
     /**
      * Answer of task.
@@ -84,11 +84,11 @@ public class TaskEntity {
         this.label = label;
     }
 
-    public GraphEntity getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 
-    public void setGraph(GraphEntity graph) {
+    public void setGraph(Graph graph) {
         this.graph = graph;
     }
 

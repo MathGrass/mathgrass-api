@@ -1,19 +1,18 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import de.tudresden.inf.st.mathgrass.api.graph.EdgeEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.model.EdgeDTO;
-import de.tudresden.inf.st.mathgrass.api.model.VertexDTO;
 
 
 /**
- * This class can convert {@link EdgeDTO} to {@link EdgeEntity} and vice versa.
+ * This class can convert {@link EdgeDTO} to {@link Edge} and vice versa.
  */
-public class EdgeTransformer extends ModelTransformer<EdgeDTO, EdgeEntity> {
+public class EdgeTransformer extends ModelTransformer<EdgeDTO, Edge> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public EdgeDTO toDto(EdgeEntity entity) {
+    public EdgeDTO toDto(Edge entity) {
         EdgeDTO EdgeDTO = new EdgeDTO();
 
         EdgeDTO.setLabel(entity.getLabel());
@@ -26,8 +25,8 @@ public class EdgeTransformer extends ModelTransformer<EdgeDTO, EdgeEntity> {
      * {@inheritDoc}
      */
     @Override
-    public EdgeEntity toEntity(EdgeDTO dto) {
-        EdgeEntity edgeEntity = new EdgeEntity();
+    public Edge toEntity(EdgeDTO dto) {
+        Edge edgeEntity = new Edge();
 
         edgeEntity.setLabel(dto.getLabel());
         edgeEntity.setSourceVertex(new VertexTransformer().toEntity(dto.getFirstVertex()));

@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Table(name = "tags")
 @Entity
-public class LabelEntity {
+public class Label {
     /**
      * ID of tag.
      */

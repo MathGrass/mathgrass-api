@@ -4,7 +4,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.Question;
@@ -103,13 +103,13 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         taskEntity.setAnswer(dto.getAnswer());
 
         // graph
-        GraphEntity graphEntity;
+        Graph graphEntity;
         Long graphId = dto.getGraph().getId();
         if (dto.getGraph().getId() == null || !graphRepository.existsById(graphId)) {
             graphEntity = new GraphTransformer(labelRepository).toEntity(dto.getGraph());
             graphRepository.save(graphEntity);
         } else {
-            Optional<GraphEntity> optGraphEntity = graphRepository.findById(graphId);
+            Optional<Graph> optGraphEntity = graphRepository.findById(graphId);
             if (optGraphEntity.isPresent()) {
                 graphEntity = optGraphEntity.get();
             } else {

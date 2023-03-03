@@ -36,7 +36,7 @@ public class LabelApiImpl extends AbstractApiElement implements LabelApi {
      * @return Response containing label
      */
     public ResponseEntity<LabelDTO> createLabel(LabelDTO label) {
-        LabelEntity labelEntity = new LabelEntity();
+        Label labelEntity = new Label();
         labelEntity.setValue(label.getLabel());
         labelEntity = labelRepository.save(labelEntity);
         label.setId(labelEntity.getId());
@@ -53,7 +53,7 @@ public class LabelApiImpl extends AbstractApiElement implements LabelApi {
     @Override
     public ResponseEntity<LabelDTO> getLabelById(Long id) {
         // check if label exists
-        Optional<LabelEntity> optLabel = labelRepository.findById(id);
+        Optional<Label> optLabel = labelRepository.findById(id);
 
         if (optLabel.isPresent()) {
             LabelDTO label = new LabelDTO().label(optLabel.get().getValue());
