@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultEntity;
-import task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskResult;
 
 import java.util.Optional;

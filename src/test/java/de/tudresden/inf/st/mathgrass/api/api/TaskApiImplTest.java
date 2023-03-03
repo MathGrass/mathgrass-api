@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import task.TaskApiImpl;
-import task.TaskRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,10 +1,9 @@
-package task;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
-import task.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskTemplateApi;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTemplate;

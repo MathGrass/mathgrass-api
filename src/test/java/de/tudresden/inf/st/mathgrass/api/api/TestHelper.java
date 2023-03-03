@@ -12,8 +12,8 @@ import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
-import task.TaskRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;

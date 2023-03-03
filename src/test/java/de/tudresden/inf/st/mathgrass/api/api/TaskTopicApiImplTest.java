@@ -2,9 +2,9 @@ package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicEntity;
-import task.TaskRepository;
-import task.TaskTopicApiImpl;
-import task.TaskTopicRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTopicApiImpl;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTopicRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTopic;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicTransformer;
 import org.junit.jupiter.api.Test;

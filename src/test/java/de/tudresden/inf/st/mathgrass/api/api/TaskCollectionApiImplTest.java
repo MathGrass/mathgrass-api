@@ -9,10 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import task.TaskCollectionApiImpl;
-import task.TaskCollectionRepository;
-import task.TaskRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionApiImpl;
+import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.List;
 

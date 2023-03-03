@@ -14,8 +14,8 @@ import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import task.TaskRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

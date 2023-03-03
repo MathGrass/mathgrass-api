@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrass.api.feedback.evaluator;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultEntity;
-import task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessment200Response;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessmentRequest;

@@ -1,9 +1,7 @@
-package task;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicEntity;
-import task.TaskRepository;
-import task.TaskTopicRepository;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskTopicApi;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTopic;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTopicTransformer;

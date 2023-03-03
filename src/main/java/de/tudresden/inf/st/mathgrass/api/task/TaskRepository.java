@@ -1,4 +1,4 @@
-package task;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
