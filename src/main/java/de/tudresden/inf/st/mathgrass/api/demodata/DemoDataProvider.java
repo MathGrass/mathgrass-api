@@ -11,7 +11,6 @@ import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.QuestionEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -86,7 +85,7 @@ public class DemoDataProvider {
         // create graph entity
         GraphEntity graph = new GraphEntity();
         LabelEntity e1 = new LabelEntity();
-        e1.setLabel("tag1");
+        e1.setValue("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
 
@@ -178,16 +177,10 @@ public class DemoDataProvider {
                                 
                 """);
 
-        // create task template
-        TaskTemplateEntity taskTemplateEntity = new TaskTemplateEntity();
-        taskTemplateEntity.setLabel("task template label");
-        taskTemplateEntity.setTaskSolver(taskSolver);
-        taskTemplateEntity.setQuestion("How many edges does the graph have? (evaluation via Sage)");
+
         TaskHintEntity e11 = new TaskHintEntity();
         e11.setContent("Asd");
         e11.setLabel("Asd");
-        taskTemplateEntity.setHints(List.of(e11));
-        demoTask1.setTaskTemplate(taskTemplateEntity);
 
         taskRepo.save(demoTask1);
     }
@@ -199,7 +192,7 @@ public class DemoDataProvider {
         // create graph
         GraphEntity graph = new GraphEntity();
         LabelEntity e1 = new LabelEntity();
-        e1.setLabel("tag1");
+        e1.setValue("tag1");
         tagRepo.save(e1);
         graph.setTags(List.of(e1));
 

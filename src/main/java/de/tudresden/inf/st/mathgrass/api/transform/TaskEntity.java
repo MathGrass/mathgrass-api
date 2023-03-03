@@ -35,11 +35,6 @@ public class TaskEntity {
     @Column
     private String label;
 
-    /**
-     * Task template of task, can be used to create dynamic tasks.
-     */
-    @ManyToOne
-    private TaskTemplateEntity taskTemplate = null;
 
     /**
      * Graph of task.
@@ -87,14 +82,6 @@ public class TaskEntity {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public TaskTemplateEntity getTaskTemplate() {
-        return taskTemplate;
-    }
-
-    public void setTaskTemplate(TaskTemplateEntity taskTemplate) {
-        this.taskTemplate = taskTemplate;
     }
 
     public GraphEntity getGraph() {

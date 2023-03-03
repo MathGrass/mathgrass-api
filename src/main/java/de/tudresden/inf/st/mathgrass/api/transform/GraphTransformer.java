@@ -5,9 +5,11 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.VertexEntity;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
+import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class can convert {@link GraphDTO} to {@link GraphEntity} and vice versa.
@@ -37,7 +39,10 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, GraphEntity> {
         graph.setId(entity.getId());
         graph.setEdges(new EdgeTransformer().toDtoList(entity.getEdges()));
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
-        graph.setLabels(new TagTransformer().toDtoList(entity.getTags()));
+
+        List<LabelDTO> labelList =
+                entity.getLabels().stream().map(l -> new LabelDTO().label(l)).collect(Collectors.toList());
+        graph.setLabels(labelList);
 
         return graph;
     }

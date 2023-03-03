@@ -162,13 +162,6 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         // save to db
         long taskResultId = taskResultRepository.save(taskResult).getId();
 
-        // check if answer is dynamic
-        boolean isDynamicAnswer = task.getTaskTemplate() != null;
-
-        // if answer is dynamic it is necessary to use evaluator
-        if (isDynamicAnswer) {
-            new TaskManager().runTask(taskResultId, task.getId(), answer);
-        }
 
         return ok(taskResultId);
     }

@@ -15,12 +15,12 @@ entity Feedback {
 
 entity GraphDTO {
     * id: Long
-    labels: List<Label>
+    labels: List<LabelDTO>
     * edges: List<EdgeDTO>
     * vertices: List<VertexDTO>
 }
 
-entity Label {
+entity LabelDTO {
     * id: Long
     * label: String
 }
@@ -95,7 +95,7 @@ entity VertexDTO {
 Task -- GraphDTO : graph
 Task -- "0..*" TaskHint : hints
 Task -- Question : question
-GraphDTO -- "0..*" Label : labels
+GraphDTO -- "0..*" LabelDTO : labels
 GraphDTO -- "0..*" EdgeDTO : edges
 GraphDTO -- "0..*" VertexDTO : vertices
 EdgeDTO -- VertexDTO : firstVertex

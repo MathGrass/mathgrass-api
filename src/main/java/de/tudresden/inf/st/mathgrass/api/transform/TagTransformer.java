@@ -1,20 +1,20 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
 import de.tudresden.inf.st.mathgrass.api.label.LabelEntity;
-import de.tudresden.inf.st.mathgrass.api.model.Label;
+import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
 
 /**
- * This class can convert {@link Label} to {@link LabelEntity} and vice versa.
+ * This class can convert {@link LabelDTO} to {@link LabelEntity} and vice versa.
  */
-public class TagTransformer extends ModelTransformer<Label, LabelEntity> {
+public class TagTransformer extends ModelTransformer<LabelDTO, LabelEntity> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Label toDto(LabelEntity entity) {
-        Label label = new Label();
+    public LabelDTO toDto(LabelEntity entity) {
+        LabelDTO label = new LabelDTO();
         label.setId(entity.getId());
-        label.setLabel(entity.getLabel());
+        label.setLabel(entity.getValue());
         return label;
     }
 
@@ -22,10 +22,10 @@ public class TagTransformer extends ModelTransformer<Label, LabelEntity> {
      * {@inheritDoc}
      */
     @Override
-    public LabelEntity toEntity(Label dto) {
+    public LabelEntity toEntity(LabelDTO dto) {
         LabelEntity labelEntity = new LabelEntity();
         labelEntity.setId(dto.getId());
-        labelEntity.setLabel(dto.getLabel());
+        labelEntity.setValue(dto.getLabel());
         return labelEntity;
     }
 }
