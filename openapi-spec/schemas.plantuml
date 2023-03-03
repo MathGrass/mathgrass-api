@@ -44,7 +44,6 @@ entity RunStaticAssessmentRequest {
 
 entity Task {
     * id: Long
-    template: TaskTemplate
     * graph: Graph
     hints: List<TaskHint>
     feedback: List<Long>
@@ -85,21 +84,6 @@ entity TaskSolver {
     executionDescriptor: String
 }
 
-entity TaskTemplate {
-    id: Long
-    label: String
-    question: String
-    taskSolver: Long
-    hints: List<TaskHint>
-    labels: List<Label>
-}
-
-entity TaskTopic {
-    id: Long
-    label: String
-    tasks: List<Long>
-}
-
 entity Vertex {
     * id: Long
     * x: Integer
@@ -108,9 +92,6 @@ entity Vertex {
 }
 
 
-TaskTemplate -- "0..*" TaskHint : hints
-TaskTemplate -- "0..*" Label : labels
-Task -- TaskTemplate : template
 Task -- Graph : graph
 Task -- "0..*" TaskHint : hints
 Task -- Question : question

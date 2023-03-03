@@ -15,7 +15,6 @@ import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -44,7 +43,6 @@ public class DemoDataProvider {
     /**
      * Task template repository.
      */
-    private final TaskTemplateRepository taskTemplateRepo;
 
     /**
      * Task solver repository.
@@ -57,14 +55,12 @@ public class DemoDataProvider {
      * @param graphRepo graph repository
      * @param taskRepo task repository
      * @param tagRepo tag repository
-     * @param taskTemplateRepo task template repository
      * @param taskSolverRepo task solver repository
      */
-    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, LabelRepository tagRepo, TaskTemplateRepository taskTemplateRepo, TaskSolverRepository taskSolverRepo) {
+    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, LabelRepository tagRepo, TaskSolverRepository taskSolverRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
-        this.taskTemplateRepo = taskTemplateRepo;
         this.taskSolverRepo = taskSolverRepo;
     }
 
@@ -191,7 +187,6 @@ public class DemoDataProvider {
         e11.setContent("Asd");
         e11.setLabel("Asd");
         taskTemplateEntity.setHints(List.of(e11));
-        taskTemplateRepo.save(taskTemplateEntity);
         demoTask1.setTaskTemplate(taskTemplateEntity);
 
         taskRepo.save(demoTask1);

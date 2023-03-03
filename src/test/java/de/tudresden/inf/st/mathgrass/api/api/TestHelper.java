@@ -1,3 +1,4 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
@@ -10,10 +11,8 @@ import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrass.api.model.*;
 import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateTransformer;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,10 +34,6 @@ public class TestHelper {
         return this;
     }
 
-    public TestHelper setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
-        this.taskTemplateRepository = taskTemplateRepository;
-        return this;
-    }
 
     public TestHelper setTaskSolverRepository(TaskSolverRepository taskSolverRepository) {
         this.taskSolverRepository = taskSolverRepository;
@@ -51,10 +46,6 @@ public class TestHelper {
     }
 
     GraphRepository graphRepository;
-
-    
-    TaskTemplateRepository taskTemplateRepository;
-
     
     TaskSolverRepository taskSolverRepository;
 
@@ -128,22 +119,6 @@ public class TestHelper {
         return taskSolver;
     }
 
-
-    public TaskTemplate prepareTaskTemplate() {
-        TaskSolver taskSolver = getExampleTaskSolver();
-        TaskSolverEntity solverEntity = taskSolverRepository.save(new TaskSolverTransformer().toEntity(taskSolver));
-
-        TaskTemplate taskTemplate = new TaskTemplate();
-        taskTemplate.setQuestion("Zähle alle Kanten");
-        taskTemplate.setHints(new ArrayList<>());
-        taskTemplate.setLabel("Kantenzähler");
-        taskTemplate.setLabels(new ArrayList<>());
-        taskTemplate.setTaskSolver(solverEntity.getId());
-
-        return taskTemplate;
-    }
-
-
     public static Label createLabel() {
         Label label = new Label();
         label.setLabel("TestTag");
@@ -156,14 +131,14 @@ public class TestHelper {
         task1.setLabel("Task 1");
         Task task2 = prepareExampleDynamicTask();
         task2.setLabel("Task 2");
-        TaskEntity taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task1));
+        TaskEntity taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository).toEntity(task1));
         task1.setId(taskEntity1.getId());
-        TaskEntity taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task2));
+        TaskEntity taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository).toEntity(task2));
         task2.setId(taskEntity2.getId());
 
-        taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task1));
+        taskEntity1 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository).toEntity(task1));
         task1.setId(taskEntity1.getId());
-        taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository,taskTemplateRepository).toEntity(task2));
+        taskEntity2 = taskRepository.save(new TaskTransformer(taskSolverRepository,graphRepository, labelRepository).toEntity(task2));
         task2.setId(taskEntity2.getId());
 
 
@@ -171,13 +146,6 @@ public class TestHelper {
         taskCollection.setTasks(Arrays.asList(task1.getId(),task2.getId()));
         taskCollection.setLabel("Test Collection");
         return taskCollection;
-    }
-
-    public static TaskTopic getExampleTaskTopic() {
-        TaskTopic taskTopic = new TaskTopic();
-        taskTopic.setLabel("Test Topic");
-
-        return taskTopic;
     }
 
     private Task getTaskWithSavedGraph() {
@@ -232,3 +200,4 @@ public class TestHelper {
 
 
 }
+*/

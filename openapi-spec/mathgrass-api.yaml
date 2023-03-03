@@ -73,123 +73,6 @@ paths:
                 type: integer
                 format: int64
       x-codegen-request-body-name: graph
-  /taskTemplate/{taskTemplateId}:
-    get:
-      description: Returns a task template
-      operationId: getTaskTemplateById
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskTemplate'
-        404:
-          description: Task Template not found
-          content: {}
-  /taskTemplate/{taskTemplateId}/getHint/{index}:
-    get:
-      description: Returns a hint
-      operationId: getTaskTemplateHint
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: index
-        in: path
-        description: Index of the hint
-        required: true
-        schema:
-          type: integer
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskHint'
-        404:
-          description: Task Template not found
-          content: {}
-  /taskTemplate:
-    post:
-      description: Creates a task template
-      operationId: createTaskTemplate
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskTemplate'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: taskTemplate
-  /taskTemplate/{taskTemplateId}/setLabel:
-    put:
-      description: Sets a label for a task template
-      operationId: setTaskTemplateLabel
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: Label to set
-        content:
-          '*/*':
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: label
-  /taskTemplate/{taskTemplateId}/setQuestion:
-    put:
-      description: Sets a question for a task template
-      operationId: setTaskTemplateQuestion
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: Question to set
-        content:
-          '*/*':
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: question
   /task/{taskId}:
     get:
       description: Returns a task
@@ -405,36 +288,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskCollection'
-  /taskTopic:
-    get:
-      description: Get all task topics
-      operationId: getTaskTopics
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskTopic'
-    post:
-      description: Creates a task topic
-      operationId: createTaskTopic
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskTopic'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/TaskTopic'
-      x-codegen-request-body-name: taskTopic
   /taskSolver/{taskSolverId}:
     get:
       description: Returns a task solver
@@ -714,35 +567,12 @@ components:
           type: string
         executionDescriptor:
           type: string
-    TaskTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        label:
-          type: string
-        question:
-          type: string
-        taskSolver:
-          type: integer
-          format: int64
-        hints:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskHint'
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
     Task:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        template:
-          $ref: '#/components/schemas/TaskTemplate'
         graph:
           $ref: '#/components/schemas/Graph'
         hints:
@@ -813,19 +643,6 @@ components:
           format: int64
         content:
           type: string
-    TaskTopic:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        label:
-          type: string
-        tasks:
-          type: array
-          items:
-            type: integer
-            format: int64
     TaskCollection:
       type: object
       properties:

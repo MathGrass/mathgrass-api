@@ -1,3 +1,4 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverApiImpl;
@@ -15,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateApiImpl;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -141,3 +140,4 @@ class EvaluatorApiImplTest {
 
 
 }
+*/

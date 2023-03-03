@@ -4,7 +4,6 @@ import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Graph;
@@ -36,24 +35,17 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
     LabelRepository labelRepository;
 
     /**
-     * Task template repository.
-     */
-    TaskTemplateRepository taskTemplateRepository;
-
-    /**
      * Constructor.
      *
      * @param taskSolverRepository task solver repository
      * @param graphRepository graph repository
      * @param labelRepository tag repository
-     * @param taskTemplateRepository task template repository
      */
     public TaskTransformer(TaskSolverRepository taskSolverRepository, GraphRepository graphRepository,
-                           LabelRepository labelRepository, TaskTemplateRepository taskTemplateRepository) {
+                           LabelRepository labelRepository) {
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
         this.labelRepository = labelRepository;
-        this.taskTemplateRepository = taskTemplateRepository;
     }
 
     /**
@@ -95,9 +87,6 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
             dto.setQuestion(new Question().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
         }
 
-        // template
-        dto.setTemplate(new TaskTemplateTransformer(taskSolverRepository).toDto(entity.getTaskTemplate()));
-
         return dto;
     }
 
@@ -133,13 +122,6 @@ public class TaskTransformer extends ModelTransformer<Task, TaskEntity> {
         if (dto.getHints() != null && !dto.getHints().isEmpty()) {
             List<TaskHintEntity> hintEntities = new TaskHintTransformer().toEntityList(dto.getHints());
             taskEntity.setHints(hintEntities);
-        }
-
-        // task template
-        if (dto.getTemplate() != null) {
-            TaskTemplateEntity taskTemplateEntity =new TaskTemplateTransformer(taskSolverRepository).toEntity(dto.getTemplate());
-            taskTemplateRepository.save(taskTemplateEntity);
-            taskEntity.setTaskTemplate(taskTemplateEntity);
         }
 
         return taskEntity;

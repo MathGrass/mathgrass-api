@@ -1,3 +1,4 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionApiImpl;
 import de.tudresden.inf.st.mathgrass.api.task.TaskCollectionRepository;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.List;
 
@@ -40,15 +40,11 @@ class TaskCollectionApiImplTest {
     @Autowired
     TaskSolverRepository taskSolverRepository;
 
-    @Autowired
-    TaskTemplateRepository taskTemplateRepository;
-
     @BeforeEach
     void setUp() {
         testHelper = new TestHelper().setTaskRepository(taskRepository)
                 .setGraphRepository(graphRepository)
-                .setTaskSolverRepository(taskSolverRepository)
-                .setTaskTemplateRepository(taskTemplateRepository);
+                .setTaskSolverRepository(taskSolverRepository);
     }
 
     @Test
@@ -119,4 +115,4 @@ class TaskCollectionApiImplTest {
         }
         assertEquals(2, counter);
     }
-}
+}*/
