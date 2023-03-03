@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 @EnableWebMvc
@@ -59,9 +60,9 @@ public class MathgrassServerApplication {
 		CorsConfigurationSource corsConfigurationSource() {
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 			CorsConfiguration corsConfiguration = new CorsConfiguration();
-			corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-			corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-			corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+			corsConfiguration.setAllowedOrigins(List.of("*"));
+			corsConfiguration.setAllowedMethods(List.of("*"));
+			corsConfiguration.setAllowedHeaders(List.of("*"));
 			corsConfiguration.setAllowCredentials(false);
 			source.registerCorsConfiguration("/**", corsConfiguration);
 			return source;

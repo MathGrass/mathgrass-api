@@ -11,6 +11,26 @@ info:
     url: "https://github.com/MathGrass/mathgrass-api"
 
 paths:
+  /graph:
+    post:
+      description: Create a new graph
+      operationId: createGraph
+      requestBody:
+        description: Graph object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphDTO'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+      x-codegen-request-body-name: graph
   /graph/{graphId}:
     get:
       description: Get a graph by id
@@ -53,16 +73,27 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: graph
-  /graph:
+  /task:
+    get:
+      description: Get the IDs of all tasks
+      operationId: getIdsOfAllTasks
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskIdLabelTuple'
     post:
-      description: Create a new graph
-      operationId: createGraph
+      description: Creates a task
+      operationId: createTask
       requestBody:
-        description: Graph object that needs to be added to the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GraphDTO'
+              $ref: '#/components/schemas/Task'
         required: true
       responses:
         200:
@@ -72,7 +103,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-      x-codegen-request-body-name: graph
+      x-codegen-request-body-name: task
   /task/{taskId}:
     get:
       description: Returns a task
@@ -114,82 +145,6 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: task
-  /task:
-    get:
-      description: Get the IDs of all tasks
-      operationId: getIdsOfAllTasks
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskIdLabelTuple'
-    post:
-      description: Creates a task
-      operationId: createTask
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Task'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: task
-  /task/{taskId}/addFeedback:
-    post:
-      description: Adds feedback to a task
-      operationId: addTaskFeedback
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: feedback content
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Feedback'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: feedback
-  /task/{taskId}/getFeedback:
-    get:
-      description: Get all feedback of a task
-      operationId: getTaskFeedback
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Feedback'
   /task/{taskId}/addHint:
     post:
       description: Adds a hint to a task
