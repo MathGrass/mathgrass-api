@@ -12,6 +12,7 @@ class Task #lightgreen
 Task --> Question
 
 class Question #yellow {
+    questionText: String
     labels: List<Label>
 }
 class GraphMarkingQuestion #yellow
@@ -21,10 +22,10 @@ Question <|-- FormQuestion
 Question <|-- GraphMarkingQuestion
 
 class Answer #orange {
-    getAnswer(): String
 }
 class StaticAnswer #orange {
     answer: String
+    predefinedAnswers: List<String>
 }
 class DynamicAnswer #orange
 
@@ -44,7 +45,7 @@ Hint <|-- GraphicalHint
 
 class GraphMarking #red
 
-FormQuestion --> Answer
+FormQuestion --> Answer : answer
 GraphMarkingQuestion --> GraphMarking : answer
 GraphicalHint --> GraphMarking
 
@@ -60,7 +61,7 @@ class Edge #violet {
 }
 class Vertex #violet {
     label: String
-    x: int [0.99]
+    x: int [0..99]
     y: int [0..99]
 }
 Graph *-- "*" Edge
@@ -93,3 +94,7 @@ DynamicAnswer --> Executor
 # Polymorphic calls
 - API consumer queries for Hint
     - either textual or graphical hint is returned
+- consumer queries for Question
+    - graph marking question or form question might be returned
+    - should not matter, create QuestionDTO - only text is relevant
+-
