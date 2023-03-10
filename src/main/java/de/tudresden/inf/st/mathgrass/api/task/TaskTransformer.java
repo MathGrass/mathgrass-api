@@ -12,6 +12,7 @@ import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
@@ -67,9 +68,9 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
                 new GraphTransformer(labelRepository).toDto(entity.getGraph());
         dto.setGraph(graph);
 
-        QuestionLegacy question = entity.getQuestion();
+        Question question = entity.getQuestion();
         if (question != null) {
-            dto.setQuestion(new QuestionDTO().question(question.getQuestion()).isDynamicQuestion(question.getDynamicQuestion()));
+            dto.setQuestion(new QuestionDTO().question(question.getQuestionText()));
         }
 
         return dto;

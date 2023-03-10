@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class StaticAnswer extends Answer {
     private String answer;
+
+    @ElementCollection
     private List<String> predefinedAnswers;
 
     @ElementCollection

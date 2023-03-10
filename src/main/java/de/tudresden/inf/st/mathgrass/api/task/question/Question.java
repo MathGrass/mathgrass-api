@@ -11,11 +11,20 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String question;
     @OneToMany
     private List<Label> labels;
 
+    private String questionText;
+
     public Long getId() {
         return id;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 }

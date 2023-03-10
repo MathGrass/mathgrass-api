@@ -9,6 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
+import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import org.springframework.context.annotation.Profile;
@@ -223,10 +224,8 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
 
-        QuestionLegacy question = new QuestionLegacy();
-        question.setQuestion("What's the label of the source vertex?");
-        question.setSimpleAnswer("1");
-        question.setDynamicQuestion(false);
+        Question question = new Question();
+        question.setQuestionText("What's the label of the source vertex?");
         demoTask1.setQuestion(question);
         demoTask1.setAnswer(LABEL_SOURCE);
 
