@@ -62,23 +62,10 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
 
         dto.setId(entity.getId());
 
-
-        // feedbacks
-        ArrayList<Long> feedbackIds = new ArrayList<>();
-        for (Feedback feedbackEntity : entity.getFeedbacks()) {
-            feedbackIds.add(feedbackEntity.getId());
-        }
-
         // graph
         GraphDTO graph =
                 new GraphTransformer(labelRepository).toDto(entity.getGraph());
         dto.setGraph(graph);
-
-        // hints
-
-        List<Hint> hints = entity.getHints();
-        List<HintDTO> taskHints = new TaskHintTransformer().toDtoList(hints);
-
 
         QuestionLegacy question = entity.getQuestion();
         if (question != null) {
@@ -96,13 +83,10 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
         Task taskEntity = new Task();
         taskEntity.setId(dto.getId());
 
-        //taskEntity.setQuestion(dto.getQuestion());
-
-
         // graph
         Graph graphEntity;
         Long graphId = dto.getGraph().getId();
-        if (dto.getGraph().getId() == null || !graphRepository.existsById(graphId)) {
+        if (!graphRepository.existsById(graphId)) {
             graphEntity =
                     new GraphTransformer(labelRepository).toEntity(dto.getGraph());
             graphRepository.save(graphEntity);
