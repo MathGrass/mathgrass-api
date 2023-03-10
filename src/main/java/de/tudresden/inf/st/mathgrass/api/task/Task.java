@@ -3,7 +3,7 @@ package de.tudresden.inf.st.mathgrass.api.task;
 import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
-import de.tudresden.inf.st.mathgrass.api.task.question.Question;
+import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -28,7 +28,7 @@ public class Task {
      */
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne
-    private Question question;
+    private QuestionLegacy question;
 
     /**
      * Label of task.
@@ -69,11 +69,11 @@ public class Task {
         return id;
     }
 
-    public Question getQuestion() {
+    public QuestionLegacy getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
+    public void setQuestion(QuestionLegacy question) {
         this.question = question;
     }
 

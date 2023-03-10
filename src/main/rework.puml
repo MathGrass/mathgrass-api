@@ -11,15 +11,21 @@ class Task #lightgreen
 
 Task --> Question
 
-class Question #yellow
+class Question #yellow {
+    labels: List<Label>
+}
 class GraphMarkingQuestion #yellow
 class FormQuestion #yellow
 
 Question <|-- FormQuestion
 Question <|-- GraphMarkingQuestion
 
-class Answer #orange
-class StaticAnswer #orange
+class Answer #orange {
+    getAnswer(): String
+}
+class StaticAnswer #orange {
+    answer: String
+}
 class DynamicAnswer #orange
 
 Answer <|-- StaticAnswer
@@ -33,7 +39,7 @@ class DynamicHint #lightblue
 class GraphicalHint #lightblue
 
 Hint <|-- TextualHint
-Hint <|-- DynamicHint
+TextualHint <|-- DynamicHint
 Hint <|-- GraphicalHint
 
 class GraphMarking #red
@@ -45,7 +51,10 @@ GraphicalHint --> GraphMarking
 GraphMarking -left-> Vertex
 GraphMarking -left-> Edge
 
-class Graph #violet
+class Graph #violet{
+    labels: List<Label>
+}
+
 class Edge #violet {
     label: String
 }
@@ -61,10 +70,26 @@ Edge --> "1" Vertex
 
 Question --> Graph
 
-class Label
-Question --> Label
-Graph --> Label
+class Executor {
+    labels: List<Label>
+    containerImage: String
+    sourcePath: String
+    customEntrypoint: String
+}
+
+Executor --> "*" SourceFile
+
+class SourceFile {
+    contents: String
+    path: String
+}
+
+DynamicHint --> Executor
+DynamicAnswer --> Executor
 
 
 @enduml
 
+# Polymorphic calls
+- API consumer queries for Hint
+    - either textual or graphical hint is returned

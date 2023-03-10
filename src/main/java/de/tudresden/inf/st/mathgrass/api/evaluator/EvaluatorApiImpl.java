@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrass.api.feedback.evaluator;
+package de.tudresden.inf.st.mathgrass.api.evaluator;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.TaskResultDTO;

@@ -15,6 +15,8 @@ public class TaskSolver {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
+
     /**
      * Label of task solver.
      */
