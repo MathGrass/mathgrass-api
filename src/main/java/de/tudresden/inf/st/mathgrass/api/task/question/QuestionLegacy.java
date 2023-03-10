@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.task.question;
 
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolver;
 import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrass.api.feedback;
+package de.tudresden.inf.st.mathgrass.api.feedback.results;
 
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 

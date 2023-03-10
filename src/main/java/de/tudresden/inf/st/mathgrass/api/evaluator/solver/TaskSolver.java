@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrass.api.feedback;
+package de.tudresden.inf.st.mathgrass.api.evaluator.solver;
 
 import javax.persistence.*;
 

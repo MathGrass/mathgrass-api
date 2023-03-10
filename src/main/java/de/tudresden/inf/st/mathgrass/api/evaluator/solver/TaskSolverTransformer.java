@@ -1,6 +1,5 @@
-package de.tudresden.inf.st.mathgrass.api.feedback;
+package de.tudresden.inf.st.mathgrass.api.evaluator.solver;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolver;
 import de.tudresden.inf.st.mathgrass.api.model.TaskSolverDTO;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 

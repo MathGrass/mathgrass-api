@@ -1,11 +1,11 @@
 /*
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverApiImpl;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverApiImpl;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskSolver;
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverTransformer;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
