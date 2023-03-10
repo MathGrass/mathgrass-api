@@ -13,8 +13,7 @@ public class Executor {
     private Long id;
 
     @ManyToMany
-    List<Label> labels;
-
+    private List<Label> labels;
     private String containerImage;
     private String sourcePath;
     private String customEntrypoint;
@@ -25,5 +24,37 @@ public class Executor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    public String getContainerImage() {
+        return containerImage;
+    }
+
+    public void setContainerImage(String containerImage) {
+        this.containerImage = containerImage;
+    }
+
+    public String getSourcePath() {
+        return sourcePath;
+    }
+
+    public void setSourcePath(String sourcePath) {
+        this.sourcePath = sourcePath;
+    }
+
+    public String getCustomEntrypoint() {
+        return customEntrypoint;
+    }
+
+    public void setCustomEntrypoint(String customEntrypoint) {
+        this.customEntrypoint = customEntrypoint;
     }
 }
