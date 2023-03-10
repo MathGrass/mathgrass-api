@@ -530,21 +530,8 @@ components:
           format: int64
         graph:
           $ref: '#/components/schemas/GraphDTO'
-        hints:
-          type: array
-          items:
-            $ref: '#/components/schemas/HintDTO'
-        feedback:
-          type: array
-          items:
-            type: integer
-            format: int64
         question:
           $ref: '#/components/schemas/QuestionDTO'
-        label:
-          type: string
-        answer:
-          type: string
       required:
         - question
         - id

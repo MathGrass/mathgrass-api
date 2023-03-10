@@ -10,7 +10,7 @@ import de.tudresden.inf.st.mathgrass.api.model.Feedback;
 import de.tudresden.inf.st.mathgrass.api.model.Question;
 import de.tudresden.inf.st.mathgrass.api.model.Task;
 import de.tudresden.inf.st.mathgrass.api.model.TaskHint;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

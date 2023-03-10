@@ -5,7 +5,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

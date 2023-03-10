@@ -1,7 +1,8 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.graph;
 
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.model.VertexDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 /**
  * This class can convert {@link VertexDTO} to {@link Vertex} and vice versa.

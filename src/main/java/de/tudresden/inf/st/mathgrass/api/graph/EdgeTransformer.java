@@ -1,7 +1,7 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.model.EdgeDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 
 /**

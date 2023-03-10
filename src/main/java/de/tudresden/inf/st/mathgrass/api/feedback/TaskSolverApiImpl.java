@@ -3,7 +3,6 @@ package de.tudresden.inf.st.mathgrass.api.feedback;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskSolverApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.TaskSolverDTO;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

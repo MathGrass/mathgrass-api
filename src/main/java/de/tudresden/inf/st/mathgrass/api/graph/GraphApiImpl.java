@@ -4,7 +4,6 @@ import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.apiModel.GraphApi;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
-import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;

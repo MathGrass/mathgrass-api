@@ -9,9 +9,9 @@ import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverEntity;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskTemplateEntity;
 import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskSolverTransformer;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTransformer;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 
 import java.util.ArrayList;

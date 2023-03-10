@@ -9,7 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphApiImpl;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

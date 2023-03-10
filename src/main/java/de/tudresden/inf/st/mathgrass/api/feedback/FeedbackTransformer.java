@@ -1,7 +1,8 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.feedback;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.model.FeedbackDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 /**
  * This class can convert {@link FeedbackDTO} to {@link Feedback} and vice versa.

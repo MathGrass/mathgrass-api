@@ -1,11 +1,10 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.graph.Edge;
-import de.tudresden.inf.st.mathgrass.api.graph.Graph;
-import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
+import de.tudresden.inf.st.mathgrass.api.label.LabelTransformer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +85,7 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
         entity.setEdges(edgeList);
 
         // tags
-        entity.setTags(new TagTransformer().toEntityList(dto.getLabels()));
+        entity.setTags(new LabelTransformer().toEntityList(dto.getLabels()));
 
         return entity;
     }

@@ -3,7 +3,6 @@ package de.tudresden.inf.st.mathgrass.api.label;
 import de.tudresden.inf.st.mathgrass.api.apiModel.LabelApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
-import de.tudresden.inf.st.mathgrass.api.transform.TagTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,6 +69,6 @@ public class LabelApiImpl extends AbstractApiElement implements LabelApi {
      */
     @Override
     public ResponseEntity<List<LabelDTO>> getLabels() {
-        return ok(new TagTransformer().toDtoList(labelRepository.findAll()));
+        return ok(new LabelTransformer().toDtoList(labelRepository.findAll()));
     }
 }

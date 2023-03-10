@@ -1,7 +1,8 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.task.hint;
 
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 /**
  * This class can convert {@link HintDTO} to {@link Hint} and vice versa.

@@ -1,12 +1,13 @@
-package de.tudresden.inf.st.mathgrass.api.transform;
+package de.tudresden.inf.st.mathgrass.api.label;
 
 import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
+import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 /**
  * This class can convert {@link LabelDTO} to {@link Label} and vice versa.
  */
-public class TagTransformer extends ModelTransformer<LabelDTO, Label> {
+public class LabelTransformer extends ModelTransformer<LabelDTO, Label> {
     /**
      * {@inheritDoc}
      */

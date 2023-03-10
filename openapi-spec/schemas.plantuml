@@ -57,11 +57,7 @@ entity TaskCollectionDTO {
 entity TaskDTO {
     * id: Long
     * graph: GraphDTO
-    hints: List<HintDTO>
-    feedback: List<Long>
     * question: QuestionDTO
-    label: String
-    answer: String
 }
 
 entity TaskIdLabelTupleDTO {
@@ -96,7 +92,6 @@ GraphDTO -- "0..*" LabelDTO : labels
 GraphDTO -- "0..*" EdgeDTO : edges
 GraphDTO -- "0..*" VertexDTO : vertices
 TaskDTO -- GraphDTO : graph
-TaskDTO -- "0..*" HintDTO : hints
 TaskDTO -- QuestionDTO : question
 EdgeDTO -- VertexDTO : firstVertex
 EdgeDTO -- VertexDTO : secondVertex

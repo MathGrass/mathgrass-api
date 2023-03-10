@@ -9,8 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
 import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTupleDTO;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskHintTransformer;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,13 +49,15 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     /**
      * Constructor.
      *
-     * @param taskRepository task repository
+     * @param taskRepository       task repository
      * @param taskSolverRepository task solver repository
-     * @param graphRepository graph repository
-     * @param labelRepository tag repository
+     * @param graphRepository      graph repository
+     * @param labelRepository      tag repository
      */
-    public TaskApiImpl(TaskRepository taskRepository, TaskSolverRepository taskSolverRepository,
-                       GraphRepository graphRepository, LabelRepository labelRepository ) {
+    public TaskApiImpl(TaskRepository taskRepository,
+                       TaskSolverRepository taskSolverRepository,
+                       GraphRepository graphRepository,
+                       LabelRepository labelRepository) {
         this.taskRepository = taskRepository;
         this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
@@ -64,17 +65,9 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     }
 
     /**
-     * Add feedback to a task.
-     *
-     * @param taskId ID of task
-     * @param feedback feedback to add to task
-     * @return Response
-     */
-
-
-    /**
      * Add a hint to a task.
-     * @param taskId ID of task
+     *
+     * @param taskId   ID of task
      * @param taskHint hint to add to task
      * @return Response
      */
@@ -104,7 +97,8 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     @Override
     public ResponseEntity<Long> createTask(TaskDTO body) {
         Task taskEntity = taskRepository.save(
-                new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
+                new TaskTransformer(taskSolverRepository, graphRepository,
+                        labelRepository)
                         .toEntity(body));
 
         return ok(taskEntity.getId());
@@ -113,12 +107,13 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     /**
      * Get a hint for a task.
      *
-     * @param taskId ID of task
+     * @param taskId    ID of task
      * @param hintLevel level of hint
      * @return Response with hint
      */
     @Override
-    public ResponseEntity<HintDTO> getHintForTask(Long taskId, Integer hintLevel) {
+    public ResponseEntity<HintDTO> getHintForTask(Long taskId,
+                                                  Integer hintLevel) {
         // get task entity
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
@@ -159,7 +154,8 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     public ResponseEntity<TaskDTO> getTaskById(Long taskId) {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            TaskDTO task = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository)
+            TaskDTO task = new TaskTransformer(taskSolverRepository,
+                    graphRepository, labelRepository)
                     .toDto(optTaskEntity.get());
 
             return ok(task);
@@ -172,7 +168,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * Update a task.
      *
      * @param taskId ID of task
-     * @param task new task to replace old task with
+     * @param task   new task to replace old task with
      * @return Response
      */
     @Override
@@ -180,7 +176,8 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // create task entity
-            Task taskEntity = new TaskTransformer(taskSolverRepository, graphRepository, labelRepository).toEntity(task);
+            Task taskEntity = new TaskTransformer(taskSolverRepository,
+                    graphRepository, labelRepository).toEntity(task);
             taskEntity.setId(taskId);
 
             // save to database

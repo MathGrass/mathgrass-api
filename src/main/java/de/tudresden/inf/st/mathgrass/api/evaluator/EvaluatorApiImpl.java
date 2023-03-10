@@ -9,7 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessment200Response;
 import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessmentRequest;
 import de.tudresden.inf.st.mathgrass.api.apiModel.EvaluatorApi;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskResultTransformer;
+import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultTransformer;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
