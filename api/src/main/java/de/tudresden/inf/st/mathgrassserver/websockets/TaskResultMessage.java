@@ -8,15 +8,21 @@ public class TaskResultMessage {
     /**
      * ID of task result.
      */
-    private long taskResultId;
+    private long taskId;
+
+    /**
+     * Result of task.
+     */
+    private boolean result;
 
     /**
      * Constructor.
      *
-     * @param taskResultId ID of task result
+     * @param taskId ID of task result
      */
-    public TaskResultMessage(long taskResultId) {
-        this.taskResultId = taskResultId;
+    public TaskResultMessage(long taskId, boolean result) {
+        this.taskId = taskId;
+        this.result = result;
     }
 
     /**
@@ -24,16 +30,34 @@ public class TaskResultMessage {
      *
      * @return ID of task result
      */
-    public long getTaskResultId() {
-        return taskResultId;
+    public long getTaskId() {
+        return taskId;
     }
 
     /**
      * Setter for task result ID.
      *
-     * @param taskResultId ID of task result
+     * @param taskId ID of task result
      */
-    public void setTaskResultId(long taskResultId) {
-        this.taskResultId = taskResultId;
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
+    }
+
+    /**
+     * Getter for result.
+     *
+     * @return result of task
+     */
+    public boolean getResult() {
+        return result;
+    }
+
+    /**
+     * Setter for result.
+     *
+     * @param result result of task
+     */
+    public void setResult(boolean result) {
+        this.result = result;
     }
 }

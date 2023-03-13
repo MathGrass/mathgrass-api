@@ -146,6 +146,65 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
     }
 
     /**
+     * Evaluate the given answer of a static task and return the result.
+     *
+     * @param taskId ID of task
+     * @param answer answer specified by user
+     * @return correctness of answer
+     * @throws IllegalArgumentException if task doesn't exist
+     */
+    public boolean evaluateStaticTask(long taskId, String answer) throws IllegalArgumentException{
+        // load task from repository
+        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        if (optTask.isPresent()) {
+            // compare answers
+            String expectedAnswer = optTask.get().getAnswer();
+
+            return expectedAnswer.equals(answer);
+        } else {
+            throw new IllegalArgumentException(String.format("Couldn't find task with ID %s!", taskId));
+        }
+    }
+
+    /**
+     * Evaluate the given answer of a dynamic task and return the result.
+     *
+     * @param taskId ID of task
+     * @param answer answer specified by user
+     * @return correctness of answer
+     * @throws IllegalArgumentException if task doesn't exist
+     */
+    public boolean evaluateDynamicTask(long taskId, String answer) throws IllegalArgumentException{
+        // get task from repository
+        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
+        if (optTask.isEmpty()) {
+            throw new IllegalArgumentException(String.format("Couldn't find task with ID %s!", taskId));
+        }
+
+        TaskEntity task = optTask.get();
+
+        // set up task result entity
+        TaskResultEntity taskResult = new TaskResultEntity();
+        taskResult.setTask(task);
+        taskResult.setAnswer(answer);
+        taskResult.setSubmissionDate(LocalDateTime.now().toString());
+
+        // save to db
+        long taskResultId = taskResultRepository.save(taskResult).getId();
+
+        // check if answer is dynamic
+        boolean isDynamicAnswer = task.getTaskTemplate() != null;
+
+        // if answer is dynamic it is necessary to use evaluator
+        if (isDynamicAnswer) {
+            new TaskManager().runTask(taskResultId, task.getId(), answer);
+        }
+
+        // TODO: wait for real result
+        return true;
+    }
+
+    /**
      * Send a task to the evaluator and run the task.
      *
      * @param taskId ID of task
