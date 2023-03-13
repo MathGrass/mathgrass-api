@@ -1,4 +1,4 @@
-package task;
+package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionEntity;

@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrassserver.websockets;
+package de.tudresden.inf.st.mathgrass.api.websockets;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -4,7 +4,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.FeedbackEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.hint.TaskHintEntity;
 import de.tudresden.inf.st.mathgrass.api.model.Graph;

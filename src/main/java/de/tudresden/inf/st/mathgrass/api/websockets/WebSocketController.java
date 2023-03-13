@@ -1,6 +1,6 @@
-package de.tudresden.inf.st.mathgrassserver.websockets;
+package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import de.tudresden.inf.st.mathgrassserver.api.EvaluatorApiImpl;
+import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.EvaluatorApiImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

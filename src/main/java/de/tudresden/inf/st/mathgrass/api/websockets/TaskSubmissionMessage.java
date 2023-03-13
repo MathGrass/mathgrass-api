@@ -1,4 +1,4 @@
-package de.tudresden.inf.st.mathgrassserver.websockets;
+package de.tudresden.inf.st.mathgrass.api.websockets;
 
 /**
  * This class contains information about the submission of a task and can be used for communication.

@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.transform;
 
-import task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskTopic;
 
 import java.util.List;

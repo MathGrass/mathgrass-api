@@ -1,7 +1,7 @@
-package de.tudresden.inf.st.mathgrassserver.websockets;
+package de.tudresden.inf.st.mathgrass.api.websockets;
 
 /**
- * This class contains information about a {@link de.tudresden.inf.st.mathgrassserver.model.TaskResult} and can be used
+ * This class contains information about a {@link de.tudresden.inf.st.mathgrass.api.model.TaskResult} and can be used
  * for communication.
  */
 public class TaskResultMessage {
