@@ -1,0 +1,70 @@
+@startuml
+hide circle
+skinparam shadowing false
+skinparam monochrome false
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 25
+scale 1.5
+
+class Task #lightgreen
+
+Task --> Question
+
+class Question #yellow
+class GraphMarkingQuestion #yellow
+class FormQuestion #yellow
+
+Question <|-- FormQuestion
+Question <|-- GraphMarkingQuestion
+
+class Answer #orange
+class StaticAnswer #orange
+class DynamicAnswer #orange
+
+Answer <|-- StaticAnswer
+Answer <|-- DynamicAnswer
+
+class Hint #lightblue
+Question --> Hint
+
+class TextualHint #lightblue
+class DynamicHint #lightblue
+class GraphicalHint #lightblue
+
+Hint <|-- TextualHint
+Hint <|-- DynamicHint
+Hint <|-- GraphicalHint
+
+class GraphMarking #red
+
+FormQuestion --> Answer
+GraphMarkingQuestion --> GraphMarking : answer
+GraphicalHint --> GraphMarking
+
+GraphMarking -left-> Vertex
+GraphMarking -left-> Edge
+
+class Graph #violet
+class Edge #violet {
+    label: String
+}
+class Vertex #violet {
+    label: String
+    x: int [0.99]
+    y: int [0..99]
+}
+Graph *-- "*" Edge
+Graph *-- "*" Vertex
+Edge --> "1" Vertex
+Edge --> "1" Vertex
+
+Question --> Graph
+
+class Label
+Question --> Label
+Graph --> Label
+
+
+@enduml
+
