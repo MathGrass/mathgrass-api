@@ -7,7 +7,7 @@ public class TaskSubmissionMessage {
     /**
      * ID of task.
      */
-    private int taskId;
+    private long taskId;
 
     /**
      * Submitted answer.
@@ -20,7 +20,7 @@ public class TaskSubmissionMessage {
      * @param taskId ID of task
      * @param answer submitted answer
      */
-    public TaskSubmissionMessage(int taskId, String answer) {
+    public TaskSubmissionMessage(long taskId, String answer) {
         this.taskId = taskId;
         this.answer = answer;
     }
@@ -30,7 +30,7 @@ public class TaskSubmissionMessage {
      *
      * @return ID of task
      */
-    public int getTaskId() {
+    public long getTaskId() {
         return taskId;
     }
 
@@ -39,7 +39,7 @@ public class TaskSubmissionMessage {
      *
      * @param taskId ID of task
      */
-    public void setTaskId(int taskId) {
+    public void setTaskId(long taskId) {
         this.taskId = taskId;
     }
 

@@ -3,7 +3,6 @@ package de.tudresden.inf.st.mathgrass.api.websockets;
 import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.EvaluatorApiImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,19 +21,28 @@ public class WebSocketController {
     /**
      * Template for assessment result channel for publishing results.
      */
-    private static final String ASSESSMENT_RESULT_TOPIC = "/topic/assessmentResult/%s";
+    protected static final String ASSESSMENT_RESULT_TOPIC = "/topic/assessmentResult/%s";
 
     /**
      * Messaging template.
      */
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
 
     /**
      * Evaluator.
      */
-    @Autowired
-    private EvaluatorApiImpl evaluator;
+    private final EvaluatorApiImpl evaluator;
+
+    /**
+     * Constructor.
+     *
+     * @param messagingTemplate messaging template
+     * @param evaluator evaluator
+     */
+    public WebSocketController(SimpMessagingTemplate messagingTemplate, EvaluatorApiImpl evaluator) {
+        this.messagingTemplate = messagingTemplate;
+        this.evaluator = evaluator;
+    }
 
     /**
      * Handle messages sent to '/app/sendMessage'. Mainly used for development purposes to test connection to client.

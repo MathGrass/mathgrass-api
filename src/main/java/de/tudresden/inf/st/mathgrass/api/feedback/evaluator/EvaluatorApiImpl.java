@@ -111,7 +111,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      * @return correctness of answer
      * @throws IllegalArgumentException if task doesn't exist
      */
-    public boolean evaluateStaticTask(long taskId, String answer) throws IllegalArgumentException{
+    public boolean evaluateStaticTask(long taskId, String answer) throws IllegalArgumentException {
         // load task from repository
         Optional<TaskEntity> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
@@ -132,7 +132,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      * @return correctness of answer
      * @throws IllegalArgumentException if task doesn't exist
      */
-    public boolean evaluateDynamicTask(long taskId, String answer) throws IllegalArgumentException{
+    public boolean evaluateDynamicTask(long taskId, String answer) throws IllegalArgumentException {
         // get task from repository
         Optional<TaskEntity> optTask = taskRepository.findById(taskId);
         if (optTask.isEmpty()) {
