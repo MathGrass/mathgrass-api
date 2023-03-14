@@ -8,6 +8,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.model.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.apiModel.EvaluatorApi;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskResultTransformer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -24,7 +25,6 @@ import java.util.concurrent.Executors;
  */
 @RestController
 public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi {
-    // TODO: replace with Websockets
     /**
      * Thread pool for long polling, used for retrieving results.
      */
@@ -129,37 +129,25 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
      *
      * @param taskId ID of task
      * @param answer answer specified by user
-     * @return correctness of answer
+     * @return DeferredResult with {@link TaskResult}
      * @throws IllegalArgumentException if task doesn't exist
      */
-    public boolean evaluateDynamicTask(long taskId, String answer) throws IllegalArgumentException {
-        // get task from repository
-        Optional<TaskEntity> optTask = taskRepository.findById(taskId);
-        if (optTask.isEmpty()) {
+    public DeferredResult<ResponseEntity<TaskResult>> evaluateDynamicTask(long taskId, String answer)
+            throws IllegalArgumentException {
+        // request evaluation of task
+        ResponseEntity<Long> taskResultResponse = runTask(taskId, answer);
+        if (!taskResultResponse.getStatusCode().equals(HttpStatus.OK)) {
             throw new IllegalArgumentException(String.format("Couldn't find task with ID %s!", taskId));
         }
 
-        TaskEntity task = optTask.get();
-
-        // set up task result entity
-        TaskResultEntity taskResult = new TaskResultEntity();
-        taskResult.setTask(task);
-        taskResult.setAnswer(answer);
-        taskResult.setSubmissionDate(LocalDateTime.now().toString());
-
-        // save to db
-        long taskResultId = taskResultRepository.save(taskResult).getId();
-
-        // check if answer is dynamic
-        boolean isDynamicAnswer = task.getTaskTemplate() != null;
-
-        // if answer is dynamic it is necessary to use evaluator
-        if (isDynamicAnswer) {
-            new TaskManager().runTask(taskResultId, task.getId(), answer);
+        // get task result id
+        if (taskResultResponse.getBody() != null) {
+            throw new IllegalArgumentException(String.format("Couldn't find task result with ID %s!", taskId));
         }
+        long taskResultId = taskResultResponse.getBody();
 
-        // TODO: wait for real result
-        return true;
+        // get result of task result as DeferredResult
+        return longPollTaskResult(taskResultId);
     }
 
     /**

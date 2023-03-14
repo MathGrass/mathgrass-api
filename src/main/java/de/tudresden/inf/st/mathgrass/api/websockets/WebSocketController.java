@@ -1,12 +1,15 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.EvaluatorApiImpl;
+import de.tudresden.inf.st.mathgrass.api.model.TaskResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
  * This class handles websocket messages.
@@ -65,10 +68,19 @@ public class WebSocketController {
         logger.info("Received submitted assessment for static task with ID {}", message.getTaskId());
 
         // get evaluation
-        boolean correctAnswer = evaluator.evaluateDynamicTask(message.getTaskId(), message.getAnswer());
+        DeferredResult<ResponseEntity<TaskResult>> taskResult =
+                evaluator.evaluateDynamicTask(message.getTaskId(), message.getAnswer());
 
-        // broadcast result
-        messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()), correctAnswer);
+        // broadcast result on completion of evaluation
+        taskResult.onCompletion(() -> {
+            logger.info("Done evaluating dynamic task!");
+
+            TaskResult result = (TaskResult) taskResult.getResult();
+            if (result != null) {
+                messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()),
+                        result.getAnswerTrue());
+            }
+        });
     }
 
     /**

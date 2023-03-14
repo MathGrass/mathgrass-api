@@ -47,7 +47,7 @@ class WebSocketControllerTest {
         boolean expectedResult = true;
 
         // mock evaluator api
-        Mockito.when(evaluatorApi.evaluateDynamicTask(anyLong(), anyString())).thenReturn(expectedResult);
+        // Mockito.when(evaluatorApi.evaluateDynamicTask(anyLong(), anyString())).thenReturn(expectedResult);
 
         // expected message to be sent
         String expectedChannel = ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId());
