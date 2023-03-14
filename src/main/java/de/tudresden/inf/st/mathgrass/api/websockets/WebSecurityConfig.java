@@ -10,6 +10,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Web security configuration to configure CORS.
+ */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
@@ -19,7 +22,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/app/**").permitAll()
                 .antMatchers("/ws/**").permitAll();
-
     }
 
     @Bean

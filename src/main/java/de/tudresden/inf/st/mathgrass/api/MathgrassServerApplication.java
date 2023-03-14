@@ -47,24 +47,4 @@ public class MathgrassServerApplication {
 	public InternalResourceViewResolver defaultViewResolver() {
 		return new InternalResourceViewResolver();
 	}
-
-//	@EnableWebSecurity
-//	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//		@Override
-//		protected void configure(HttpSecurity http) throws Exception {
-//			http.cors().and().csrf().disable();
-//		}
-//
-//		@Bean
-//		CorsConfigurationSource corsConfigurationSource() {
-//			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//			CorsConfiguration corsConfiguration = new CorsConfiguration();
-//			corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-//			corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-//			corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-//			corsConfiguration.setAllowCredentials(false);
-//			source.registerCorsConfiguration("/**", corsConfiguration);
-//			return source;
-//		}
-//	}
 }
