@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.evaluator;
 
+import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
+
 import java.util.Objects;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Objects;
  * @param taskId      ID of task.
  * @param inputAnswer Answer given via input.
  */
-public record EvaluationRequestMessage(Long requestId, Long taskId, String inputAnswer) {
+public record EvaluationRequestMessage(Long requestId, Long taskId, String inputAnswer, Executor executor) {
     /**
      * Constructor.
      *

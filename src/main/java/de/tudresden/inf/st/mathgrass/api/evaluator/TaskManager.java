@@ -1,6 +1,11 @@
 package de.tudresden.inf.st.mathgrass.api.evaluator;
 
-import com.google.gson.Gson;
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.*;
+import com.github.dockerjava.core.DockerClientBuilder;
+import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
+
+import java.util.Map;
 
 /**
  * This class creates {@link EvaluationRequestMessage} instances and uses the {@link MessageBrokerConn} to send
@@ -8,19 +13,38 @@ import com.google.gson.Gson;
  */
 public class TaskManager {
 
+    private static DockerClient dockerClient = null;
+
+    private static DockerClient getDockerClient() {
+        if (dockerClient == null) {
+            return DockerClientBuilder.getInstance().build();
+        }
+        return dockerClient;
+    }
+
     /**
      * Create an evaluation request message and send to evaluator.
      *
-     * @param requestId ID of request
-     * @param taskId ID of task
-     * @param answer answer given via input
+     * @param taskId    ID of task
+     * @param answer    answer given via input
      */
-    public void runTask(long requestId, long taskId, String answer) {
-        // create message and convert to JSON
-        EvaluationRequestMessage msg = new EvaluationRequestMessage(requestId, taskId, answer);
-        String msgString = new Gson().toJson(msg);
+    public static boolean runTask(long taskId, String answer, Executor executor) {
+        try (PullImageCmd pullImageCmd = getDockerClient().pullImageCmd(executor.getContainerImage());) {
+            try (CreateContainerCmd createContainerCmd =
+                         getDockerClient().createContainerCmd(executor.getContainerImage());) {
+                CreateContainerResponse container = createContainerCmd.exec();
+                try (StartContainerCmd startContainerCmd = getDockerClient().startContainerCmd(container.getId())) {
+                    startContainerCmd.exec();
+                    try (InspectContainerCmd inspectContainerCmd =
+                                 getDockerClient().inspectContainerCmd(container.getId())) {
+                        InspectContainerResponse resp = inspectContainerCmd.exec();
+                        long exitCode = resp.getState().getExitCodeLong();
+                        return exitCode == 0;
+                    }
 
-        // send message
-        MessageBrokerConn.getInstance().send(Queue.TASK_REQUEST,msgString);
+                }
+            }
+        }
+
     }
 }

@@ -132,7 +132,7 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage("python:3.10-alpine");
+        executor.setContainerImage("hello-world");
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
                 import sys;
