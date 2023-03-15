@@ -12,6 +12,8 @@ import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.Answer;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -178,11 +180,14 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
 
-        Question question = new FormQuestion();
+        FormQuestion question = new FormQuestion();
         question.setQuestionText("What's the label of the source vertex?");
 
+        StaticAnswer answer = new StaticAnswer();
+        answer.setAnswer("1");
+        question.setAnswer(answer);
+
         demoTask1.setQuestion(question);
-        demoTask1.setAnswer(LABEL_SOURCE);
 
         taskRepo.save(demoTask1);
     }
