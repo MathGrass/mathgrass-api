@@ -1,6 +1,5 @@
 pom.xml
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/ApiUtil.java
-src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/EvaluatorApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/GraphApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/LabelApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskApi.java

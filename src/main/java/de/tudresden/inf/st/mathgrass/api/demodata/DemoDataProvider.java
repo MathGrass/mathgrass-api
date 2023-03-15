@@ -3,18 +3,13 @@ package de.tudresden.inf.st.mathgrass.api.demodata;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
-import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolver;
-import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
-import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
-import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
-import de.tudresden.inf.st.mathgrass.api.task.question.answer.Answer;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
 import org.springframework.context.annotation.Profile;
@@ -34,7 +29,6 @@ public class DemoDataProvider {
     private final GraphRepository graphRepo;
     private final TaskRepository taskRepo;
     private final LabelRepository tagRepo;
-    private final TaskSolverRepository taskSolverRepo;
 
     /**
      * Constructor.
@@ -45,12 +39,10 @@ public class DemoDataProvider {
      * @param taskSolverRepo task solver repository
      */
     public DemoDataProvider(GraphRepository graphRepo,
-                            TaskRepository taskRepo, LabelRepository tagRepo,
-                            TaskSolverRepository taskSolverRepo) {
+                            TaskRepository taskRepo, LabelRepository tagRepo){
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
-        this.taskSolverRepo = taskSolverRepo;
     }
 
     /**

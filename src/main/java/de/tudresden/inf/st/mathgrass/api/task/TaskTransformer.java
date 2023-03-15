@@ -3,7 +3,6 @@ package de.tudresden.inf.st.mathgrass.api.task;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
-import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
 import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
@@ -17,11 +16,6 @@ import java.util.Optional;
  * This class can convert {@link TaskDTO} to {@link Task} and vice versa.
  */
 public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
-    /**
-     * Task solver repository.
-     */
-    TaskSolverRepository taskSolverRepository;
-
     /**
      * Graph repository.
      */
@@ -39,10 +33,8 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
      * @param graphRepository      graph repository
      * @param labelRepository      tag repository
      */
-    public TaskTransformer(TaskSolverRepository taskSolverRepository,
-                           GraphRepository graphRepository,
+    public TaskTransformer(GraphRepository graphRepository,
                            LabelRepository labelRepository) {
-        this.taskSolverRepository = taskSolverRepository;
         this.graphRepository = graphRepository;
         this.labelRepository = labelRepository;
     }
