@@ -145,6 +145,42 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: task
+  /task/{taskId}/evaluateAnswer:
+    post:
+      description: Submit an answer to a task and expect a boolean response
+      operationId: evaluateAnswer
+      parameters:
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Submitted answer
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answer:
+                  type: string
+              required:
+                - answer
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  isAssessmentCorrect:
+                    type: boolean
+                required:
+                  - isAssessmentCorrect
   /task/{taskId}/addHint:
     post:
       description: Adds a hint to a task
@@ -243,44 +279,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskCollectionDTO'
-  /taskSolver/{taskSolverId}:
-    get:
-      description: Returns a task solver
-      operationId: getTaskSolverById
-      parameters:
-      - name: taskSolverId
-        in: path
-        description: ID of task solver
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskSolverDTO'
-  /taskSolver:
-    post:
-      description: Creates a task solver
-      operationId: createTaskSolver
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskSolverDTO'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: taskSolver
+
   /label/{labelId}:
     get:
       description: Returns a label
@@ -330,70 +329,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/LabelDTO'
       x-codegen-request-body-name: label
-  /evaluator/staticAssessment/{taskId}:
-    post:
-      description: Submit an answer to a static task and expect a boolean response
-      operationId: runStaticAssessment
-      parameters:
-        - name: taskId
-          in: path
-          description: ID of task
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: Submitted answer
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                answer:
-                  type: string
-              required:
-                - answer
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            'application/json':
-              schema:
-                type: object
-                properties:
-                  isAssessmentCorrect:
-                    type: boolean
-                required:
-                  - isAssessmentCorrect
-  /evaluator/runTask/{taskId}:
-    post:
-      description: Run a task with an answer
-      operationId: runTask
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: Answer of student
-        content:
-          application/json:
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: answer
   /evaluator/taskResult/{resultId}:
     get:
       description: Get the result for an evaluation process

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Question {
+public abstract class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -27,4 +27,6 @@ public class Question {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+
+    public abstract String acceptVisitor(QuestionVisitor visitor);
 }

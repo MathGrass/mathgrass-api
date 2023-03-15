@@ -6,10 +6,10 @@ import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
-import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessment200Response;
-import de.tudresden.inf.st.mathgrass.api.model.RunStaticAssessmentRequest;
 import de.tudresden.inf.st.mathgrass.api.apiModel.EvaluatorApi;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -117,7 +117,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         return output;
     }
 
-    @Override
+   /* @Override
     public ResponseEntity<RunStaticAssessment200Response> runStaticAssessment(
             @Parameter(name = "taskId", description = "ID of task", required
                     = true) @PathVariable("taskId") Long taskId,
@@ -126,6 +126,10 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
     ) {
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
+            Task task = optTask.get();
+            QuestionVisitor questionVisitor = new QuestionVisitor();
+            AnswerVisitor answerVisitor = new AnswerVisitor();
+            task.getQuestion().acceptVisitor(questionVisitor);
             // compare answers
             String expectedAnswer = "asd";
             //String expectedAnswer = optTask.get().getQuestion().get
@@ -135,15 +139,15 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
-    /**
+/*    *//**
      * Send a task to the evaluator and run the task.
      *
      * @param taskId ID of task
      * @param answer answer given by user
      * @return ID of task result
-     */
+     *//*
     @Override
     public ResponseEntity<Long> runTask(Long taskId, String answer) {
         // get task from repository
@@ -165,5 +169,5 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
 
 
         return ok(taskResultId);
-    }
+    }*/
 }

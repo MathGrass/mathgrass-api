@@ -4,15 +4,21 @@ import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
+import de.tudresden.inf.st.mathgrass.api.model.*;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
-import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTupleDTO;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -189,5 +195,22 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         }
     }
 
+    @Override
+    public ResponseEntity<EvaluateAnswer200Response> evaluateAnswer(
+            @Parameter(name = "taskId", description = "ID of task", required = true) @PathVariable("taskId") Long taskId,
+            @Parameter(name = "EvaluateAnswerRequest", description = "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
+    ) {
+        Optional<Task> optTask = taskRepository.findById(taskId);
+        if (optTask.isPresent()) {
+            Task task = optTask.get();
+            QuestionVisitor questionVisitor = new QuestionVisitor();
+            String expectedAnswer = task.getQuestion().acceptVisitor(questionVisitor);
+
+            boolean result = evaluateAnswerRequest.getAnswer().equals(expectedAnswer);
+            return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

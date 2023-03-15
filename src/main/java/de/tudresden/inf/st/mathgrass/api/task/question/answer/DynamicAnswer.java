@@ -18,13 +18,17 @@ public class DynamicAnswer extends Answer {
         return id;
     }
 
-
     public Executor getExecutor() {
         return executor;
     }
 
     public void setExecutor(Executor executor) {
         this.executor = executor;
+    }
+
+    @Override
+    public String acceptVisitor(AnswerVisitor visitor) {
+        return visitor.visitDynamicAnswer(this);
     }
 
 }

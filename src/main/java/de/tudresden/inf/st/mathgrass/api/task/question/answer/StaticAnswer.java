@@ -13,4 +13,9 @@ public class StaticAnswer extends Answer {
     public void setAnswer(String answer){
         this.answer = answer;
     }
+
+    @Override
+    public String acceptVisitor(AnswerVisitor visitor) {
+        return visitor.visitStaticAnswer(this);
+    }
 }

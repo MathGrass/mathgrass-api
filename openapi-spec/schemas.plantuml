@@ -8,6 +8,14 @@ entity EdgeDTO {
     label: String
 }
 
+entity EvaluateAnswer200Response {
+    * isAssessmentCorrect: Boolean
+}
+
+entity EvaluateAnswerRequest {
+    * answer: String
+}
+
 entity FeedbackDTO {
     id: Long
     content: String
@@ -33,14 +41,6 @@ entity LabelDTO {
 
 entity QuestionDTO {
     * question: String
-}
-
-entity RunStaticAssessment200Response {
-    * isAssessmentCorrect: Boolean
-}
-
-entity RunStaticAssessmentRequest {
-    * answer: String
 }
 
 entity TaskCollectionDTO {

@@ -13,4 +13,6 @@ public abstract class Answer {
     public Long getId() {
         return id;
     }
+
+    public abstract String acceptVisitor(AnswerVisitor visitor);
 }

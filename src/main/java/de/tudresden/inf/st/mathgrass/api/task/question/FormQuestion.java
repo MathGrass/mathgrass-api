@@ -18,4 +18,9 @@ public class FormQuestion extends Question {
     public void setAnswer(Answer answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String acceptVisitor(QuestionVisitor visitor) {
+        return visitor.visitFormQuestion(this);
+    }
 }
