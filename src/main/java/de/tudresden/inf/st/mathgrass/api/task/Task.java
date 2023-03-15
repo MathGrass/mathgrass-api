@@ -43,12 +43,6 @@ public class Task {
     private Graph graph = null;
 
     /**
-     * Answer of task.
-     */
-    @Column
-    private String answer = null;
-
-    /**
      * Feedbacks of task.
      */
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
@@ -104,14 +98,6 @@ public class Task {
         this.hints = hints;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
     public List<Feedback> getFeedbacks() {
         return feedbacks;
     }
@@ -120,16 +106,4 @@ public class Task {
         this.feedbacks = feedbacks;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", question=" + question +
-                ", label='" + label + '\'' +
-                ", graph=" + graph +
-                ", answer='" + answer + '\'' +
-                ", feedbacks=" + feedbacks +
-                ", hints=" + hints +
-                '}';
-    }
 }

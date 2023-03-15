@@ -127,7 +127,8 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
             // compare answers
-            String expectedAnswer = optTask.get().getAnswer();
+            String expectedAnswer = "asd";
+            //String expectedAnswer = optTask.get().getQuestion().get
             boolean result =
                     expectedAnswer.equals(runStaticAssessmentRequest.getAnswer());
             return ok(new RunStaticAssessment200Response().isAssessmentCorrect(result));
