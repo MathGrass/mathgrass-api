@@ -14,5 +14,5 @@ public abstract class Answer {
         return id;
     }
 
-    public abstract String acceptVisitor(AnswerVisitor visitor);
+    public abstract boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer);
 }

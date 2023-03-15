@@ -9,7 +9,6 @@ import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
-import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -197,16 +196,18 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
 
     @Override
     public ResponseEntity<EvaluateAnswer200Response> evaluateAnswer(
-            @Parameter(name = "taskId", description = "ID of task", required = true) @PathVariable("taskId") Long taskId,
-            @Parameter(name = "EvaluateAnswerRequest", description = "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
+            @Parameter(name = "taskId", description = "ID of task", required
+                    = true) @PathVariable("taskId") Long taskId,
+            @Parameter(name = "EvaluateAnswerRequest", description =
+                    "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
     ) {
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
+            String userAnswer = evaluateAnswerRequest.getAnswer();
             Task task = optTask.get();
             QuestionVisitor questionVisitor = new QuestionVisitor();
-            String expectedAnswer = task.getQuestion().acceptVisitor(questionVisitor);
+            boolean result = task.getQuestion().acceptQuestionVisitor(questionVisitor, userAnswer);
 
-            boolean result = evaluateAnswerRequest.getAnswer().equals(expectedAnswer);
             return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

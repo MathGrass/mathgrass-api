@@ -20,7 +20,8 @@ public class FormQuestion extends Question {
     }
 
     @Override
-    public String acceptVisitor(QuestionVisitor visitor) {
-        return visitor.visitFormQuestion(this);
+    public boolean acceptQuestionVisitor(QuestionVisitor visitor, String answer) {
+        return visitor.visitFormQuestion(this, answer);
+
     }
 }

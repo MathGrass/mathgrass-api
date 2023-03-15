@@ -1,11 +1,12 @@
 package de.tudresden.inf.st.mathgrass.api.task.question.answer;
 
 public class AnswerVisitor {
-    public String visitStaticAnswer(StaticAnswer answer){
-        return answer.getAnswer();
+    public boolean visitStaticAnswer(StaticAnswer answer, String userAnswer){
+        return answer.getAnswer().equals(userAnswer);
     }
 
-    public String visitDynamicAnswer(DynamicAnswer answer){
-        return "doing something with the dynamiy answer";
+    public boolean visitDynamicAnswer(DynamicAnswer answer, String userAnswer){
+        // start evaluation and run
+        return false;
     }
 }

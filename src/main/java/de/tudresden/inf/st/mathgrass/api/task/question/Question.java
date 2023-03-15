@@ -28,5 +28,5 @@ public abstract class Question {
         this.questionText = questionText;
     }
 
-    public abstract String acceptVisitor(QuestionVisitor visitor);
+    public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, String answer);
 }

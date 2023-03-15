@@ -27,8 +27,8 @@ public class DynamicAnswer extends Answer {
     }
 
     @Override
-    public String acceptVisitor(AnswerVisitor visitor) {
-        return visitor.visitDynamicAnswer(this);
+    public boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) {
+        return visitor.visitDynamicAnswer(this, userAnswer);
     }
 
 }

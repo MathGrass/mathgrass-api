@@ -3,13 +3,14 @@ package de.tudresden.inf.st.mathgrass.api.task.question;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 
 public class QuestionVisitor {
-    public String visitGraphMarkingQuestion(GraphMarkingQuestion question){
-        return "graph marking visited";
+    public boolean visitGraphMarkingQuestion(GraphMarkingQuestion question, String answer){
+        // TODO
+        return false;
     }
 
-    public String visitFormQuestion(FormQuestion question){
+    public boolean visitFormQuestion(FormQuestion question, String userAnswer){
         AnswerVisitor answerVisitor = new AnswerVisitor();
-        String result = question.getAnswer().acceptVisitor(answerVisitor);
+        boolean result = question.getAnswer().acceptAnswerVisitor(answerVisitor, userAnswer);
         return result;
     }
 }
