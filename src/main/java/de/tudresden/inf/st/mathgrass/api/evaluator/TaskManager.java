@@ -38,8 +38,7 @@ public class TaskManager {
                     try (InspectContainerCmd inspectContainerCmd =
                                  getDockerClient().inspectContainerCmd(container.getId())) {
                         InspectContainerResponse resp = inspectContainerCmd.exec();
-                        long exitCode = resp.getState().getExitCodeLong();
-                        return exitCode == 0;
+                        return Long.valueOf(0).equals(resp.getState().getExitCodeLong());
                     }
 
                 }
