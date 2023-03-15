@@ -65,7 +65,7 @@ public class WebSocketController {
      */
     @MessageMapping("/evaluateDynamicAssessment")
     public void evaluateDynamicAssessment(@Payload TaskSubmissionMessage message) {
-        logger.info("Received submitted assessment for static task with ID {}", message.getTaskId());
+        logger.info("Received submitted assessment for dynamic task with ID {}", message.getTaskId());
 
         // get evaluation
         DeferredResult<ResponseEntity<TaskResult>> taskResult =
@@ -90,7 +90,7 @@ public class WebSocketController {
      */
     @MessageMapping("/evaluateStaticAssessment")
     public void evaluateStaticAssessment(@Payload TaskSubmissionMessage message) {
-        logger.info("Received submitted assessment for dynamic task with ID {}", message.getTaskId());
+        logger.info("Received submitted assessment for static task with ID {}", message.getTaskId());
 
         // get evaluation
         boolean correctAnswer = evaluator.evaluateStaticTask(message.getTaskId(), message.getAnswer());
