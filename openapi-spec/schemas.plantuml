@@ -33,11 +33,6 @@ entity LabelDTO {
 
 entity QuestionDTO {
     * question: String
-    isDynamicQuestion: Boolean
-    taskSolver: TaskSolverDTO
-    * questionType: String
-    answer: String
-    possible_answers: List<String>
 }
 
 entity RunStaticAssessment200Response {
@@ -95,6 +90,5 @@ TaskDTO -- GraphDTO : graph
 TaskDTO -- QuestionDTO : question
 EdgeDTO -- VertexDTO : firstVertex
 EdgeDTO -- VertexDTO : secondVertex
-QuestionDTO -- TaskSolverDTO : taskSolver
 
 @enduml

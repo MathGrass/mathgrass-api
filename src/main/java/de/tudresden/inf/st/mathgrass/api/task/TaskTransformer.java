@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrass.api.task;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
@@ -8,16 +7,10 @@ import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
 import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
-import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
-import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
-import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
