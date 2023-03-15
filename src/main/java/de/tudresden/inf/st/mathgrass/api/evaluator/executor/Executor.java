@@ -12,10 +12,11 @@ public class Executor {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Label> labels;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<SourceFile> sourceFiles;
     private String containerImage;
-    private String sourcePath;
     private String customEntrypoint;
 
     public Long getId() {
@@ -42,19 +43,19 @@ public class Executor {
         this.containerImage = containerImage;
     }
 
-    public String getSourcePath() {
-        return sourcePath;
-    }
-
-    public void setSourcePath(String sourcePath) {
-        this.sourcePath = sourcePath;
-    }
-
     public String getCustomEntrypoint() {
         return customEntrypoint;
     }
 
     public void setCustomEntrypoint(String customEntrypoint) {
         this.customEntrypoint = customEntrypoint;
+    }
+
+    public List<SourceFile> getSourceFiles() {
+        return sourceFiles;
+    }
+
+    public void setSourceFiles(List<SourceFile> sourceFiles) {
+        this.sourceFiles = sourceFiles;
     }
 }

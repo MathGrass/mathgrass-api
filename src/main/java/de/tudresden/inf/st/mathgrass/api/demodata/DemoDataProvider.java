@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.demodata;
 
+import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
+import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolver;
 import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
@@ -13,6 +15,7 @@ import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.Answer;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -124,22 +127,31 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with evaluation in Sage");
 
+        FormQuestion question = new FormQuestion();
+        question.setQuestionText("How many edges are there in the graph?");
+
+        DynamicAnswer dynamicAnswer = new DynamicAnswer();
+        Executor executor = new Executor();
+        executor.setContainerImage("python:3.10-alpine");
+        SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
-                from sage.all import *
-                                
-                if __name__ == '__main__':
-                    graph = Graph()
-                    graph.add_vertex("1")
-                    graph.add_vertex("2")
-                                
-                    graph.add_edge("1", "2")
-                                
-                    print(len(graph.edges()))
+                import sys;
+                sys.exit(0)
                 """;
+        sourceFile.setContents(executionDescriptor);
+        sourceFile.setPath("/home/evaluation.py");
+        executor.setCustomEntrypoint("python3 /home/evaluation.py");
+        dynamicAnswer.setExecutor(executor);
+
+        question.setAnswer(dynamicAnswer);
+
+        demoTask1.setQuestion(question);
+
 
         // TODO implement question
 
         taskRepo.save(demoTask1);
+        System.out.println();
     }
 
     /**

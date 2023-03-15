@@ -11,7 +11,7 @@ public class DynamicAnswer extends Answer {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Executor executor;
 
     public Long getId() {
