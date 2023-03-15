@@ -141,7 +141,7 @@ public class EvaluatorApiImpl extends AbstractApiElement implements EvaluatorApi
         }
 
         // get task result id
-        if (taskResultResponse.getBody() != null) {
+        if (taskResultResponse.getBody() == null) {
             throw new IllegalArgumentException(String.format("Couldn't find task result with ID %s!", taskId));
         }
         long taskResultId = taskResultResponse.getBody();
