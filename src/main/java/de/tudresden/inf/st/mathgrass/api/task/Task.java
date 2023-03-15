@@ -4,8 +4,7 @@ import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
-import org.hibernate.annotations.Cascade;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,8 +26,7 @@ public class Task {
     /**
      * Question of task.
      */
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL,CascadeType.MERGE},orphanRemoval = true)
     private Question question;
 
     /**
@@ -120,5 +118,18 @@ public class Task {
 
     public void setFeedbacks(ArrayList<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", question=" + question +
+                ", label='" + label + '\'' +
+                ", graph=" + graph +
+                ", answer='" + answer + '\'' +
+                ", feedbacks=" + feedbacks +
+                ", hints=" + hints +
+                '}';
     }
 }

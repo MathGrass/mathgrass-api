@@ -9,8 +9,8 @@ import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
+import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionLegacy;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -25,39 +25,23 @@ import java.util.List;
 @Profile("demodata")
 @Component
 public class DemoDataProvider {
-    /**
-     * Graph repository.
-     */
+
     private final GraphRepository graphRepo;
-
-    /**
-     * Task repository.
-     */
     private final TaskRepository taskRepo;
-
-    /**
-     * Tag repository.
-     */
     private final LabelRepository tagRepo;
-
-    /**
-     * Task template repository.
-     */
-
-    /**
-     * Task solver repository.
-     */
     private final TaskSolverRepository taskSolverRepo;
 
     /**
      * Constructor.
      *
-     * @param graphRepo graph repository
-     * @param taskRepo task repository
-     * @param tagRepo tag repository
+     * @param graphRepo      graph repository
+     * @param taskRepo       task repository
+     * @param tagRepo        tag repository
      * @param taskSolverRepo task solver repository
      */
-    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, LabelRepository tagRepo, TaskSolverRepository taskSolverRepo) {
+    public DemoDataProvider(GraphRepository graphRepo,
+                            TaskRepository taskRepo, LabelRepository tagRepo,
+                            TaskSolverRepository taskSolverRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
@@ -138,10 +122,7 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with evaluation in Sage");
 
-        // create task solver
-        TaskSolver taskSolver = new TaskSolver();
-        taskSolver.setLabel("task solver label");
-        taskSolver.setExecutionDescriptor("""
+        String executionDescriptor = """
                 from sage.all import *
                                 
                 if __name__ == '__main__':
@@ -152,36 +133,9 @@ public class DemoDataProvider {
                     graph.add_edge("1", "2")
                                 
                     print(len(graph.edges()))
-                """);
-        taskSolverRepo.save(taskSolver);
-        taskSolver.setExecutionDescriptor("""
-                import sage.all as sage
-                                
-                                
-                def count_edges(g: sage.Graph):
-                    return len(g.edges())
-                                
-                                
-                if __name__ == '__main__':
-                    g = sage.Graph()
-                    g.add_vertex("1")
-                    g.add_vertex("2")
-                    g.add_vertex("3")
-                    g.add_vertex("4")
-                                
-                    g.add_edge("1", "2")
-                    g.add_edge("2", "3")
-                    g.add_edge("3", "4")
-                                
-                    print("How many edges does the graph have?")
-                    print(count_edges(g))
-                                
-                """);
+                """;
 
-
-        Hint e11 = new Hint();
-        e11.setContent("Asd");
-        e11.setLabel("Asd");
+        // TODO implement question
 
         taskRepo.save(demoTask1);
     }
@@ -224,8 +178,9 @@ public class DemoDataProvider {
         demoTask1.setGraph(graph);
         demoTask1.setLabel("Task with simple evaluation");
 
-        Question question = new Question();
+        Question question = new FormQuestion();
         question.setQuestionText("What's the label of the source vertex?");
+
         demoTask1.setQuestion(question);
         demoTask1.setAnswer(LABEL_SOURCE);
 
