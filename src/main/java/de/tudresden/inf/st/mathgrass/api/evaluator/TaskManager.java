@@ -36,22 +36,35 @@ public class TaskManager {
     }
 
 
-    public boolean runTaskSynchronously(long taskId, String answer, Executor executor) throws IOException {
+    public boolean runTaskSynchronously(long taskId, String answer, Executor executor) throws IOException,
+            InterruptedException {
         Optional<Task> graphOpt = taskRepository.findById(taskId);
-        String tempGraphPath = "./temp/" + UUID.randomUUID().toString() + "/" + UUID.randomUUID().toString();
-        tempGraphPath = "./temp/graph.json";
-        Path tempGraphPath2 = Path.of(tempGraphPath).toAbsolutePath();
-        String absoluteTempGraphPath = tempGraphPath2.toString();
 
+        Path tempPath =
+                Path.of("." + File.separator + "temp" + File.separator + UUID.randomUUID() + ".json");
+        String absoluteTempGraphPath = tempPath.toAbsolutePath().toString();
+
+        createTempGraphFile(graphOpt, absoluteTempGraphPath);
+        pullImage(executor);
+        return createRunAndRemoveContainer(answer, executor, tempPath, absoluteTempGraphPath);
+
+
+    }
+
+    private void createTempGraphFile(Optional<Task> graphOpt, String absoluteTempGraphPath) throws IOException {
         if (graphOpt.isPresent()) {
             Graph graph = graphOpt.get().getGraph();
             ObjectMapper objectMapper = new ObjectMapper();
             GraphTransformer transformer = new GraphTransformer(labelRepository);
             GraphDTO graphDTO = transformer.toDto(graph);
-            objectMapper.writeValue(new File(tempGraphPath), graphDTO);
+            File resultFile = new File(absoluteTempGraphPath);
+            resultFile.getParentFile().mkdirs();
+            objectMapper.writeValue(resultFile, graphDTO);
         }
-        try (PullImageCmd pullImageCmd = dockerClient.pullImageCmd(executor.getContainerImage())) {
-        }
+    }
+
+    private boolean createRunAndRemoveContainer(String answer, Executor executor, Path tempPath,
+                                                String absoluteTempGraphPath) throws IOException {
         String containerCmd = "sage /sage-evaluation/main.py \"" + answer + "\"";
         Bind graphTempFileBind = new Bind(absoluteTempGraphPath, new Volume("/sage-evaluation/graph.json"));
         // bind temp file to  /sage-evaluation/graph.json
@@ -68,15 +81,22 @@ public class TaskManager {
                     var sc = callback.awaitStatusCode();
                     try (RemoveContainerCmd removeContainerCmd =
                                  dockerClient.removeContainerCmd(container.getId())) {
+                        removeContainerCmd.exec();
                     }
                     // prototyping: exit code == 0 implies answer is correct
-                    Files.deleteIfExists(Path.of(tempGraphPath));
+                    Files.deleteIfExists(tempPath);
                     return Integer.valueOf(0).equals(sc);
                 }
             }
         }
+    }
 
-
+    private void pullImage(Executor executor) throws InterruptedException {
+        try (PullImageCmd pullImageCmd = dockerClient.pullImageCmd(executor.getContainerImage())) {
+            PullImageResultCallback pullImageResultCallback = new PullImageResultCallback();
+            pullImageCmd.exec(pullImageResultCallback);
+            pullImageResultCallback.awaitCompletion();
+        }
     }
 
 }
