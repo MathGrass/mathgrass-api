@@ -1,0 +1,101 @@
+{
+  "id": 1,
+  "labels": [
+    {
+      "id": null,
+      "label": "testManagerTest"
+    }
+  ],
+  "edges": [
+    {
+      "id": 13,
+      "firstVertex": {
+        "id": 1,
+        "x": 10,
+        "y": 10,
+        "label": "1"
+      },
+      "secondVertex": {
+        "id": 2,
+        "x": 50,
+        "y": 50,
+        "label": "2"
+      },
+      "label": null
+    },
+    {
+      "id": null,
+      "firstVertex": {
+        "id": 2,
+        "x": 50,
+        "y": 50,
+        "label": "2"
+      },
+      "secondVertex": {
+        "id": 3,
+        "x": 50,
+        "y": 30,
+        "label": "3"
+      },
+      "label": null
+    },
+    {
+      "id": null,
+      "firstVertex": {
+        "id": 3,
+        "x": 50,
+        "y": 30,
+        "label": "3"
+      },
+      "secondVertex": {
+        "id": 4,
+        "x": 70,
+        "y": 10,
+        "label": "4"
+      },
+      "label": null
+    },
+    {
+      "id": null,
+      "firstVertex": {
+        "id": 4,
+        "x": 70,
+        "y": 10,
+        "label": "4"
+      },
+      "secondVertex": {
+        "id": 1,
+        "x": 10,
+        "y": 10,
+        "label": "1"
+      },
+      "label": null
+    }
+  ],
+  "vertices": [
+    {
+      "id": 1,
+      "x": 10,
+      "y": 10,
+      "label": "1"
+    },
+    {
+      "id": 2,
+      "x": 50,
+      "y": 50,
+      "label": "2"
+    },
+    {
+      "id": 3,
+      "x": 50,
+      "y": 30,
+      "label": "3"
+    },
+    {
+      "id": 4,
+      "x": 70,
+      "y": 10,
+      "label": "4"
+    }
+  ]
+}
