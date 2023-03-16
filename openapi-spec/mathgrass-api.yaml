@@ -382,6 +382,9 @@ components:
     EdgeDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         firstVertex:
           $ref: '#/components/schemas/VertexDTO'
         secondVertex:
