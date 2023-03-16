@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.MessageBrokerConn;
+import de.tudresden.inf.st.mathgrass.api.evaluator.MessageBrokerConn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;

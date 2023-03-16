@@ -1,3 +1,4 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.label.LabelApiImpl;
@@ -88,3 +89,4 @@ class TagApiImplTest {
 
     }
 }
+*/

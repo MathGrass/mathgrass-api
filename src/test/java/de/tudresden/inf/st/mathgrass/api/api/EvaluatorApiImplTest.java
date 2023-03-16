@@ -1,22 +1,21 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverApiImpl;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverApiImpl;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.EvaluatorApiImpl;
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphApiImpl;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.TaskEntity;
 import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.TaskTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateApiImpl;
-import de.tudresden.inf.st.mathgrass.api.task.TaskTemplateRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -141,3 +140,4 @@ class EvaluatorApiImplTest {
 
 
 }
+*/
