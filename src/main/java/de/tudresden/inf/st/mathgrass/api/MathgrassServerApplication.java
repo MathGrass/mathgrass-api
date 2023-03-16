@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.core.DockerClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +36,11 @@ public class MathgrassServerApplication {
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
         return new InternalResourceViewResolver();
+    }
+
+    @Bean
+    public DockerClient dockerClient() {
+        return DockerClientBuilder.getInstance().build();
     }
 
     @EnableWebSecurity

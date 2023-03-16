@@ -6,7 +6,6 @@ import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.Volume;
-import com.github.dockerjava.core.DockerClientBuilder;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
@@ -29,10 +28,10 @@ public class TaskManager {
     private final TaskRepository taskRepository;
     private final LabelRepository labelRepository;
 
-    public TaskManager(TaskRepository taskRepository, LabelRepository labelRepository) {
-        dockerClient = DockerClientBuilder.getInstance().build();
+    public TaskManager(TaskRepository taskRepository, LabelRepository labelRepository, DockerClient dockerClient) {
         this.taskRepository = taskRepository;
         this.labelRepository = labelRepository;
+        this.dockerClient = dockerClient;
     }
 
 

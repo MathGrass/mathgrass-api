@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrass.api.demodata;
 
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
+import de.tudresden.inf.st.mathgrass.api.evaluator.sage.SageEvaluator;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
@@ -123,7 +124,7 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage("sage-evaluator");
+        executor.setContainerImage(SageEvaluator.SAGE_EVALUATOR_IMAGE_NAME);
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
                 import sys;
