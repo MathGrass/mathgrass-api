@@ -15,5 +15,6 @@ public abstract class Answer {
         return id;
     }
 
-    public abstract boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) throws IOException;
+    public abstract boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) throws IOException,
+            InterruptedException;
 }

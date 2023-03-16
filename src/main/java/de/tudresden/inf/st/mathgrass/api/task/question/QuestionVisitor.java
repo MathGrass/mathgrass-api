@@ -13,7 +13,7 @@ public class QuestionVisitor {
         return false;
     }
 
-    public boolean visitFormQuestion(FormQuestion question, AnswerVisitor answerVisitor, String userAnswer) throws IOException {
+    public boolean visitFormQuestion(FormQuestion question, AnswerVisitor answerVisitor, String userAnswer) throws IOException, InterruptedException {
         return question.getAnswer().acceptAnswerVisitor(answerVisitor, userAnswer);
     }
 }

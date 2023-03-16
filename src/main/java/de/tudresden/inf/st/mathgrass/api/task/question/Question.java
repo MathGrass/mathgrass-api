@@ -31,5 +31,5 @@ public abstract class Question {
     }
 
     public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor,
-                                                  String answer) throws IOException;
+                                                  String answer) throws IOException, InterruptedException;
 }

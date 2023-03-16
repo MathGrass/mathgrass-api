@@ -95,15 +95,11 @@ class TaskManagerTest {
     }
 
     @Test
-    void runTaskSmokeTest() throws IOException {
+    void runTaskSmokeTest() throws IOException, InterruptedException {
         Executor executor = new Executor();
         executor.setContainerImage("sage-evaluator");
         boolean result = false;
-        try {
-            result = taskManager.runTaskSynchronously(TASK_ID, "4", executor);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        result = taskManager.runTaskSynchronously(TASK_ID, "4", executor);
         assertTrue(result);
 
     }
