@@ -32,6 +32,5 @@ public class SageEvaluator {
                 dockerClient.buildImageCmd(new File("./evaluators/sage-evaluator/Dockerfile")).withTags(Set.of(SAGE_EVALUATOR_IMAGE_NAME));
         buildImageCmd.exec(buildImageResultCallback);
         buildImageResultCallback.awaitImageId();
-        System.out.println();
     }
 }
