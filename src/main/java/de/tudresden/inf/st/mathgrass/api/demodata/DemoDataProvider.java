@@ -2,19 +2,19 @@ package de.tudresden.inf.st.mathgrass.api.demodata;
 
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
-import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
-import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
+import de.tudresden.inf.st.mathgrass.api.label.Label;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -36,7 +36,6 @@ public class DemoDataProvider {
      * @param graphRepo      graph repository
      * @param taskRepo       task repository
      * @param tagRepo        tag repository
-     * @param taskSolverRepo task solver repository
      */
     public DemoDataProvider(GraphRepository graphRepo,
                             TaskRepository taskRepo, LabelRepository tagRepo){
@@ -124,7 +123,7 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage("hello-world");
+        executor.setContainerImage("sleepapp");
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
                 import sys;
@@ -133,6 +132,7 @@ public class DemoDataProvider {
         sourceFile.setContents(executionDescriptor);
         sourceFile.setPath("/home/evaluation.py");
         executor.setCustomEntrypoint("python3 /home/evaluation.py");
+        executor.setSourceFiles(List.of(sourceFile));
         dynamicAnswer.setExecutor(executor);
 
         question.setAnswer(dynamicAnswer);
@@ -143,7 +143,6 @@ public class DemoDataProvider {
         // TODO implement question
 
         taskRepo.save(demoTask1);
-        System.out.println();
     }
 
     /**

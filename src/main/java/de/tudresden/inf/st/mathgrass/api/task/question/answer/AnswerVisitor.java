@@ -8,6 +8,6 @@ public class AnswerVisitor {
     }
 
     public boolean visitDynamicAnswer(DynamicAnswer answer, String userAnswer){
-        return TaskManager.runTask(11, userAnswer, answer.getExecutor());
+        return TaskManager.runTaskSynchronously(11, userAnswer, answer.getExecutor());
     }
 }
