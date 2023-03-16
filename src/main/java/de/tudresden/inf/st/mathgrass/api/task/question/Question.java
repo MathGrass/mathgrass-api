@@ -1,8 +1,10 @@
 package de.tudresden.inf.st.mathgrass.api.task.question;
 
 import de.tudresden.inf.st.mathgrass.api.label.Label;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.List;
 
 @Entity
@@ -28,5 +30,6 @@ public abstract class Question {
         this.questionText = questionText;
     }
 
-    public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, String answer);
+    public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor,
+                                                  String answer) throws IOException;
 }

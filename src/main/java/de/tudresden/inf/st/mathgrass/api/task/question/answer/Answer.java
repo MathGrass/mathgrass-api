@@ -2,6 +2,7 @@ package de.tudresden.inf.st.mathgrass.api.task.question.answer;
 
 
 import javax.persistence.*;
+import java.io.IOException;
 
 @Entity
 public abstract class Answer {
@@ -14,5 +15,5 @@ public abstract class Answer {
         return id;
     }
 
-    public abstract boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer);
+    public abstract boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) throws IOException;
 }

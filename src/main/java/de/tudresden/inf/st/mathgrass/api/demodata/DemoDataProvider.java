@@ -123,7 +123,7 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage("sleepapp");
+        executor.setContainerImage("sage-evaluator");
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
                 import sys;

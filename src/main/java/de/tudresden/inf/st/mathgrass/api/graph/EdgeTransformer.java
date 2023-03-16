@@ -13,12 +13,13 @@ public class EdgeTransformer extends ModelTransformer<EdgeDTO, Edge> {
      */
     @Override
     public EdgeDTO toDto(Edge entity) {
-        EdgeDTO EdgeDTO = new EdgeDTO();
+        EdgeDTO edgeDTO = new EdgeDTO();
 
-        EdgeDTO.setLabel(entity.getLabel());
-        EdgeDTO.setFirstVertex(new VertexTransformer().toDto(entity.getSourceVertex()));
-        EdgeDTO.setSecondVertex(new VertexTransformer().toDto(entity.getTargetVertex()));
-        return EdgeDTO;
+        edgeDTO.setLabel(entity.getLabel());
+        edgeDTO.setId(entity.getId());
+        edgeDTO.setFirstVertex(new VertexTransformer().toDto(entity.getSourceVertex()));
+        edgeDTO.setSecondVertex(new VertexTransformer().toDto(entity.getTargetVertex()));
+        return edgeDTO;
     }
 
     /**

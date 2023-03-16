@@ -3,6 +3,7 @@ package de.tudresden.inf.st.mathgrass.api.task.question.answer;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 
 import javax.persistence.*;
+import java.io.IOException;
 
 @Entity
 public class DynamicAnswer extends Answer {
@@ -14,6 +15,7 @@ public class DynamicAnswer extends Answer {
     @ManyToOne(cascade = CascadeType.ALL)
     private Executor executor;
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -27,7 +29,7 @@ public class DynamicAnswer extends Answer {
     }
 
     @Override
-    public boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) {
+    public boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) throws IOException {
         return visitor.visitDynamicAnswer(this, userAnswer);
     }
 

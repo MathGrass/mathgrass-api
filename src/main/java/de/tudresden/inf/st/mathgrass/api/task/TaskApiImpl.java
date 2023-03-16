@@ -1,13 +1,14 @@
 package de.tudresden.inf.st.mathgrass.api.task;
 
+import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.*;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
-import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
 import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,21 +45,27 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     /**
      * Task template repository.
      */
+    final QuestionVisitor questionVisitor;
+    final AnswerVisitor answerVisitor;
 
 
     /**
      * Constructor.
      *
-     * @param taskRepository       task repository
-     * @param graphRepository      graph repository
-     * @param labelRepository      tag repository
+     * @param taskRepository  task repository
+     * @param graphRepository graph repository
+     * @param labelRepository tag repository
      */
     public TaskApiImpl(TaskRepository taskRepository,
                        GraphRepository graphRepository,
-                       LabelRepository labelRepository) {
+                       LabelRepository labelRepository,
+                       QuestionVisitor questionVisitor,
+                       AnswerVisitor answerVisitor) {
         this.taskRepository = taskRepository;
         this.graphRepository = graphRepository;
         this.labelRepository = labelRepository;
+        this.questionVisitor = questionVisitor;
+        this.answerVisitor = answerVisitor;
     }
 
     /**
@@ -194,8 +202,12 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         if (optTask.isPresent()) {
             String userAnswer = evaluateAnswerRequest.getAnswer();
             Task task = optTask.get();
-            QuestionVisitor questionVisitor = new QuestionVisitor();
-            boolean result = task.getQuestion().acceptQuestionVisitor(questionVisitor, userAnswer);
+            boolean result = false;
+            try {
+                result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, userAnswer);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
         } else {
