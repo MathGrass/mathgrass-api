@@ -409,7 +409,6 @@ components:
           type: string
       required:
         - question
-        - questionType
     TaskSolverDTO:
       type: object
       properties:
