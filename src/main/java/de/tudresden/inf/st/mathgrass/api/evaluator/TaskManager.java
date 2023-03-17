@@ -44,8 +44,7 @@ public class TaskManager {
      * Runs a task synchronously. Returns true if the evaluation was successful (i.e., student answer is correct),
      * false otherwise
      */
-    public boolean runTaskSynchronously(long taskId, String answer, Executor executor) throws IOException,
-            InterruptedException {
+    public boolean runTaskSynchronously(long taskId, String answer, Executor executor) throws IOException {
         Optional<Task> graphOpt = taskRepository.findById(taskId);
         if (graphOpt.isEmpty()) {
             throw new IllegalArgumentException("Task must be present and its Graph must not be null");
@@ -66,7 +65,6 @@ public class TaskManager {
         binds.add(graphTempFileBind);
 
         // copy source files
-        List<Bind> sourceFileBinds = new ArrayList<>();
         for (SourceFile sourceFile : executor.getSourceFiles()) {
             Path sourceFilePath = Path.of(tempFolder + UUID.randomUUID()).toAbsolutePath();
             Files.write(sourceFilePath, sourceFile.getContents().getBytes());
@@ -117,8 +115,6 @@ public class TaskManager {
             String containerId = container.getId();
             // returns true if evaluation was successful, false if not
             // might need some rework to catch errors
-            // remove container in separate thread
-            new Thread(() -> removeContainer(containerId)).start();
             return startAndWaitForContainer(containerId);
         }
     }
@@ -126,17 +122,19 @@ public class TaskManager {
     private boolean startAndWaitForContainer(String containerId) {
         try (StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(containerId)) {
             startContainerCmd.exec();
-            return waitForContainerResult(containerId);
+            return waitForContainerResultAndRemoveContainer(containerId);
         }
     }
 
-    private boolean waitForContainerResult(String containerId) {
+    private boolean waitForContainerResultAndRemoveContainer(String containerId) {
         WaitContainerResultCallback callback = new WaitContainerResultCallback();
         try (WaitContainerCmd waitContainerCmd = dockerClient.waitContainerCmd(containerId)) {
             waitContainerCmd.exec(callback);
             var containerStatusCodeOnExit = callback.awaitStatusCode();
             logContainerOutput(containerId);
             // prototyping: exit code == 0 implies answer is correct
+            // remove container in separate thread
+            new Thread(() -> removeContainer(containerId)).start();
             return Integer.valueOf(0).equals(containerStatusCodeOnExit);
         }
     }
