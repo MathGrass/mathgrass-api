@@ -3,6 +3,7 @@ package de.tudresden.inf.st.mathgrass.api.graph;
 import de.tudresden.inf.st.mathgrass.api.label.Label;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Graph {
      * Label of graph.
      */
     @ElementCollection
-    private List<String> labels = null;
+    private List<String> labels = new ArrayList<>();
 
     /**
      * Tags of graph.

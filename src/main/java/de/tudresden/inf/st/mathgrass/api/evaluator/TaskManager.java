@@ -3,22 +3,26 @@ package de.tudresden.inf.st.mathgrass.api.evaluator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.*;
-import com.github.dockerjava.api.model.Bind;
-import com.github.dockerjava.api.model.HostConfig;
-import com.github.dockerjava.api.model.Volume;
+import com.github.dockerjava.api.model.*;
+import com.github.dockerjava.core.command.LogContainerResultCallback;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
+import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +31,8 @@ public class TaskManager {
     private final DockerClient dockerClient;
     private final TaskRepository taskRepository;
     private final LabelRepository labelRepository;
+    private static final Logger logger = LogManager.getLogger(TaskManager.class);
+
 
     public TaskManager(TaskRepository taskRepository, LabelRepository labelRepository, DockerClient dockerClient) {
         this.taskRepository = taskRepository;
@@ -34,59 +40,124 @@ public class TaskManager {
         this.dockerClient = dockerClient;
     }
 
-
+    /**
+     * Runs a task synchronously. Returns true if the evaluation was successful (i.e., student answer is correct),
+     * false otherwise
+     */
     public boolean runTaskSynchronously(long taskId, String answer, Executor executor) throws IOException,
             InterruptedException {
         Optional<Task> graphOpt = taskRepository.findById(taskId);
-
-        Path tempPath =
-                Path.of("." + File.separator + "temp" + File.separator + UUID.randomUUID() + ".json");
-        String absoluteTempGraphPath = tempPath.toAbsolutePath().toString();
-
-        createTempGraphFile(graphOpt, absoluteTempGraphPath);
-        pullImage(executor);
-        return createRunAndRemoveContainer(answer, executor, tempPath, absoluteTempGraphPath);
-
-
-    }
-
-    private void createTempGraphFile(Optional<Task> graphOpt, String absoluteTempGraphPath) throws IOException {
-        if (graphOpt.isPresent()) {
-            Graph graph = graphOpt.get().getGraph();
-            ObjectMapper objectMapper = new ObjectMapper();
-            GraphTransformer transformer = new GraphTransformer(labelRepository);
-            GraphDTO graphDTO = transformer.toDto(graph);
-            File resultFile = new File(absoluteTempGraphPath);
-            resultFile.getParentFile().mkdirs();
-            objectMapper.writeValue(resultFile, graphDTO);
+        if (graphOpt.isEmpty()) {
+            throw new IllegalArgumentException("Task must be present and its Graph must not be null");
         }
+
+        Graph graph = graphOpt.get().getGraph();
+
+        // set up temp files
+        List<Path> tempPaths = new ArrayList<>();
+        List<Bind> binds = new ArrayList<>();
+        String tempFolder = "." + File.separator + "temp" + File.separator;
+        // copy Graph
+        Path tempGraphPath = Path.of(tempFolder + UUID.randomUUID()).toAbsolutePath();
+        createTempGraphFile(graph, tempGraphPath);
+        tempPaths.add(tempGraphPath);
+        // bind graph
+        Bind graphTempFileBind = new Bind(tempGraphPath.toString(), new Volume(executor.getGraphPath()), AccessMode.ro);
+        binds.add(graphTempFileBind);
+
+        // copy source files
+        List<Bind> sourceFileBinds = new ArrayList<>();
+        for (SourceFile sourceFile : executor.getSourceFiles()) {
+            Path sourceFilePath = Path.of(tempFolder + UUID.randomUUID()).toAbsolutePath();
+            Files.write(sourceFilePath, sourceFile.getContents().getBytes());
+            Bind sourceFileFind = new Bind(sourceFilePath.toString(), new Volume(sourceFile.getPath()), AccessMode.ro);
+            tempPaths.add(sourceFilePath);
+            binds.add(sourceFileFind);
+        }
+
+        // define host config with binds
+        HostConfig hostConfig = new HostConfig();
+        hostConfig.withBinds(binds);
+
+        //pullImage(executor);
+
+        boolean result = createRunAndRemoveContainer(answer, executor, hostConfig);
+        // remove temp files in separate thread
+        new Thread(() -> removeTempFiles(tempPaths)).start();
+        return result;
     }
 
-    private boolean createRunAndRemoveContainer(String answer, Executor executor, Path tempPath,
-                                                String absoluteTempGraphPath) throws IOException {
-        String containerCmd = "sage /sage-evaluation/main.py \"" + answer + "\"";
-        Bind graphTempFileBind = new Bind(absoluteTempGraphPath, new Volume("/sage-evaluation/graph.json"));
-        // bind temp file to  /sage-evaluation/graph.json
-        HostConfig hostConfig = new HostConfig();
-        hostConfig.withBinds(graphTempFileBind);
+    private void createTempGraphFile(Graph graph, Path tempGraphPath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        GraphTransformer transformer = new GraphTransformer(labelRepository);
+        GraphDTO graphDTO = transformer.toDto(graph);
+        File resultFile = new File(tempGraphPath.toAbsolutePath().toFile().toURI());
+        resultFile.getParentFile().mkdirs();
+        objectMapper.writeValue(resultFile, graphDTO);
+    }
+
+    private void removeTempFiles(List<Path> paths) {
+        paths.forEach(path -> {
+            try {
+                Files.deleteIfExists(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+
+    private boolean createRunAndRemoveContainer(String answer, Executor executor, HostConfig hostConfig) {
+        // append student answer as argument after entrypoint
+        String containerCmd = executor.getCustomEntrypoint() + " " + answer;
+
         try (CreateContainerCmd createContainerCmd =
                      dockerClient.createContainerCmd(executor.getContainerImage()).withCmd(containerCmd).withHostConfig(hostConfig)) {
             CreateContainerResponse container = createContainerCmd.exec();
-            try (StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(container.getId())) {
-                startContainerCmd.exec();
-                WaitContainerResultCallback callback = new WaitContainerResultCallback();
-                try (WaitContainerCmd waitContainerCmd = dockerClient.waitContainerCmd(container.getId())) {
-                    waitContainerCmd.exec(callback);
-                    var sc = callback.awaitStatusCode();
-                    try (RemoveContainerCmd removeContainerCmd =
-                                 dockerClient.removeContainerCmd(container.getId())) {
-                        removeContainerCmd.exec();
-                    }
-                    // prototyping: exit code == 0 implies answer is correct
-                    Files.deleteIfExists(tempPath);
-                    return Integer.valueOf(0).equals(sc);
+            String containerId = container.getId();
+            // returns true if evaluation was successful, false if not
+            // might need some rework to catch errors
+            // remove container in separate thread
+            new Thread(() -> removeContainer(containerId)).start();
+            return startAndWaitForContainer(containerId);
+        }
+    }
+
+    private boolean startAndWaitForContainer(String containerId) {
+        try (StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(containerId)) {
+            startContainerCmd.exec();
+            return waitForContainerResult(containerId);
+        }
+    }
+
+    private boolean waitForContainerResult(String containerId) {
+        WaitContainerResultCallback callback = new WaitContainerResultCallback();
+        try (WaitContainerCmd waitContainerCmd = dockerClient.waitContainerCmd(containerId)) {
+            waitContainerCmd.exec(callback);
+            var containerStatusCodeOnExit = callback.awaitStatusCode();
+            logContainerOutput(containerId);
+            // prototyping: exit code == 0 implies answer is correct
+            return Integer.valueOf(0).equals(containerStatusCodeOnExit);
+        }
+    }
+
+    private void logContainerOutput(String containerId) {
+        LogContainerCmd logContainerCmd = dockerClient.logContainerCmd(containerId);
+        logContainerCmd.withStdOut(true).withStdErr(true);
+        try {
+            logContainerCmd.exec(new LogContainerResultCallback() {
+                @Override
+                public void onNext(Frame item) {
+                    logger.info("Log from container {}: {}", containerId, item);
                 }
-            }
+            }).awaitCompletion();
+        } catch (InterruptedException e) {
+        }
+    }
+
+    private void removeContainer(String containerId) {
+        try (RemoveContainerCmd removeContainerCmd = dockerClient.removeContainerCmd(containerId)) {
+            removeContainerCmd.exec();
         }
     }
 

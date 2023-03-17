@@ -34,12 +34,12 @@ public class DemoDataProvider {
     /**
      * Constructor.
      *
-     * @param graphRepo      graph repository
-     * @param taskRepo       task repository
-     * @param tagRepo        tag repository
+     * @param graphRepo graph repository
+     * @param taskRepo  task repository
+     * @param tagRepo   tag repository
      */
     public DemoDataProvider(GraphRepository graphRepo,
-                            TaskRepository taskRepo, LabelRepository tagRepo){
+                            TaskRepository taskRepo, LabelRepository tagRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.tagRepo = tagRepo;
@@ -124,24 +124,27 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage(SageEvaluator.SAGE_EVALUATOR_IMAGE_NAME);
+        executor.setContainerImage(SageEvaluator.SAGE_IMAGE_COMPLETE_TAG);
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
-                import sys;
-                sys.exit(0)
+                from sage.all import *
+                                
+                def instructor_evaluation(graph: Graph, user_answer):
+                    if str(len(graph.edges())) == user_answer:
+                        return True
+                    else:
+                        return False
                 """;
         sourceFile.setContents(executionDescriptor);
-        sourceFile.setPath("/home/evaluation.py");
-        executor.setCustomEntrypoint("python3 /home/evaluation.py");
+        sourceFile.setPath("/sage-evaluation/instructor_evaluation.py");
+        executor.setCustomEntrypoint("sage /sage-evaluation/main.py");
         executor.setSourceFiles(List.of(sourceFile));
+        executor.setGraphPath("/sage-evaluation/graph.json");
         dynamicAnswer.setExecutor(executor);
 
         question.setAnswer(dynamicAnswer);
 
         demoTask1.setQuestion(question);
-
-
-        // TODO implement question
 
         taskRepo.save(demoTask1);
     }
