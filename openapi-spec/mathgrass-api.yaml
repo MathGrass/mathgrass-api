@@ -11,6 +11,26 @@ info:
     url: "https://github.com/MathGrass/mathgrass-api"
 
 paths:
+  /graph:
+    post:
+      description: Create a new graph
+      operationId: createGraph
+      requestBody:
+        description: Graph object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphDTO'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+      x-codegen-request-body-name: graph
   /graph/{graphId}:
     get:
       description: Get a graph by id
@@ -29,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Graph'
+                $ref: '#/components/schemas/GraphDTO'
     put:
       description: Update a graph
       operationId: updateGraph
@@ -46,23 +66,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Graph'
+              $ref: '#/components/schemas/GraphDTO'
         required: true
       responses:
         200:
           description: successful operation
           content: {}
       x-codegen-request-body-name: graph
-  /graph:
+  /task:
+    get:
+      description: Get the IDs of all tasks
+      operationId: getIdsOfAllTasks
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskIdLabelTupleDTO'
     post:
-      description: Create a new graph
-      operationId: createGraph
+      description: Creates a task
+      operationId: createTask
       requestBody:
-        description: Graph object that needs to be added to the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Graph'
+              $ref: '#/components/schemas/TaskDTO'
         required: true
       responses:
         200:
@@ -72,124 +103,7 @@ paths:
               schema:
                 type: integer
                 format: int64
-      x-codegen-request-body-name: graph
-  /taskTemplate/{taskTemplateId}:
-    get:
-      description: Returns a task template
-      operationId: getTaskTemplateById
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskTemplate'
-        404:
-          description: Task Template not found
-          content: {}
-  /taskTemplate/{taskTemplateId}/getHint/{index}:
-    get:
-      description: Returns a hint
-      operationId: getTaskTemplateHint
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: index
-        in: path
-        description: Index of the hint
-        required: true
-        schema:
-          type: integer
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskHint'
-        404:
-          description: Task Template not found
-          content: {}
-  /taskTemplate:
-    post:
-      description: Creates a task template
-      operationId: createTaskTemplate
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskTemplate'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: taskTemplate
-  /taskTemplate/{taskTemplateId}/setLabel:
-    put:
-      description: Sets a label for a task template
-      operationId: setTaskTemplateLabel
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: Label to set
-        content:
-          '*/*':
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: label
-  /taskTemplate/{taskTemplateId}/setQuestion:
-    put:
-      description: Sets a question for a task template
-      operationId: setTaskTemplateQuestion
-      parameters:
-      - name: taskTemplateId
-        in: path
-        description: ID of task template
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: Question to set
-        content:
-          '*/*':
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: question
+      x-codegen-request-body-name: task
   /task/{taskId}:
     get:
       description: Returns a task
@@ -208,7 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Task'
+                $ref: '#/components/schemas/TaskDTO'
     put:
       description: Updates a task
       operationId: updateTask
@@ -224,308 +138,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Task'
+              $ref: '#/components/schemas/TaskDTO'
         required: true
       responses:
         200:
           description: successful operation
           content: {}
       x-codegen-request-body-name: task
-  /task:
-    get:
-      description: Get the IDs of all tasks
-      operationId: getIdsOfAllTasks
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskIdLabelTuple'
+  /task/{taskId}/evaluateAnswer:
     post:
-      description: Creates a task
-      operationId: createTask
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Task'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: task
-  /task/{taskId}/addFeedback:
-    post:
-      description: Adds feedback to a task
-      operationId: addTaskFeedback
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: feedback content
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Feedback'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: feedback
-  /task/{taskId}/getFeedback:
-    get:
-      description: Get all feedback of a task
-      operationId: getTaskFeedback
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Feedback'
-  /task/{taskId}/addHint:
-    post:
-      description: Adds a hint to a task
-      operationId: addTaskHint
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      requestBody:
-        description: hint item
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskHint'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: hint
-  /task/{taskId}/hint/{hintLevel}:
-    get:
-      description: Get hint at hintlevel for task
-      operationId: getHintForTask
-      parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: hintLevel
-        in: path
-        description: level of the hint
-        required: true
-        schema:
-          type: integer
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskHint'
-  /taskCollection:
-    get:
-      description: Get all task collection
-      operationId: getTaskCollections
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskCollection'
-    post:
-      description: Creates a task collection
-      operationId: createTaskCollection
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskCollection'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/TaskCollection'
-      x-codegen-request-body-name: taskCollection
-  /taskCollection/{taskCollectionId}:
-    get:
-      description: Returns a task collection
-      operationId: getTaskCollectionById
-      parameters:
-      - name: taskCollectionId
-        in: path
-        description: ID of task collection
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskCollection'
-  /taskTopic:
-    get:
-      description: Get all task topics
-      operationId: getTaskTopics
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskTopic'
-    post:
-      description: Creates a task topic
-      operationId: createTaskTopic
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskTopic'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/TaskTopic'
-      x-codegen-request-body-name: taskTopic
-  /taskSolver/{taskSolverId}:
-    get:
-      description: Returns a task solver
-      operationId: getTaskSolverById
-      parameters:
-      - name: taskSolverId
-        in: path
-        description: ID of task solver
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskSolver'
-  /taskSolver:
-    post:
-      description: Creates a task solver
-      operationId: createTaskSolver
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaskSolver'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: taskSolver
-  /label/{labelId}:
-    get:
-      description: Returns a label
-      operationId: getLabelById
-      parameters:
-      - name: labelId
-        in: path
-        description: ID of label
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Label'
-  /label:
-    get:
-      description: Get all labels
-      operationId: getLabels
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Label'
-    post:
-      description: Creates a label
-      operationId: createLabel
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Label'
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Label'
-      x-codegen-request-body-name: label
-  /evaluator/staticAssessment/{taskId}:
-    post:
-      description: Submit an answer to a static task and expect a boolean response
-      operationId: runStaticAssessment
+      description: Submit an answer to a task and expect a boolean response
+      operationId: evaluateAnswer
       parameters:
         - name: taskId
           in: path
@@ -558,10 +181,10 @@ paths:
                     type: boolean
                 required:
                   - isAssessmentCorrect
-  /evaluator/runTask/{taskId}:
+  /task/{taskId}/addHint:
     post:
-      description: Run a task with an answer
-      operationId: runTask
+      description: Adds a hint to a task
+      operationId: addTaskHint
       parameters:
       - name: taskId
         in: path
@@ -571,11 +194,63 @@ paths:
           type: integer
           format: int64
       requestBody:
-        description: Answer of student
+        description: hint item
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/HintDTO'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: hint
+  /task/{taskId}/hint/{hintLevel}:
+    get:
+      description: Get hint at hintlevel for task
+      operationId: getHintForTask
+      parameters:
+      - name: taskId
+        in: path
+        description: ID of task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: hintLevel
+        in: path
+        description: level of the hint
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HintDTO'
+  /taskCollection:
+    get:
+      description: Get all task collection
+      operationId: getTaskCollections
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskCollectionDTO'
+    post:
+      description: Creates a task collection
+      operationId: createTaskCollection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCollectionDTO'
         required: true
       responses:
         200:
@@ -583,17 +258,16 @@ paths:
           content:
             '*/*':
               schema:
-                type: integer
-                format: int64
-      x-codegen-request-body-name: answer
-  /evaluator/taskResult/{resultId}:
+                $ref: '#/components/schemas/TaskCollectionDTO'
+      x-codegen-request-body-name: taskCollection
+  /taskCollection/{taskCollectionId}:
     get:
-      description: Get the result for an evaluation process
-      operationId: getTaskResult
+      description: Returns a task collection
+      operationId: getTaskCollectionById
       parameters:
-      - name: resultId
+      - name: taskCollectionId
         in: path
-        description: ID of task
+        description: ID of task collection
         required: true
         schema:
           type: integer
@@ -604,11 +278,61 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResult'
+                $ref: '#/components/schemas/TaskCollectionDTO'
+
+  /label/{labelId}:
+    get:
+      description: Returns a label
+      operationId: getLabelById
+      parameters:
+      - name: labelId
+        in: path
+        description: ID of label
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelDTO'
+  /label:
+    get:
+      description: Get all labels
+      operationId: getLabels
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LabelDTO'
+    post:
+      description: Creates a label
+      operationId: createLabel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelDTO'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LabelDTO'
+      x-codegen-request-body-name: label
 
 components:
   schemas:
-    Graph:
+    GraphDTO:
       type: object
       properties:
         id:
@@ -617,20 +341,20 @@ components:
         labels:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: '#/components/schemas/LabelDTO'
         edges:
           type: array
           items:
-            $ref: '#/components/schemas/Edge'
+            $ref: '#/components/schemas/EdgeDTO'
         vertices:
           type: array
           items:
-              $ref: '#/components/schemas/Vertex'
+              $ref: '#/components/schemas/VertexDTO'
       required:
         - id
         - edges
         - vertices
-    Vertex:
+    VertexDTO:
       title: Vertex
       type: object
       properties:
@@ -655,19 +379,22 @@ components:
         - x
         - y
         - id
-    Edge:
+    EdgeDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         firstVertex:
-          $ref: '#/components/schemas/Vertex'
+          $ref: '#/components/schemas/VertexDTO'
         secondVertex:
-          $ref: '#/components/schemas/Vertex'
+          $ref: '#/components/schemas/VertexDTO'
         label:
           type: string
       required:
         - firstVertex
         - secondVertex
-    Label:
+    LabelDTO:
       type: object
       properties:
         id:
@@ -678,33 +405,14 @@ components:
       required:
         - id
         - label
-    Question:
+    QuestionDTO:
       type: object
       properties:
         question:
           type: string
-        isDynamicQuestion:
-          type: boolean
-        taskSolver:
-          $ref: '#/components/schemas/TaskSolver'
-        questionType:
-          type: string
-          enum:
-          - freetext
-          - number
-          - mark_nodes
-          - mark_edges
-        answer:
-          type: string
-          nullable: true
-        possible_answers:
-          type: array
-          items:
-            type: string
       required:
         - question
-        - questionType
-    TaskSolver:
+    TaskSolverDTO:
       type: object
       properties:
         id:
@@ -714,57 +422,21 @@ components:
           type: string
         executionDescriptor:
           type: string
-    TaskTemplate:
+    TaskDTO:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        label:
-          type: string
-        question:
-          type: string
-        taskSolver:
-          type: integer
-          format: int64
-        hints:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskHint'
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-    Task:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        template:
-          $ref: '#/components/schemas/TaskTemplate'
         graph:
-          $ref: '#/components/schemas/Graph'
-        hints:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskHint'
-        feedback:
-          type: array
-          items:
-            type: integer
-            format: int64
+          $ref: '#/components/schemas/GraphDTO'
         question:
-          $ref: '#/components/schemas/Question'
-        label:
-          type: string
-        answer:
-          type: string
+          $ref: '#/components/schemas/QuestionDTO'
       required:
         - question
         - id
         - graph
-    TaskIdLabelTuple:
+    TaskIdLabelTupleDTO:
       type: object
       properties:
         id:
@@ -775,7 +447,7 @@ components:
       required:
         - id
         - label
-    TaskHint:
+    HintDTO:
       type: object
       properties:
         id:
@@ -788,7 +460,7 @@ components:
       required:
         - id
         - content
-    TaskResult:
+    TaskResultDTO:
       type: object
       properties:
         id:
@@ -805,7 +477,7 @@ components:
           type: string
         answerTrue:
           type: boolean
-    Feedback:
+    FeedbackDTO:
       type: object
       properties:
         id:
@@ -813,20 +485,7 @@ components:
           format: int64
         content:
           type: string
-    TaskTopic:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        label:
-          type: string
-        tasks:
-          type: array
-          items:
-            type: integer
-            format: int64
-    TaskCollection:
+    TaskCollectionDTO:
       type: object
       properties:
         id:

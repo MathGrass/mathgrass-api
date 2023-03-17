@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MathGrass Server with Initialized Demodata" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="demodata" />
+    <option name="ACTIVE_PROFILES" value="dev,sage-evaluator,demodata"/>
     <module name="mathgrass-api.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.tudresden.inf.st.mathgrass.api.MathgrassServerApplication" />
     <method v="2">

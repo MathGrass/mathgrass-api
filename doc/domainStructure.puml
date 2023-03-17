@@ -1,0 +1,99 @@
+@startuml
+hide circle
+skinparam shadowing false
+skinparam monochrome false
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 25
+scale 1.5
+
+class Task #lightgreen
+
+Task --> Question
+
+class Question #yellow {
+    questionText: String
+    labels: List<Label>
+}
+class GraphMarkingQuestion #yellow
+class FormQuestion #yellow
+
+Question <|-- FormQuestion
+Question <|-- GraphMarkingQuestion
+
+class Answer #orange {
+}
+class StaticAnswer #orange {
+    answer: String
+}
+class DynamicAnswer #orange
+
+Answer <|-- StaticAnswer
+Answer <|-- DynamicAnswer
+
+class Hint #lightblue
+Question --> Hint
+
+class TextualHint #lightblue
+class DynamicHint #lightblue
+class GraphicalHint #lightblue
+
+Hint <|-- TextualHint
+TextualHint <|-- DynamicHint
+Hint <|-- GraphicalHint
+
+class GraphMarking #red
+
+FormQuestion --> Answer : answer
+GraphMarkingQuestion --> GraphMarking : answer
+GraphicalHint --> GraphMarking
+
+GraphMarking -left-> Vertex
+GraphMarking -left-> Edge
+
+class Graph #violet{
+    labels: List<Label>
+}
+
+class Edge #violet {
+    label: String
+}
+class Vertex #violet {
+    label: String
+    x: int [0..99]
+    y: int [0..99]
+}
+Graph *-- "*" Edge
+Graph *-- "*" Vertex
+Edge --> "1" Vertex
+Edge --> "1" Vertex
+
+Question --> Graph
+
+class Executor {
+    labels: List<Label>
+    containerImage: String
+    sourcePath: String
+    customEntrypoint: String
+}
+
+Executor --> "*" SourceFile
+
+class SourceFile {
+    contents: String
+    path: String
+}
+
+DynamicHint --> Executor
+DynamicAnswer --> Executor
+
+
+@enduml
+
+# Polymorphic calls
+- API consumer queries for Hint
+    - either textual or graphical hint is returned
+- consumer queries for Question
+    - graph marking question or form question might be returned
+    - should not matter, create QuestionDTO - only text is relevant
+-

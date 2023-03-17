@@ -2,75 +2,66 @@
 
 title MathGrass Schemas Diagram
 
-entity Edge {
-    * firstVertex: Vertex
-    * secondVertex: Vertex
+entity EdgeDTO {
+    id: Long
+    * firstVertex: VertexDTO
+    * secondVertex: VertexDTO
     label: String
 }
 
-entity Feedback {
+entity EvaluateAnswer200Response {
+    * isAssessmentCorrect: Boolean
+}
+
+entity EvaluateAnswerRequest {
+    * answer: String
+}
+
+entity FeedbackDTO {
     id: Long
     content: String
 }
 
-entity Graph {
+entity GraphDTO {
     * id: Long
-    labels: List<Label>
-    * edges: List<Edge>
-    * vertices: List<Vertex>
+    labels: List<LabelDTO>
+    * edges: List<EdgeDTO>
+    * vertices: List<VertexDTO>
 }
 
-entity Label {
-    * id: Long
-    * label: String
-}
-
-entity Question {
-    * question: String
-    isDynamicQuestion: Boolean
-    taskSolver: TaskSolver
-    * questionType: String
-    answer: String
-    possible_answers: List<String>
-}
-
-entity RunStaticAssessment200Response {
-    * isAssessmentCorrect: Boolean
-}
-
-entity RunStaticAssessmentRequest {
-    * answer: String
-}
-
-entity Task {
-    * id: Long
-    template: TaskTemplate
-    * graph: Graph
-    hints: List<TaskHint>
-    feedback: List<Long>
-    * question: Question
-    label: String
-    answer: String
-}
-
-entity TaskCollection {
-    id: Long
-    label: String
-    tasks: List<Long>
-}
-
-entity TaskHint {
+entity HintDTO {
     * id: Long
     label: String
     * content: String
 }
 
-entity TaskIdLabelTuple {
+entity LabelDTO {
     * id: Long
     * label: String
 }
 
-entity TaskResult {
+entity QuestionDTO {
+    * question: String
+}
+
+entity TaskCollectionDTO {
+    id: Long
+    label: String
+    tasks: List<Long>
+}
+
+entity TaskDTO {
+    * id: Long
+    * graph: GraphDTO
+    * question: QuestionDTO
+}
+
+entity TaskIdLabelTupleDTO {
+    * id: Long
+    * label: String
+}
+
+entity TaskResultDTO {
     id: Long
     task: Long
     answer: String
@@ -79,28 +70,13 @@ entity TaskResult {
     answerTrue: Boolean
 }
 
-entity TaskSolver {
+entity TaskSolverDTO {
     id: Long
     label: String
     executionDescriptor: String
 }
 
-entity TaskTemplate {
-    id: Long
-    label: String
-    question: String
-    taskSolver: Long
-    hints: List<TaskHint>
-    labels: List<Label>
-}
-
-entity TaskTopic {
-    id: Long
-    label: String
-    tasks: List<Long>
-}
-
-entity Vertex {
+entity VertexDTO {
     * id: Long
     * x: Integer
     * y: Integer
@@ -108,17 +84,12 @@ entity Vertex {
 }
 
 
-TaskTemplate -- "0..*" TaskHint : hints
-TaskTemplate -- "0..*" Label : labels
-Task -- TaskTemplate : template
-Task -- Graph : graph
-Task -- "0..*" TaskHint : hints
-Task -- Question : question
-Graph -- "0..*" Label : labels
-Graph -- "0..*" Edge : edges
-Graph -- "0..*" Vertex : vertices
-Question -- TaskSolver : taskSolver
-Edge -- Vertex : firstVertex
-Edge -- Vertex : secondVertex
+GraphDTO -- "0..*" LabelDTO : labels
+GraphDTO -- "0..*" EdgeDTO : edges
+GraphDTO -- "0..*" VertexDTO : vertices
+TaskDTO -- GraphDTO : graph
+TaskDTO -- QuestionDTO : question
+EdgeDTO -- VertexDTO : firstVertex
+EdgeDTO -- VertexDTO : secondVertex
 
 @enduml

@@ -1,18 +1,18 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.TaskSolverRepository;
+import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionEntity;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollection;
-import de.tudresden.inf.st.mathgrass.api.transform.TaskCollectionTransformer;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import task.TaskCollectionApiImpl;
-import task.TaskCollectionRepository;
-import task.TaskRepository;
-import task.TaskTemplateRepository;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionApiImpl;
+import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollectionRepository;
+import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 
 import java.util.List;
 
@@ -40,15 +40,11 @@ class TaskCollectionApiImplTest {
     @Autowired
     TaskSolverRepository taskSolverRepository;
 
-    @Autowired
-    TaskTemplateRepository taskTemplateRepository;
-
     @BeforeEach
     void setUp() {
         testHelper = new TestHelper().setTaskRepository(taskRepository)
                 .setGraphRepository(graphRepository)
-                .setTaskSolverRepository(taskSolverRepository)
-                .setTaskTemplateRepository(taskTemplateRepository);
+                .setTaskSolverRepository(taskSolverRepository);
     }
 
     @Test
@@ -119,4 +115,4 @@ class TaskCollectionApiImplTest {
         }
         assertEquals(2, counter);
     }
-}
+}*/

@@ -1,10 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.apiModel.GraphApi;
-import de.tudresden.inf.st.mathgrass.api.model.Graph;
-import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
+import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
+import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,38 +10,32 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 /**
- * This class can create/update/load/save {@link Graph}s.
+ * This class can create/update/load/save {@link GraphDTO}s.
  */
 @RestController
 public class GraphApiImpl extends AbstractApiElement implements GraphApi {
     /**
-     * Graph repository.
+     * GraphDTO repository.
      */
     final GraphRepository graphRepository;
-    /**
-     * Tag repository.
-     */
-    final LabelRepository labelRepository;
 
     /**
      * Constructor.
      *
      * @param graphRepository graph repository
-     * @param labelRepository tag repository
      */
-    public GraphApiImpl(GraphRepository graphRepository, LabelRepository labelRepository) {
+    public GraphApiImpl(GraphRepository graphRepository) {
         this.graphRepository = graphRepository;
-        this.labelRepository = labelRepository;
     }
 
     /**
      * Create a graph and return its ID.
      *
      * @param body graph
-     * @return Response with Graph ID
+     * @return Response with GraphDTO ID
      */
     @Override
-    public ResponseEntity<Long> createGraph(Graph body) {
+    public ResponseEntity<Long> createGraph(GraphDTO body) {
         return ok(this.save(body,-1));
     }
 
@@ -54,11 +46,11 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      * @return Response with graph
      */
     @Override
-    public ResponseEntity<Graph> getGraphById(Long graphId) {
-        Optional<GraphEntity> optGraphEntity = graphRepository.findById(graphId);
+    public ResponseEntity<GraphDTO> getGraphById(Long graphId) {
+        Optional<Graph> optGraphEntity = graphRepository.findById(graphId);
 
         if (optGraphEntity.isPresent()) {
-            Graph graph = new GraphTransformer(this.labelRepository).toDto(optGraphEntity.get());
+            GraphDTO graph = new GraphTransformer().toDto(optGraphEntity.get());
             return ok(graph);
         } else {
             return notFound();
@@ -73,7 +65,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      * @return Response
      */
     @Override
-    public ResponseEntity<Void> updateGraph(Long id, Graph graph) {
+    public ResponseEntity<Void> updateGraph(Long id, GraphDTO graph) {
         try {
             // make sure graph exists
             checkExistence(id, graphRepository);
@@ -93,9 +85,9 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      * @param id ID of graph, if graph didn't exist before use ID -1
      * @return ID of graph
      */
-    private long save(Graph graph, long id) {
+    private long save(GraphDTO graph, long id) {
         // create graph entity
-        GraphEntity entity = new GraphTransformer(labelRepository).toEntity(graph);
+        Graph entity = new GraphTransformer().toEntity(graph);
 
         // set ID if this is an update
         if (id != -1) {

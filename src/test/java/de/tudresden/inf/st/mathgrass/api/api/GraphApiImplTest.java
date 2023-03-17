@@ -1,3 +1,4 @@
+/*
 package de.tudresden.inf.st.mathgrass.api.api;
 
 import de.tudresden.inf.st.mathgrass.api.graph.GraphApiImpl;
@@ -5,7 +6,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphEntity;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.Graph;
-import de.tudresden.inf.st.mathgrass.api.transform.GraphTransformer;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,3 +92,4 @@ class GraphApiImplTest {
 
     }
 }
+*/

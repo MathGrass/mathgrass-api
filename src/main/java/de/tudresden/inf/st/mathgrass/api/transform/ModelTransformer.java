@@ -12,35 +12,6 @@ import java.util.List;
  * @param <E> Entity
  */
 public abstract class ModelTransformer<D,E> {
-    /**
-     * Role of transformer.
-     */
-    private Object role;
-
-    /**
-     * Constructor.
-     */
-    public ModelTransformer() {
-
-    }
-
-    /**
-     * Parametrized constructor.
-     *
-     * @param role role of transformer
-     */
-    public ModelTransformer(Object role) {
-        this.role = role;
-    }
-
-    /**
-     * Getter for role.
-     *
-     * @return role
-     */
-    Object getUsedRole() {
-        return role;
-    }
 
     /**
      * Transform an entity to its respective DTO.

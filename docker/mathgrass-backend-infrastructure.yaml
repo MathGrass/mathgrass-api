@@ -20,14 +20,6 @@ services:
     ports:
       - "8081:8080"
 
-  message-queue:
-    container_name: "mathgrass_message_queue"
-    image: rabbitmq
-    restart: 'no'
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
 
 
 
