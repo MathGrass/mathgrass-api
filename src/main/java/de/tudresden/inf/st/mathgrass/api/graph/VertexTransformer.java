@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.model.VertexDTO;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 

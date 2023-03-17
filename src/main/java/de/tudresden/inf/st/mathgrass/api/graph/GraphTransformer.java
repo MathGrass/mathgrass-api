@@ -6,16 +6,11 @@ import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class can convert {@link GraphDTO} to {@link Graph} and vice versa.
  */
 public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
-
-
-    public GraphTransformer() {
-    }
 
     /**
      * {@inheritDoc}
@@ -29,7 +24,7 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
 
         List<LabelDTO> labelList =
-                entity.getLabels().stream().map(l -> new LabelDTO().label(l)).collect(Collectors.toList());
+                entity.getLabels().stream().map(l -> new LabelDTO().label(l)).toList();
         graph.setLabels(labelList);
 
         return graph;

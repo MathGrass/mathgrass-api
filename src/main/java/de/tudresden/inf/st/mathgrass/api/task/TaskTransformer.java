@@ -18,7 +18,7 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
     /**
      * Graph repository.
      */
-    GraphRepository graphRepository;
+    private final GraphRepository graphRepository;
 
 
     /**

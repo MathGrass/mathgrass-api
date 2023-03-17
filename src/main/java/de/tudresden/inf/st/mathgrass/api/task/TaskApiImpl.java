@@ -193,9 +193,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             boolean result = false;
             try {
                 result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
 

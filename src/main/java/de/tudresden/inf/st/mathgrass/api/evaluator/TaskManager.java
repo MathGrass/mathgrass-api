@@ -143,10 +143,11 @@ public class TaskManager {
             logContainerCmd.exec(new LogContainerResultCallback() {
                 @Override
                 public void onNext(Frame item) {
-                    logger.info("Log from container {}: {}", containerId, item);
+
                 }
             }).awaitCompletion();
         } catch (InterruptedException e) {
+            logger.error("Interrupted while fetching logs from container");
         }
     }
 

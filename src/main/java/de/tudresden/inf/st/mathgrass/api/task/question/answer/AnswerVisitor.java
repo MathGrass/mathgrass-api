@@ -18,8 +18,7 @@ public class AnswerVisitor {
         return answer.getAnswer().equals(userAnswer);
     }
 
-    public boolean visitDynamicAnswer(DynamicAnswer answer, Long taskId, String userAnswer) throws IOException,
-            InterruptedException {
+    public boolean visitDynamicAnswer(DynamicAnswer answer, Long taskId, String userAnswer) throws IOException {
         return taskManager.runTaskSynchronously(taskId, userAnswer, answer.getExecutor());
     }
 }

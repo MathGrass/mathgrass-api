@@ -6,7 +6,6 @@ import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,10 +98,6 @@ public class Task {
 
     public List<Feedback> getFeedbacks() {
         return feedbacks;
-    }
-
-    public void setFeedbacks(ArrayList<Feedback> feedbacks) {
-        this.feedbacks = feedbacks;
     }
 
 }
