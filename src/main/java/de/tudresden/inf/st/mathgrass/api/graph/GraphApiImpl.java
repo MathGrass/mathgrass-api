@@ -1,8 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.apiModel.GraphApi;
+import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,20 +18,14 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      * GraphDTO repository.
      */
     final GraphRepository graphRepository;
-    /**
-     * Tag repository.
-     */
-    final LabelRepository labelRepository;
 
     /**
      * Constructor.
      *
      * @param graphRepository graph repository
-     * @param labelRepository tag repository
      */
-    public GraphApiImpl(GraphRepository graphRepository, LabelRepository labelRepository) {
+    public GraphApiImpl(GraphRepository graphRepository) {
         this.graphRepository = graphRepository;
-        this.labelRepository = labelRepository;
     }
 
     /**
@@ -57,7 +50,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
         Optional<Graph> optGraphEntity = graphRepository.findById(graphId);
 
         if (optGraphEntity.isPresent()) {
-            GraphDTO graph = new GraphTransformer(this.labelRepository).toDto(optGraphEntity.get());
+            GraphDTO graph = new GraphTransformer().toDto(optGraphEntity.get());
             return ok(graph);
         } else {
             return notFound();
@@ -94,7 +87,7 @@ public class GraphApiImpl extends AbstractApiElement implements GraphApi {
      */
     private long save(GraphDTO graph, long id) {
         // create graph entity
-        Graph entity = new GraphTransformer(labelRepository).toEntity(graph);
+        Graph entity = new GraphTransformer().toEntity(graph);
 
         // set ID if this is an update
         if (id != -1) {

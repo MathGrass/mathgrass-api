@@ -1,19 +1,18 @@
 package de.tudresden.inf.st.mathgrass.api.task.question;
 
-import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.IOException;
-import java.util.List;
 
 @Entity
 public abstract class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany
-    private List<Label> labels;
 
     private String questionText;
 
@@ -29,6 +28,6 @@ public abstract class Question {
         this.questionText = questionText;
     }
 
-    public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor,
+    public abstract boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor, Long taskId,
                                                   String answer) throws IOException, InterruptedException;
 }

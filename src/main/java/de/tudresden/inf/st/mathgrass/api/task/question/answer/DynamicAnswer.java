@@ -28,9 +28,9 @@ public class DynamicAnswer extends Answer {
     }
 
     @Override
-    public boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) throws IOException,
+    public boolean acceptAnswerVisitor(AnswerVisitor visitor, Long taskId, String userAnswer) throws IOException,
             InterruptedException {
-        return visitor.visitDynamicAnswer(this, userAnswer);
+        return visitor.visitDynamicAnswer(this, taskId, userAnswer);
     }
 
 }

@@ -6,7 +6,6 @@ import de.tudresden.inf.st.mathgrass.api.evaluator.sage.SageEvaluator;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
-import de.tudresden.inf.st.mathgrass.api.label.Label;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
@@ -36,9 +35,6 @@ class TaskManagerTest {
     void initTaskrepo() {
         // create graph entity
         Graph graph = new Graph();
-        Label e1 = new Label();
-        e1.setValue("tag1");
-        graph.setTags(List.of(e1));
 
         // create vertices
         Vertex vertex1 = new Vertex();

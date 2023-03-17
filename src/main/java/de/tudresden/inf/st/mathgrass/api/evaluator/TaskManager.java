@@ -9,7 +9,6 @@ import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -30,13 +29,11 @@ import java.util.UUID;
 public class TaskManager {
     private final DockerClient dockerClient;
     private final TaskRepository taskRepository;
-    private final LabelRepository labelRepository;
     private static final Logger logger = LogManager.getLogger(TaskManager.class);
 
 
-    public TaskManager(TaskRepository taskRepository, LabelRepository labelRepository, DockerClient dockerClient) {
+    public TaskManager(TaskRepository taskRepository, DockerClient dockerClient) {
         this.taskRepository = taskRepository;
-        this.labelRepository = labelRepository;
         this.dockerClient = dockerClient;
     }
 
@@ -87,7 +84,7 @@ public class TaskManager {
 
     private void createTempGraphFile(Graph graph, Path tempGraphPath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        GraphTransformer transformer = new GraphTransformer(labelRepository);
+        GraphTransformer transformer = new GraphTransformer();
         GraphDTO graphDTO = transformer.toDto(graph);
         File resultFile = new File(tempGraphPath.toAbsolutePath().toFile().toURI());
         resultFile.getParentFile().mkdirs();

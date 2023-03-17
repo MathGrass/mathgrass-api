@@ -22,8 +22,9 @@ public class FormQuestion extends Question {
     }
 
     @Override
-    public boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor, String answer) throws IOException, InterruptedException {
-        return visitor.visitFormQuestion(this, answerVisitor, answer);
+    public boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor, Long taskId,
+                                         String answer) throws IOException, InterruptedException {
+        return visitor.visitFormQuestion(this, answerVisitor, taskId, answer);
 
     }
 }

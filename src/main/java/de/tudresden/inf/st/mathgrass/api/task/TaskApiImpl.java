@@ -3,7 +3,6 @@ package de.tudresden.inf.st.mathgrass.api.task;
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.*;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
@@ -38,11 +37,6 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     final GraphRepository graphRepository;
 
     /**
-     * Tag repository.
-     */
-    final LabelRepository labelRepository;
-
-    /**
      * Task template repository.
      */
     final QuestionVisitor questionVisitor;
@@ -54,16 +48,13 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      *
      * @param taskRepository  task repository
      * @param graphRepository graph repository
-     * @param labelRepository tag repository
      */
     public TaskApiImpl(TaskRepository taskRepository,
                        GraphRepository graphRepository,
-                       LabelRepository labelRepository,
                        QuestionVisitor questionVisitor,
                        AnswerVisitor answerVisitor) {
         this.taskRepository = taskRepository;
         this.graphRepository = graphRepository;
-        this.labelRepository = labelRepository;
         this.questionVisitor = questionVisitor;
         this.answerVisitor = answerVisitor;
     }
@@ -100,10 +91,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      */
     @Override
     public ResponseEntity<Long> createTask(TaskDTO body) {
-        Task taskEntity = taskRepository.save(
-                new TaskTransformer(graphRepository,
-                        labelRepository)
-                        .toEntity(body));
+        Task taskEntity = taskRepository.save(new TaskTransformer(graphRepository).toEntity(body));
 
         return ok(taskEntity.getId());
     }
@@ -158,7 +146,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     public ResponseEntity<TaskDTO> getTaskById(Long taskId) {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
-            TaskDTO task = new TaskTransformer(graphRepository, labelRepository)
+            TaskDTO task = new TaskTransformer(graphRepository)
                     .toDto(optTaskEntity.get());
 
             return ok(task);
@@ -179,7 +167,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         Optional<Task> optTaskEntity = taskRepository.findById(taskId);
         if (optTaskEntity.isPresent()) {
             // create task entity
-            Task taskEntity = new TaskTransformer(graphRepository, labelRepository).toEntity(task);
+            Task taskEntity = new TaskTransformer(graphRepository).toEntity(task);
             taskEntity.setId(taskId);
 
             // save to database
@@ -204,7 +192,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             Task task = optTask.get();
             boolean result = false;
             try {
-                result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, userAnswer);
+                result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {

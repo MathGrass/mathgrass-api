@@ -14,12 +14,12 @@ public class AnswerVisitor {
         this.taskManager = taskManager;
     }
 
-    public boolean visitStaticAnswer(StaticAnswer answer, String userAnswer) {
+    public boolean visitStaticAnswer(StaticAnswer answer, Long taskId, String userAnswer) {
         return answer.getAnswer().equals(userAnswer);
     }
 
-    public boolean visitDynamicAnswer(DynamicAnswer answer, String userAnswer) throws IOException,
+    public boolean visitDynamicAnswer(DynamicAnswer answer, Long taskId, String userAnswer) throws IOException,
             InterruptedException {
-        return taskManager.runTaskSynchronously(11, userAnswer, answer.getExecutor());
+        return taskManager.runTaskSynchronously(taskId, userAnswer, answer.getExecutor());
     }
 }

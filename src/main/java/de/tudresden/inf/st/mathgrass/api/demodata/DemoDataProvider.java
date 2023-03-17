@@ -7,8 +7,6 @@ import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
-import de.tudresden.inf.st.mathgrass.api.label.Label;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
@@ -29,20 +27,17 @@ public class DemoDataProvider {
 
     private final GraphRepository graphRepo;
     private final TaskRepository taskRepo;
-    private final LabelRepository tagRepo;
 
     /**
      * Constructor.
      *
      * @param graphRepo graph repository
      * @param taskRepo  task repository
-     * @param tagRepo   tag repository
      */
     public DemoDataProvider(GraphRepository graphRepo,
-                            TaskRepository taskRepo, LabelRepository tagRepo) {
+                            TaskRepository taskRepo) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
-        this.tagRepo = tagRepo;
     }
 
     /**
@@ -66,10 +61,6 @@ public class DemoDataProvider {
     private void createDynamicTask() {
         // create graph entity
         Graph graph = new Graph();
-        Label e1 = new Label();
-        e1.setValue("tag1");
-        tagRepo.save(e1);
-        graph.setTags(List.of(e1));
 
         // create vertices
         Vertex vertex1 = new Vertex();
@@ -155,10 +146,6 @@ public class DemoDataProvider {
     private void createStaticTask() {
         // create graph
         Graph graph = new Graph();
-        Label e1 = new Label();
-        e1.setValue("tag1");
-        tagRepo.save(e1);
-        graph.setTags(List.of(e1));
 
         // create vertices
         Vertex vertex1 = new Vertex();
