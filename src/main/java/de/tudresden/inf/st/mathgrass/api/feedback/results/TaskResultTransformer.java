@@ -14,7 +14,7 @@ public class TaskResultTransformer extends ModelTransformer<TaskResultDTO, TaskR
     /**
      * Task repository.
      */
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     /**
      * Constructor.

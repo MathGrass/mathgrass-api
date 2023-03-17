@@ -15,7 +15,7 @@ public class StaticAnswer extends Answer {
     }
 
     @Override
-    public boolean acceptAnswerVisitor(AnswerVisitor visitor, String userAnswer) {
-        return visitor.visitStaticAnswer(this, userAnswer);
+    public boolean acceptAnswerVisitor(AnswerVisitor visitor, Long taskId, String userAnswer) {
+        return visitor.visitStaticAnswer(this, taskId, userAnswer);
     }
 }

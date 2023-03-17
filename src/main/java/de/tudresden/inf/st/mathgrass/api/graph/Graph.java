@@ -1,15 +1,14 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.label.Label;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class represents a graph, which consists of {@link Edge}s and {@link Vertex}s.
- * Additionally, the graph can be labelled and tagged with multiple {@link Label}s.
  */
-@Table(name = "graphs")
+
 @Entity
 public class Graph {
     /**
@@ -23,13 +22,7 @@ public class Graph {
      * Label of graph.
      */
     @ElementCollection
-    private List<String> labels = null;
-
-    /**
-     * Tags of graph.
-     */
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<Label> tags;
+    private List<String> labels = new ArrayList<>();
 
     /**
      * Edges of graph.
@@ -57,14 +50,6 @@ public class Graph {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
-    }
-
-    public List<Label> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Label> tags) {
-        this.tags = tags;
     }
 
     public List<Edge> getEdges() {

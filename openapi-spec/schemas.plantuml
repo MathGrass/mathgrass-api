@@ -3,6 +3,7 @@
 title MathGrass Schemas Diagram
 
 entity EdgeDTO {
+    id: Long
     * firstVertex: VertexDTO
     * secondVertex: VertexDTO
     label: String

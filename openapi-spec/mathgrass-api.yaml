@@ -329,25 +329,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/LabelDTO'
       x-codegen-request-body-name: label
-  /evaluator/taskResult/{resultId}:
-    get:
-      description: Get the result for an evaluation process
-      operationId: getTaskResult
-      parameters:
-      - name: resultId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaskResultDTO'
 
 components:
   schemas:
@@ -401,6 +382,9 @@ components:
     EdgeDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         firstVertex:
           $ref: '#/components/schemas/VertexDTO'
         secondVertex:
@@ -428,7 +412,6 @@ components:
           type: string
       required:
         - question
-        - questionType
     TaskSolverDTO:
       type: object
       properties:

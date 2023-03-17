@@ -1,32 +1,16 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
 import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.LabelDTO;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
-import de.tudresden.inf.st.mathgrass.api.label.LabelTransformer;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class can convert {@link GraphDTO} to {@link Graph} and vice versa.
  */
 public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
-    /**
-     * Tag repository.
-     */
-    LabelRepository labelRepository;
-
-    /**
-     * Constructor.
-     *
-     * @param labelRepository tag repository
-     */
-    public GraphTransformer(LabelRepository labelRepository) {
-        this.labelRepository = labelRepository;
-    }
 
     /**
      * {@inheritDoc}
@@ -40,7 +24,7 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
         graph.setVertices(new VertexTransformer().toDtoList(entity.getVertices()));
 
         List<LabelDTO> labelList =
-                entity.getLabels().stream().map(l -> new LabelDTO().label(l)).collect(Collectors.toList());
+                entity.getLabels().stream().map(l -> new LabelDTO().label(l)).toList();
         graph.setLabels(labelList);
 
         return graph;
@@ -83,9 +67,6 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
             edgeEntity.setTargetVertex(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
         }
         entity.setEdges(edgeList);
-
-        // tags
-        entity.setTags(new LabelTransformer().toEntityList(dto.getLabels()));
 
         return entity;
     }

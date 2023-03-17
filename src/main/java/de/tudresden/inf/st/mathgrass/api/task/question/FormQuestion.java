@@ -1,10 +1,12 @@
 package de.tudresden.inf.st.mathgrass.api.task.question;
 
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.Answer;
+import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.io.IOException;
 
 @Entity
 public class FormQuestion extends Question {
@@ -20,8 +22,9 @@ public class FormQuestion extends Question {
     }
 
     @Override
-    public boolean acceptQuestionVisitor(QuestionVisitor visitor, String answer) {
-        return visitor.visitFormQuestion(this, answer);
+    public boolean acceptQuestionVisitor(QuestionVisitor visitor, AnswerVisitor answerVisitor, Long taskId,
+                                         String answer) throws IOException, InterruptedException {
+        return visitor.visitFormQuestion(this, answerVisitor, taskId, answer);
 
     }
 }

@@ -1,64 +1,38 @@
-package de.tudresden.inf.st.mathgrass.api.demodata;
+package de.tudresden.inf.st.mathgrass.api.evaluator;
 
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
 import de.tudresden.inf.st.mathgrass.api.evaluator.sage.SageEvaluator;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
-import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
-import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * This class fills up the repositories with generated demo data.
- */
-@Profile("demodata")
-@Component
-public class DemoDataProvider {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
-    private final GraphRepository graphRepo;
-    private final TaskRepository taskRepo;
+@SpringBootTest
+class TaskManagerTest {
+    public static final long TASK_ID = 11;
+    @Autowired
+    private TaskManager taskManager;
+    @MockBean
+    private TaskRepository taskRepository;
 
-    /**
-     * Constructor.
-     *
-     * @param graphRepo graph repository
-     * @param taskRepo  task repository
-     */
-    public DemoDataProvider(GraphRepository graphRepo,
-                            TaskRepository taskRepo) {
-        this.graphRepo = graphRepo;
-        this.taskRepo = taskRepo;
-    }
-
-    /**
-     * Initialize graphs.
-     */
-    @PostConstruct
-    private void initGraphs() {
-        // if task repository already contains elements don't do anything
-        if (!taskRepo.findAll().isEmpty()) {
-            return;
-        }
-
-        // create tasks
-        createDynamicTask();
-        createStaticTask();
-    }
-
-    /**
-     * Generate a dynamic graph task.
-     */
-    private void createDynamicTask() {
+    @BeforeEach
+    void initTaskrepo() {
         // create graph entity
         Graph graph = new Graph();
 
@@ -103,7 +77,6 @@ public class DemoDataProvider {
         // add vertices and edges to graph
         graph.setVertices(List.of(vertex1, vertex2, vertex3, vertex4));
         graph.setEdges(List.of(edge1, edge2, edge3, edge4));
-        graphRepo.save(graph);
 
         // create task
         Task demoTask1 = new Task();
@@ -115,13 +88,13 @@ public class DemoDataProvider {
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
         Executor executor = new Executor();
-        executor.setContainerImage(SageEvaluator.SAGE_IMAGE_COMPLETE_TAG);
+        executor.setContainerImage(SageEvaluator.SAGE_EVALUATOR_IMAGE_NAME);
         SourceFile sourceFile = new SourceFile();
         String executionDescriptor = """
                 from sage.all import *
                                 
-                def instructor_evaluation(graph: Graph, user_answer):
-                    if str(len(graph.edges())) == user_answer:
+                def instructor_evaluation(graph: Graph):
+                    if len(graph.edges()) == 4:
                         return True
                     else:
                         return False
@@ -136,53 +109,17 @@ public class DemoDataProvider {
         question.setAnswer(dynamicAnswer);
 
         demoTask1.setQuestion(question);
-
-        taskRepo.save(demoTask1);
+        when(taskRepository.findById(TASK_ID)).thenReturn(Optional.of(demoTask1));
     }
 
-    /**
-     * Generate a simple graph.
-     */
-    private void createStaticTask() {
-        // create graph
-        Graph graph = new Graph();
+    @Test
+    void runTaskSmokeTest() throws IOException, InterruptedException {
+        Executor executor = new Executor();
+        executor.setContainerImage("sage-evaluator");
+        boolean result = false;
+        result = taskManager.runTaskSynchronously(TASK_ID, "4", executor);
+        assertTrue(result);
 
-        // create vertices
-        Vertex vertex1 = new Vertex();
-        final String LABEL_SOURCE = "1";
-        vertex1.setLabel(LABEL_SOURCE);
-        vertex1.setX(20);
-        vertex1.setY(20);
-
-        Vertex vertex2 = new Vertex();
-        vertex2.setLabel("2");
-        vertex2.setX(60);
-        vertex2.setY(60);
-
-        // create edges
-        Edge edge1 = new Edge();
-        edge1.setSourceVertex(vertex1);
-        edge1.setTargetVertex(vertex2);
-
-        // add vertices and edges to graph
-        graph.setVertices(List.of(vertex1, vertex2));
-        graph.setEdges(List.of(edge1));
-        graphRepo.save(graph);
-
-        // create task
-        Task demoTask1 = new Task();
-        demoTask1.setGraph(graph);
-        demoTask1.setLabel("Task with simple evaluation");
-
-        FormQuestion question = new FormQuestion();
-        question.setQuestionText("What's the label of the source vertex?");
-
-        StaticAnswer answer = new StaticAnswer();
-        answer.setAnswer("1");
-        question.setAnswer(answer);
-
-        demoTask1.setQuestion(question);
-
-        taskRepo.save(demoTask1);
     }
+
 }

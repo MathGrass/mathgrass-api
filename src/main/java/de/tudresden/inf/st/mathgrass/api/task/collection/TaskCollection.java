@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * This class represents a collection of {@link Task}s.
  */
-@Table(name = "taskcollections")
+
 @Entity
 public class TaskCollection {
     /**
@@ -21,7 +21,7 @@ public class TaskCollection {
     /**
      * Label of task collection.
      */
-    @Column
+
     private String label;
 
     public String getLabel() {

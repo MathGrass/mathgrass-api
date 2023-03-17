@@ -1,11 +1,14 @@
 package de.tudresden.inf.st.mathgrass.api.feedback;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * This class represents feedback, which can be given to an evaluated task.
  */
-@Table(name = "feedbacks")
+
 @Entity
 public class Feedback {
         /**
@@ -18,7 +21,7 @@ public class Feedback {
         /**
          * Content of feedback.
          */
-        @Column
+
         private String content;
 
         public Long getId() {

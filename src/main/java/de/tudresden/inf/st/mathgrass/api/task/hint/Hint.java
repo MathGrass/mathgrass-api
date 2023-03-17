@@ -2,12 +2,15 @@ package de.tudresden.inf.st.mathgrass.api.task.hint;
 
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * This class represents a hint in a {@link Task}, which can give information to the tasks answer.
  */
-@Table(name = "taskhints")
+
 @Entity
 public class Hint {
     /**
@@ -20,13 +23,13 @@ public class Hint {
     /**
      * Label of hint.
      */
-    @Column
+
     private String label = null;
 
     /**
      * Content of hint.
      */
-    @Column
+
     private String content = null;
 
     public void setId(Long id) {

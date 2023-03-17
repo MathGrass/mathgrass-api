@@ -1,6 +1,5 @@
 package de.tudresden.inf.st.mathgrass.api.feedback;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
 import de.tudresden.inf.st.mathgrass.api.model.FeedbackDTO;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 

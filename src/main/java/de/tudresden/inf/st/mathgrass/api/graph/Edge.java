@@ -6,7 +6,7 @@ import javax.persistence.*;
  * This class represents an Edge in a {@link Graph}.
  * An edge is directed, which means it has a source and a target {@link Vertex}.
  */
-@Table(name = "edges")
+
 @Entity
 public class Edge {
     /**
@@ -19,7 +19,7 @@ public class Edge {
     /**
      * Label of edge.
      */
-    @Column
+
     private String label;
 
     /**

@@ -2,7 +2,6 @@ package de.tudresden.inf.st.mathgrass.api.task.collection;
 
 import de.tudresden.inf.st.mathgrass.api.model.TaskCollectionDTO;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
-import de.tudresden.inf.st.mathgrass.api.task.collection.TaskCollection;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
@@ -16,7 +15,7 @@ public class TaskCollectionTransformer extends ModelTransformer<TaskCollectionDT
     /**
      * Task repository.
      */
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     /**
      * Constructor.

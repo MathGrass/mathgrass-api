@@ -12,13 +12,6 @@ import java.util.List;
  * @param <E> Entity
  */
 public abstract class ModelTransformer<D,E> {
-    /**
-     * Constructor.
-     */
-    public ModelTransformer() {
-
-    }
-
 
     /**
      * Transform an entity to its respective DTO.

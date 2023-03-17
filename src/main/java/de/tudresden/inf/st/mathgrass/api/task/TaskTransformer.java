@@ -1,13 +1,11 @@
 package de.tudresden.inf.st.mathgrass.api.task;
 
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphTransformer;
-import de.tudresden.inf.st.mathgrass.api.label.LabelRepository;
-import de.tudresden.inf.st.mathgrass.api.evaluator.solver.TaskSolverRepository;
-import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.model.QuestionDTO;
 import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
-import de.tudresden.inf.st.mathgrass.api.model.GraphDTO;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import de.tudresden.inf.st.mathgrass.api.transform.ModelTransformer;
 
@@ -18,33 +16,18 @@ import java.util.Optional;
  */
 public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
     /**
-     * Task solver repository.
-     */
-    TaskSolverRepository taskSolverRepository;
-
-    /**
      * Graph repository.
      */
-    GraphRepository graphRepository;
+    private final GraphRepository graphRepository;
 
-    /**
-     * Tag repository.
-     */
-    LabelRepository labelRepository;
 
     /**
      * Constructor.
      *
-     * @param taskSolverRepository task solver repository
-     * @param graphRepository      graph repository
-     * @param labelRepository      tag repository
+     * @param graphRepository graph repository
      */
-    public TaskTransformer(TaskSolverRepository taskSolverRepository,
-                           GraphRepository graphRepository,
-                           LabelRepository labelRepository) {
-        this.taskSolverRepository = taskSolverRepository;
+    public TaskTransformer(GraphRepository graphRepository) {
         this.graphRepository = graphRepository;
-        this.labelRepository = labelRepository;
     }
 
     /**
@@ -58,7 +41,7 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
 
         // graph
         GraphDTO graph =
-                new GraphTransformer(labelRepository).toDto(entity.getGraph());
+                new GraphTransformer().toDto(entity.getGraph());
         dto.setGraph(graph);
 
         Question question = entity.getQuestion();
@@ -82,7 +65,7 @@ public class TaskTransformer extends ModelTransformer<TaskDTO, Task> {
         Long graphId = dto.getGraph().getId();
         if (!graphRepository.existsById(graphId)) {
             graphEntity =
-                    new GraphTransformer(labelRepository).toEntity(dto.getGraph());
+                    new GraphTransformer().toEntity(dto.getGraph());
             graphRepository.save(graphEntity);
         } else {
             Optional<Graph> optGraphEntity = graphRepository.findById(graphId);
