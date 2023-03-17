@@ -10,7 +10,7 @@ import java.util.List;
  * This class represents a graph, which consists of {@link Edge}s and {@link Vertex}s.
  * Additionally, the graph can be labelled and tagged with multiple {@link Label}s.
  */
-@Table(name = "graphs")
+
 @Entity
 public class Graph {
     /**

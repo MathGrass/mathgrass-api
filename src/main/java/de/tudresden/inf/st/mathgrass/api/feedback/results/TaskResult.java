@@ -8,7 +8,7 @@ import javax.persistence.*;
  * This class represents the result of a {@link Task}, containing the users given answer, as well as
  * evaluation and submission dates.
  */
-@Table(name = "taskresults")
+
 @Entity
 public class TaskResult {
     /**
@@ -27,25 +27,25 @@ public class TaskResult {
     /**
      * Given answer.
      */
-    @Column
+
     private String answer;
 
     /**
      * Date of evaluation.
      */
-    @Column
+
     private String evaluationDate;
 
     /**
      * Date of submission.
      */
-    @Column
+
     private String submissionDate;
 
     /**
      * Correctness of given answer.
      */
-    @Column
+
     private boolean answerTrue;
 
     public boolean isAnswerTrue() {

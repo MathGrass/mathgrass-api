@@ -11,7 +11,6 @@ import java.util.List;
 public abstract class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
     private Long id;
     @OneToMany
     private List<Label> labels;

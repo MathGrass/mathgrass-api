@@ -1,11 +1,14 @@
 package de.tudresden.inf.st.mathgrass.api.graph;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * This class represents a vertex in a {@link Graph}.
  */
-@Table(name = "vertices")
+
 @Entity
 public class Vertex {
     /**
@@ -18,19 +21,19 @@ public class Vertex {
     /**
      * X coordinate of vertex.
      */
-    @Column
+
     private int x;
 
     /**
      * Y coordinate of vertex.
      */
-    @Column
+
     private int y;
 
     /**
      * Label of vertex.
      */
-    @Column
+
     private String label;
 
     public int getX() {

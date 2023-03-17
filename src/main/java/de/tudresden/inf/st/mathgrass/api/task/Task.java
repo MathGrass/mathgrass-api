@@ -1,10 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.feedback.Feedback;
-import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
-
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * This class represents a task, containing a {@link Graph} and a question regarding the graph.
  */
-@Table(name = "tasks")
+
 @Entity
 public class Task {
     /**
@@ -32,7 +31,7 @@ public class Task {
     /**
      * Label of task.
      */
-    @Column
+
     private String label;
 
 

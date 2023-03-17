@@ -1,11 +1,14 @@
 package de.tudresden.inf.st.mathgrass.api.label;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * This class represent tags, which can be used to add additional information to graphs.
  */
-@Table(name = "tags")
+
 @Entity
 public class Label {
     /**
@@ -18,7 +21,7 @@ public class Label {
     /**
      * Label of tag.
      */
-    @Column
+
     private String value;
 
     public String getValue() {

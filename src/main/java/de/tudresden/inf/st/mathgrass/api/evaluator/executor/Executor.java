@@ -10,7 +10,6 @@ import java.util.List;
 public class Executor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL)
