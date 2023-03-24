@@ -1,5 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.evaluator;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.PullImageCmd;
+import com.github.dockerjava.api.command.PullImageResultCallback;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
@@ -28,11 +31,13 @@ class TaskManagerTest {
     public static final long TASK_ID = 11;
     @Autowired
     private TaskManager taskManager;
+    public static final String MINIMAL_IMAGE = "alpine:latest";
     @MockBean
     private TaskRepository taskRepository;
-
-    public static final String MINIMAL_IMAGE = "alpine";
+    @Autowired
+    private DockerClient dockerClient;
     private Executor executor;
+
 
     @BeforeEach
     void initTaskrepo() {
@@ -102,7 +107,13 @@ class TaskManagerTest {
     }
 
     @Test
-    void runTaskSmokeTest() throws IOException {
+    void runTaskSmokeTest() throws IOException, InterruptedException {
+        // pull alpine image
+        try (PullImageCmd pullImageCmd = dockerClient.pullImageCmd(executor.getContainerImage())) {
+            PullImageResultCallback pullImageResultCallback = new PullImageResultCallback();
+            pullImageCmd.exec(pullImageResultCallback);
+            pullImageResultCallback.awaitCompletion();
+        }
         boolean result = taskManager.runTaskSynchronously(TASK_ID, "", executor);
         assertTrue(result);
     }
