@@ -21,6 +21,7 @@ repositories {
 dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'com.h2database:h2'
+    testImplementation 'com.h2database:h2'
     //implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.rabbitmq:amqp-client:5.16.0'

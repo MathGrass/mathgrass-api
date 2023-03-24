@@ -104,7 +104,8 @@ public class TaskManager {
 
     private boolean createRunAndRemoveContainer(String answer, Executor executor, HostConfig hostConfig) {
         // append student answer as argument after entrypoint
-        String containerCmd = executor.getCustomEntrypoint() + " " + answer;
+        String customEntrypoint = executor.getCustomEntrypoint();
+        String containerCmd = answer == null || answer.equals("") ? customEntrypoint : customEntrypoint + " " + answer;
 
         try (CreateContainerCmd createContainerCmd =
                      dockerClient.createContainerCmd(executor.getContainerImage()).withCmd(containerCmd).withHostConfig(hostConfig)) {
