@@ -107,8 +107,9 @@ public class TaskManager {
         String customEntrypoint = executor.getCustomEntrypoint();
         String containerCmd = answer == null || answer.equals("") ? customEntrypoint : customEntrypoint + " " + answer;
 
-        try (CreateContainerCmd createContainerCmd =
-                     dockerClient.createContainerCmd(executor.getContainerImage()).withCmd(containerCmd).withHostConfig(hostConfig)) {
+        try (CreateContainerCmd createContainerCmd = containerCmd == null || containerCmd.equals("") ?
+                dockerClient.createContainerCmd(executor.getContainerImage()).withHostConfig(hostConfig) :
+                dockerClient.createContainerCmd(executor.getContainerImage()).withCmd(containerCmd).withHostConfig(hostConfig)) {
             CreateContainerResponse container = createContainerCmd.exec();
             String containerId = container.getId();
             // returns true if evaluation was successful, false if not
