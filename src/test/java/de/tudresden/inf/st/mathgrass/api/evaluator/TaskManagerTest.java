@@ -1,8 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.evaluator;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.PullImageCmd;
+import com.github.dockerjava.api.command.PullImageResultCallback;
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
-import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
-import de.tudresden.inf.st.mathgrass.api.evaluator.sage.SageEvaluator;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,12 +26,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles(profiles = "dev")
 class TaskManagerTest {
     public static final long TASK_ID = 11;
     @Autowired
     private TaskManager taskManager;
+    public static final String MINIMAL_IMAGE = "alpine:latest";
     @MockBean
     private TaskRepository taskRepository;
+    @Autowired
+    private DockerClient dockerClient;
+    private Executor executor;
+
 
     @BeforeEach
     void initTaskrepo() {
@@ -87,23 +95,9 @@ class TaskManagerTest {
         question.setQuestionText("How many edges are there in the graph?");
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
-        Executor executor = new Executor();
-        executor.setContainerImage(SageEvaluator.SAGE_EVALUATOR_IMAGE_NAME);
-        SourceFile sourceFile = new SourceFile();
-        String executionDescriptor = """
-                from sage.all import *
-                                
-                def instructor_evaluation(graph: Graph):
-                    if len(graph.edges()) == 4:
-                        return True
-                    else:
-                        return False
-                """;
-        sourceFile.setContents(executionDescriptor);
-        sourceFile.setPath("/sage-evaluation/instructor_evaluation.py");
-        executor.setCustomEntrypoint("sage /sage-evaluation/main.py");
-        executor.setSourceFiles(List.of(sourceFile));
-        executor.setGraphPath("/sage-evaluation/graph.json");
+        executor = new Executor();
+        executor.setContainerImage(MINIMAL_IMAGE);
+        executor.setCustomEntrypoint("echo");
         dynamicAnswer.setExecutor(executor);
 
         question.setAnswer(dynamicAnswer);
@@ -114,12 +108,14 @@ class TaskManagerTest {
 
     @Test
     void runTaskSmokeTest() throws IOException, InterruptedException {
-        Executor executor = new Executor();
-        executor.setContainerImage("sage-evaluator");
-        boolean result = false;
-        result = taskManager.runTaskSynchronously(TASK_ID, "4", executor);
+        // pull alpine image
+        try (PullImageCmd pullImageCmd = dockerClient.pullImageCmd(executor.getContainerImage())) {
+            PullImageResultCallback pullImageResultCallback = new PullImageResultCallback();
+            pullImageCmd.exec(pullImageResultCallback);
+            pullImageResultCallback.awaitCompletion();
+        }
+        boolean result = taskManager.runTaskSynchronously(TASK_ID, "", executor);
         assertTrue(result);
-
     }
 
 }

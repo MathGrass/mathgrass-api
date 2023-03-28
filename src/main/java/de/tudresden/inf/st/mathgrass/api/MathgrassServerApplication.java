@@ -1,7 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DefaultDockerClientConfig;
+import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +34,16 @@ public class MathgrassServerApplication {
 
     @Bean
     public DockerClient dockerClient() {
-        return DockerClientBuilder.getInstance().build();
+        var config = DefaultDockerClientConfig.createDefaultConfigBuilder()
+                .withDockerTlsVerify(false)
+                .build();
+
+        var apacheHttpClient = new ApacheDockerHttpClient.Builder()
+                .sslConfig(config.getSSLConfig())
+                .dockerHost(config.getDockerHost())
+                .build();
+
+        return DockerClientImpl.getInstance(config, apacheHttpClient);
     }
 
     @EnableWebSecurity
