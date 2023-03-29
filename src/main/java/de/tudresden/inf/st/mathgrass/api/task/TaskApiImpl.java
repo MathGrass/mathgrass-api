@@ -190,7 +190,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
         if (optTask.isPresent()) {
             String userAnswer = evaluateAnswerRequest.getAnswer();
             Task task = optTask.get();
-            boolean result = false;
+            boolean result;
             try {
                 result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
             } catch (IOException | InterruptedException e) {

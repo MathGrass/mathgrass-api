@@ -1,15 +1,15 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import de.tudresden.inf.st.mathgrass.api.feedback.evaluator.EvaluatorApiImpl;
-import de.tudresden.inf.st.mathgrass.api.model.TaskResult;
+import de.tudresden.inf.st.mathgrass.api.model.EvaluateAnswerRequest;
+import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
+
+import java.util.Objects;
 
 /**
  * This class handles websocket messages.
@@ -27,24 +27,24 @@ public class WebSocketController {
     protected static final String ASSESSMENT_RESULT_TOPIC = "/topic/assessmentResult/%s";
 
     /**
+     * Task API for evaluation.
+     */
+    private final TaskApiImpl taskApi;
+
+    /**
      * Messaging template.
      */
     private final SimpMessagingTemplate messagingTemplate;
 
     /**
-     * Evaluator.
-     */
-    private final EvaluatorApiImpl evaluator;
-
-    /**
      * Constructor.
      *
+     * @param taskApi task API
      * @param messagingTemplate messaging template
-     * @param evaluator evaluator
      */
-    public WebSocketController(SimpMessagingTemplate messagingTemplate, EvaluatorApiImpl evaluator) {
+    public WebSocketController(TaskApiImpl taskApi, SimpMessagingTemplate messagingTemplate) {
+        this.taskApi = taskApi;
         this.messagingTemplate = messagingTemplate;
-        this.evaluator = evaluator;
     }
 
     /**
@@ -63,37 +63,13 @@ public class WebSocketController {
      *
      * @param message message containing task ID and submitted answer
      */
-    @MessageMapping("/evaluateDynamicAssessment")
-    public void evaluateDynamicAssessment(@Payload TaskSubmissionMessage message) {
-        logger.info("Received submitted assessment for dynamic task with ID {}", message.getTaskId());
-
-        // get evaluation
-        DeferredResult<ResponseEntity<TaskResult>> taskResult =
-                evaluator.evaluateDynamicTask(message.getTaskId(), message.getAnswer());
-
-        // broadcast result on completion of evaluation
-        taskResult.onCompletion(() -> {
-            logger.info("Done evaluating dynamic task!");
-
-            TaskResult result = (TaskResult) taskResult.getResult();
-            if (result != null) {
-                messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()),
-                        result.getAnswerTrue());
-            }
-        });
-    }
-
-    /**
-     * Receive and evaluate a dynamic assessment, and broadcast result of the assessment.
-     *
-     * @param message message containing task ID and submitted answer
-     */
-    @MessageMapping("/evaluateStaticAssessment")
+    @MessageMapping("/fetchAssessment")
     public void evaluateStaticAssessment(@Payload TaskSubmissionMessage message) {
-        logger.info("Received submitted assessment for static task with ID {}", message.getTaskId());
+        logger.info("Received submitted assessment task with ID {}", message.getTaskId());
 
         // get evaluation
-        boolean correctAnswer = evaluator.evaluateStaticTask(message.getTaskId(), message.getAnswer());
+        boolean correctAnswer = Objects.requireNonNull(taskApi.evaluateAnswer(message.getTaskId(), new EvaluateAnswerRequest().answer(message.getAnswer()))
+                .getBody()).getIsAssessmentCorrect();
 
         // broadcast result
         messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()), correctAnswer);

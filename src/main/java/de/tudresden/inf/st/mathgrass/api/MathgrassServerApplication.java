@@ -45,24 +45,4 @@ public class MathgrassServerApplication {
 
         return DockerClientImpl.getInstance(config, apacheHttpClient);
     }
-
-    @EnableWebSecurity
-    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.cors().and().csrf().disable();
-        }
-
-        @Bean
-        CorsConfigurationSource corsConfigurationSource() {
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            CorsConfiguration corsConfiguration = new CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(List.of("*"));
-            corsConfiguration.setAllowedMethods(List.of("*"));
-            corsConfiguration.setAllowedHeaders(List.of("*"));
-            corsConfiguration.setAllowCredentials(false);
-            source.registerCorsConfiguration("/**", corsConfiguration);
-            return source;
-        }
-    }
 }
