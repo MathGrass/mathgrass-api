@@ -68,8 +68,7 @@ public class WebSocketController {
         logger.info("Received submitted assessment task with ID {}", message.getTaskId());
 
         // get evaluation
-        boolean correctAnswer = Objects.requireNonNull(taskApi.evaluateAnswer(message.getTaskId(), new EvaluateAnswerRequest().answer(message.getAnswer()))
-                .getBody()).getIsAssessmentCorrect();
+        boolean correctAnswer = taskApi.makeAssessment(message.getTaskId(), message.getAnswer());
 
         // broadcast result
         messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()), correctAnswer);
