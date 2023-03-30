@@ -13,19 +13,19 @@ public class TaskExecutionConfiguration {
     /**
      * Minimal number of threads kept alive in the thread pool.
      */
-    @Value("${taskExecutor.corePoolSize}")
+    @Value("${taskExecutor.corePoolSize:1}")
     private int corePoolSize;
 
     /**
      * Max number of concurrently running threads.
      */
-    @Value("${taskExecutor.maxPoolSize}")
+    @Value("${taskExecutor.maxPoolSize:5}")
     private int maxPoolSize;
 
     /**
      * Max number of tasks stored in the queue.
      */
-    @Value("${taskExecutor.queueCapacity}")
+    @Value("${taskExecutor.queueCapacity:" + Integer.MAX_VALUE + "}")
     private int queueCapacity;
 
     @Bean
