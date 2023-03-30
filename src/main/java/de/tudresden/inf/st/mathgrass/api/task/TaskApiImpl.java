@@ -186,21 +186,32 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             @Parameter(name = "EvaluateAnswerRequest", description =
                     "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
     ) {
-        Optional<Task> optTask = taskRepository.findById(taskId);
-        if (optTask.isPresent()) {
-            String userAnswer = evaluateAnswerRequest.getAnswer();
-            Task task = optTask.get();
-            boolean result = false;
-            try {
-                result = task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
+        try {
+            boolean result = makeAssessment(taskId, evaluateAnswerRequest.getAnswer());
             return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
-        } else {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
+    /**
+     * Evaluate the answer to a certain task.
+     *
+     * @param taskId ID of task
+     * @param userAnswer given answer
+     * @return boolean determining whether given answer was correct or not
+     */
+    public boolean makeAssessment(Long taskId, String userAnswer) {
+        Optional<Task> optTask = taskRepository.findById(taskId);
+        if (optTask.isPresent()) {
+            Task task = optTask.get();
+            try {
+                return task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }
