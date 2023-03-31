@@ -19,9 +19,10 @@ import java.util.Optional;
 /**
  * This class manages the execution of multiple requested task evaluations.
  *
- * The execution of tasks is handled by a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}, allowing the
- * execution of multiple task evaluations at the same time in an asynchronous way. To be executed task evaluations are
- * stored in a queue, allowing the limitation of the number of simultaneously running task evaluations.
+ * <p>
+ * The execution of tasks is handled by a {@link ThreadPoolTaskExecutor}, allowing the execution of multiple task
+ * evaluations at the same time in an asynchronous way. To be executed task evaluations are stored in a queue, allowing
+ * the limitation of the number of simultaneously running task evaluations.
  * Upon completion an event is emitted to notify listeners of the finished task.
  */
 @Component
