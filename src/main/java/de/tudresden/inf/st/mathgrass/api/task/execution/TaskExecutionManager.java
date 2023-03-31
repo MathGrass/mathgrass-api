@@ -89,24 +89,20 @@ public class TaskExecutionManager {
      * @param taskId ID of task
      * @param userAnswer given answer
      * @return ID of task result
+     * @throws IllegalArgumentException if task result couldn't be created
      */
-    public Long requestTaskExecution(Long taskId, String userAnswer) {
+    public Long requestTaskExecution(Long taskId, String userAnswer) throws IllegalArgumentException {
         logger.info("Requesting task evaluation for task with ID {}", taskId);
 
-        // find task
-        Optional<Task> optTask = taskRepository.findById(taskId);
-        if (optTask.isEmpty()) {
-            throw new IllegalArgumentException("Couldn't find task with ID " + taskId);
+        // create task result
+        Long taskResultId = createTaskResult(taskId, userAnswer);
+
+        // get task result
+        Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
+        if (optTaskResult.isEmpty()) {
+            throw new IllegalArgumentException("Task result with ID " + taskResultId + " does not exist");
         }
-
-        Task task = optTask.get();
-
-        // create new task result and save
-        TaskResult taskResult = new TaskResult();
-        taskResult.setTask(task);
-        taskResult.setAnswer(userAnswer);
-        taskResult.setSubmissionDate(LocalDateTime.now().toString());
-        taskResultRepository.save(taskResult);
+        TaskResult taskResult = optTaskResult.get();
 
         // request task evaluation
         taskExecutor.execute(() -> {
@@ -152,12 +148,38 @@ public class TaskExecutionManager {
     }
 
     /**
+     * Create a new task result without evaluation result and date.
+     *
+     * @param taskId ID of task the result refers to
+     * @param userAnswer given answer
+     * @return ID of task result
+     */
+    protected Long createTaskResult(Long taskId, String userAnswer) {
+        // find task
+        Optional<Task> optTask = taskRepository.findById(taskId);
+        if (optTask.isEmpty()) {
+            throw new IllegalArgumentException("Couldn't find task with ID " + taskId);
+        }
+
+        Task task = optTask.get();
+
+        // create new task result and save
+        TaskResult taskResult = new TaskResult();
+        taskResult.setTask(task);
+        taskResult.setAnswer(userAnswer);
+        taskResult.setSubmissionDate(LocalDateTime.now().toString());
+        taskResultRepository.save(taskResult);
+
+        return taskResult.getId();
+    }
+
+    /**
      * Update the result of a task evaluation.
      *
      * @param taskResultId ID of task result
      * @param answerCorrect boolean determining whether given answer was correct or not
      */
-    public void updateTaskResult(Long taskResultId, boolean answerCorrect) {
+    protected void updateTaskResult(Long taskResultId, boolean answerCorrect) {
         // find task result
         Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
         if (optTaskResult.isEmpty()) {
