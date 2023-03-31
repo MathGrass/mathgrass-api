@@ -6,6 +6,8 @@ import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,11 @@ import java.util.Optional;
  */
 @Component
 public class TaskExecutionManager {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LogManager.getLogger(TaskExecutionManager.class);
+
     /**
      * Task executor.
      */
@@ -83,6 +90,8 @@ public class TaskExecutionManager {
      * @return ID of task result
      */
     public Long requestTaskExecution(Long taskId, String userAnswer) {
+        logger.info("Requesting task evaluation for task with ID {}", taskId);
+
         // find task
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isEmpty()) {
@@ -100,11 +109,16 @@ public class TaskExecutionManager {
 
         // request task evaluation
         taskExecutor.execute(() -> {
+            logger.info("Starting task evaluation for task with ID {}", taskId);
+
             // evaluate answer
             boolean answerCorrect = makeAssessment(taskId, userAnswer);
 
             // update task result
             updateTaskResult(taskResult.getId(), answerCorrect);
+
+            logger.info("Finished task evaluation for task with ID {}. Task result ID: {}", taskId,
+                    taskResult.getId());
 
             // publish event
             eventPublisher.publishEvent(new TaskEvaluationFinishedEvent(this, taskResult.getId()));
