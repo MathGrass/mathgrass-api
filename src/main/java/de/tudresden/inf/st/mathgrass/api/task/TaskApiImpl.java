@@ -2,19 +2,13 @@ package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
-import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.task.execution.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.task.execution.TaskExecutionManager;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * This class contains functionality to manage {@link TaskDTO}s.

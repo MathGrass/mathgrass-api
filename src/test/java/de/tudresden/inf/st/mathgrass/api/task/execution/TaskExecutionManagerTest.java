@@ -1,5 +1,8 @@
 package de.tudresden.inf.st.mathgrass.api.task.execution;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
@@ -9,19 +12,20 @@ import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -60,6 +64,12 @@ class TaskExecutionManagerTest {
      */
     @SpyBean
     private TaskResultRepository taskResultRepository;
+
+    /**
+     * Event bus.
+     */
+    @Autowired
+    EventBus eventBus;
 
     /**
      * Task spy.
@@ -186,31 +196,36 @@ class TaskExecutionManagerTest {
         doReturn(true).when(taskExecutionManager).makeAssessment(anyLong(), anyString());
         doNothing().when(taskExecutionManager).updateTaskResult(anyLong(), anyBoolean());
 
-        // create listener
-        TaskEvaluationFinishedEventListener listener = new TaskEvaluationFinishedEventListener();
+        // create event bus subscriber
+        EventBusSubscriber eventBusSubscriber = new EventBusSubscriber();
 
         // trigger task execution
         taskExecutionManager.requestTaskExecution(taskSpy.getId(), "test");
 
-        // wait for task execution
-        Awaitility.await().atLeast(Duration.ofMillis(1000));
+        // wait for event -> also tests that event has been published after task execution
+        Awaitility.await().untilAtomic(eventBusSubscriber.getEventCount(), equalTo(1));
 
         // check that task result is updated
         verify(taskExecutionManager, times(1)).updateTaskResult(anyLong(), anyBoolean());
-        // check that event has been published
-        assertTrue(listener.isEventReceived());
     }
 
-    private static class TaskEvaluationFinishedEventListener {
-        private boolean eventReceived = false;
+    /**
+     * Helper class to subscribe to events.
+     */
+    public class EventBusSubscriber {
+        private final AtomicInteger eventCount = new AtomicInteger();
 
-        @EventListener
-        public void handleEvent(TaskEvaluationFinishedEvent event) {
-            eventReceived = true;
+        public EventBusSubscriber() {
+            eventBus.register(this);
         }
 
-        public boolean isEventReceived() {
-            return eventReceived;
+        @Subscribe
+        public void onEvent(TaskEvaluationFinishedEvent event) {
+            eventCount.incrementAndGet();
+        }
+
+        public AtomicInteger getEventCount() {
+            return eventCount;
         }
     }
 }

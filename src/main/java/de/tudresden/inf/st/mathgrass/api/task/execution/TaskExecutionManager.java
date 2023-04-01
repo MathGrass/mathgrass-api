@@ -1,5 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.task.execution;
 
+import com.google.common.eventbus.EventBus;
+import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
@@ -8,7 +10,6 @@ import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -58,9 +59,9 @@ public class TaskExecutionManager {
     private final AnswerVisitor answerVisitor;
 
     /**
-     * Event emitter for task evaluation completion.
+     * Event bus for.
      */
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventBus eventBus;
 
     /**
      * Constructor.
@@ -70,17 +71,17 @@ public class TaskExecutionManager {
      * @param taskResultRepository task result repository
      * @param questionVisitor question visitor
      * @param answerVisitor answer visitor
-     * @param eventPublisher event emitter
+     * @param eventBus event bus
      */
     public TaskExecutionManager(ThreadPoolTaskExecutor taskExecutor, TaskRepository taskRepository,
                                 TaskResultRepository taskResultRepository, QuestionVisitor questionVisitor,
-                                AnswerVisitor answerVisitor, ApplicationEventPublisher eventPublisher) {
+                                AnswerVisitor answerVisitor, EventBus eventBus) {
         this.taskExecutor = taskExecutor;
         this.taskRepository = taskRepository;
         this.taskResultRepository = taskResultRepository;
         this.questionVisitor = questionVisitor;
         this.answerVisitor = answerVisitor;
-        this.eventPublisher = eventPublisher;
+        this.eventBus = eventBus;
     }
 
     /**
@@ -118,7 +119,7 @@ public class TaskExecutionManager {
                     taskResult.getId());
 
             // publish event
-            eventPublisher.publishEvent(new TaskEvaluationFinishedEvent(this, taskResult.getId()));
+            eventBus.post(new TaskEvaluationFinishedEvent(taskResult.getId()));
         });
 
         return taskResult.getId();
