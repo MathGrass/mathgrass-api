@@ -9,8 +9,10 @@ import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.question.Question;
 import org.awaitility.Awaitility;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +42,7 @@ import static org.mockito.Mockito.*;
         "taskExecutor.maxPoolSize=5",
         "taskExecutor.queueCapacity=10"
 })
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaskExecutionManagerTest {
     /**
      * Task execution manager.
@@ -79,7 +82,7 @@ class TaskExecutionManagerTest {
     /**
      * Set up a demo task for the tests.
      */
-    @BeforeEach
+    @BeforeAll
     public void setUp() {
         // create task
         task = new Task();
@@ -111,7 +114,7 @@ class TaskExecutionManagerTest {
         // check that expected values exist
         assertEquals(userAnswerExpected, taskResult.getAnswer());
         assertEquals(submissionDateExpected, submissionDate);
-        // assertEquals(task.getId(), taskResult.getTask().getId());
+        assertEquals(task.getId(), taskResult.getTask().getId());
 
         // check that other values of task result are not set
         assertNull(taskResult.getEvaluationDate());
