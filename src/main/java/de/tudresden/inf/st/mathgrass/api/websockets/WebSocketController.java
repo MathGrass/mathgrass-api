@@ -99,13 +99,13 @@ public class WebSocketController {
         messagingTemplate.convertAndSend(String.format(TASK_RESULT_ID_TOPIC, message.getTaskId()), taskResultId);
 
         // create listener for result, listener will notify client about result
-        new EventBusSubscriber(taskResultId, messagingTemplate, taskResultRepository);
+        new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
     }
 
     /**
      * Helper class to handle EventBus events.
      */
-    public class EventBusSubscriber {
+    public class TaskEvaluationCompletedListener {
         /**
          * Task result ID to listen to.
          */
@@ -128,8 +128,8 @@ public class WebSocketController {
          * @param messagingTemplate messaging template
          * @param taskResultRepository task result repository
          */
-        public EventBusSubscriber(Long taskResultId, SimpMessagingTemplate messagingTemplate,
-                                  TaskResultRepository taskResultRepository) {
+        public TaskEvaluationCompletedListener(Long taskResultId, SimpMessagingTemplate messagingTemplate,
+                                               TaskResultRepository taskResultRepository) {
             eventBus.register(this);
             this.taskResultId = taskResultId;
             this.messagingTemplate = messagingTemplate;
@@ -153,6 +153,7 @@ public class WebSocketController {
 
                 messagingTemplate.convertAndSend(String.format(ASSESSMENT_RESULT_TOPIC, taskResultId),
                                                  taskResult.isAnswerTrue());
+                logger.info("Sent assessment result for task result with ID {} to client", taskResult.getId());
             }
         }
     }
