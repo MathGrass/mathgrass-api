@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -201,6 +202,7 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
      * @param userAnswer given answer
      * @return boolean determining whether given answer was correct or not
      */
+    @Transactional
     public boolean makeAssessment(Long taskId, String userAnswer) {
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
