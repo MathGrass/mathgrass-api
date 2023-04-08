@@ -2,12 +2,12 @@ package de.tudresden.inf.st.mathgrass.api.task;
 
 import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
+import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.model.*;
+import de.tudresden.inf.st.mathgrass.api.task.execution.TaskExecutionManager;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
-import de.tudresden.inf.st.mathgrass.api.task.question.QuestionVisitor;
-import de.tudresden.inf.st.mathgrass.api.task.question.answer.AnswerVisitor;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,26 +36,29 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     final GraphRepository graphRepository;
 
     /**
-     * Task template repository.
+     * Task result repository.
      */
-    final QuestionVisitor questionVisitor;
-    final AnswerVisitor answerVisitor;
+    final TaskResultRepository taskResultRepository;
 
+    /**
+     * Task execution manager.
+     */
+    private final TaskExecutionManager taskExecutionManager;
 
     /**
      * Constructor.
      *
      * @param taskRepository  task repository
      * @param graphRepository graph repository
+     * @param taskResultRepository task result repository
+     * @param taskExecutionManager task execution manager
      */
-    public TaskApiImpl(TaskRepository taskRepository,
-                       GraphRepository graphRepository,
-                       QuestionVisitor questionVisitor,
-                       AnswerVisitor answerVisitor) {
+    public TaskApiImpl(TaskRepository taskRepository, GraphRepository graphRepository,
+                       TaskResultRepository taskResultRepository, TaskExecutionManager taskExecutionManager) {
         this.taskRepository = taskRepository;
         this.graphRepository = graphRepository;
-        this.questionVisitor = questionVisitor;
-        this.answerVisitor = answerVisitor;
+        this.taskResultRepository = taskResultRepository;
+        this.taskExecutionManager = taskExecutionManager;
     }
 
     /**
@@ -187,31 +188,12 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             @Parameter(name = "EvaluateAnswerRequest", description =
                     "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
     ) {
-        try {
-            boolean result = makeAssessment(taskId, evaluateAnswerRequest.getAnswer());
-            return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /**
-     * Evaluate the answer to a certain task.
-     *
-     * @param taskId ID of task
-     * @param userAnswer given answer
-     * @return boolean determining whether given answer was correct or not
-     */
-    @Transactional
-    public boolean makeAssessment(Long taskId, String userAnswer) {
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isPresent()) {
-            Task task = optTask.get();
-            try {
-                return task.getQuestion().acceptQuestionVisitor(questionVisitor, answerVisitor, taskId, userAnswer);
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            String userAnswer = evaluateAnswerRequest.getAnswer();
+            boolean result = taskExecutionManager.makeAssessment(taskId, userAnswer);
+
+            return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
