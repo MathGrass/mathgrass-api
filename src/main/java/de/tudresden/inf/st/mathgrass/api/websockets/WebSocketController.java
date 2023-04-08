@@ -1,7 +1,11 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import de.tudresden.inf.st.mathgrass.api.model.EvaluateAnswerRequest;
-import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
+import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
+import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
+import de.tudresden.inf.st.mathgrass.api.task.execution.TaskExecutionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,6 +14,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This class handles websocket messages.
@@ -27,9 +32,14 @@ public class WebSocketController {
     protected static final String ASSESSMENT_RESULT_TOPIC = "/topic/assessmentResult/%s";
 
     /**
+     * Template for publishing task result IDs.
+     */
+    protected static final String TASK_RESULT_ID_TOPIC = "/topic/taskResultId/%s";
+
+    /**
      * Task API for evaluation.
      */
-    private final TaskApiImpl taskApi;
+    private final TaskExecutionManager taskExecutionManager;
 
     /**
      * Messaging template.
@@ -37,14 +47,29 @@ public class WebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     /**
+     * Event bus.
+     */
+    private final EventBus eventBus;
+
+    /**
+     * Task result repository.
+     */
+    private final TaskResultRepository taskResultRepository;
+
+    /**
      * Constructor.
      *
-     * @param taskApi task API
+     * @param taskExecutionManager task execution manager
      * @param messagingTemplate messaging template
+     * @param eventBus event bus
+     * @param taskResultRepository task result repository
      */
-    public WebSocketController(TaskApiImpl taskApi, SimpMessagingTemplate messagingTemplate) {
-        this.taskApi = taskApi;
+    public WebSocketController(TaskExecutionManager taskExecutionManager, SimpMessagingTemplate messagingTemplate,
+                               EventBus eventBus, TaskResultRepository taskResultRepository) {
+        this.taskExecutionManager = taskExecutionManager;
         this.messagingTemplate = messagingTemplate;
+        this.eventBus = eventBus;
+        this.taskResultRepository = taskResultRepository;
     }
 
     /**
@@ -64,13 +89,71 @@ public class WebSocketController {
      * @param message message containing task ID and submitted answer
      */
     @MessageMapping("/fetchAssessment")
-    public void evaluateStaticAssessment(@Payload TaskSubmissionMessage message) {
+    public void evaluateTask(@Payload TaskSubmissionMessage message) {
         logger.info("Received submitted assessment task with ID {}", message.getTaskId());
 
         // get evaluation
-        boolean correctAnswer = taskApi.makeAssessment(message.getTaskId(), message.getAnswer());
+        Long taskResultId = taskExecutionManager.requestTaskExecution(message.getTaskId(), message.getAnswer());
 
-        // broadcast result
-        messagingTemplate.convertAndSend(ASSESSMENT_RESULT_TOPIC.formatted(message.getTaskId()), correctAnswer);
+        // notify client about task result ID
+        messagingTemplate.convertAndSend(String.format(TASK_RESULT_ID_TOPIC, message.getTaskId()), taskResultId);
+
+        // create listener for result, listener will notify client about result
+        new EventBusSubscriber(taskResultId, messagingTemplate, taskResultRepository);
+    }
+
+    /**
+     * Helper class to handle EventBus events.
+     */
+    public class EventBusSubscriber {
+        /**
+         * Task result ID to listen to.
+         */
+        private final Long taskResultId;
+
+        /**
+         * Messaging template to notify websocket clients.
+         */
+        private final SimpMessagingTemplate messagingTemplate;
+
+        /**
+         * Task result repository.
+         */
+        private final TaskResultRepository taskResultRepository;
+
+        /**
+         * Constructor.
+         *
+         * @param taskResultId task result ID to listen to
+         * @param messagingTemplate messaging template
+         * @param taskResultRepository task result repository
+         */
+        public EventBusSubscriber(Long taskResultId, SimpMessagingTemplate messagingTemplate,
+                                  TaskResultRepository taskResultRepository) {
+            eventBus.register(this);
+            this.taskResultId = taskResultId;
+            this.messagingTemplate = messagingTemplate;
+            this.taskResultRepository = taskResultRepository;
+        }
+
+        /**
+         * Handle task evaluation finished event.
+         *
+         * @param event event
+         */
+        @Subscribe
+        public void onTaskCompletion(TaskEvaluationFinishedEvent event) {
+            if (Objects.equals(event.getTaskResultId(), taskResultId)) {
+                // get task result
+                Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
+                if (optTaskResult.isEmpty()) {
+                    throw new IllegalArgumentException("Task result with ID " + taskResultId + " does not exist.");
+                }
+                TaskResult taskResult = optTaskResult.get();
+
+                messagingTemplate.convertAndSend(String.format(ASSESSMENT_RESULT_TOPIC, taskResultId),
+                                                 taskResult.isAnswerTrue());
+            }
+        }
     }
 }
