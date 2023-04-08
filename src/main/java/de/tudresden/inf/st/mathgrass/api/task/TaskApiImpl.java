@@ -180,22 +180,4 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             return notFound();
         }
     }
-
-    @Override
-    public ResponseEntity<EvaluateAnswer200Response> evaluateAnswer(
-            @Parameter(name = "taskId", description = "ID of task", required
-                    = true) @PathVariable("taskId") Long taskId,
-            @Parameter(name = "EvaluateAnswerRequest", description =
-                    "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
-    ) {
-        Optional<Task> optTask = taskRepository.findById(taskId);
-        if (optTask.isPresent()) {
-            String userAnswer = evaluateAnswerRequest.getAnswer();
-            boolean result = taskExecutionManager.makeAssessment(taskId, userAnswer);
-
-            return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-    }
 }
