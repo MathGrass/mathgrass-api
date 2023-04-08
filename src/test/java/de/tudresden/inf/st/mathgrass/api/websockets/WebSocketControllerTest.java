@@ -1,15 +1,9 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import de.tudresden.inf.st.mathgrass.api.task.TaskApiImpl;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-
-import static de.tudresden.inf.st.mathgrass.api.websockets.WebSocketController.ASSESSMENT_RESULT_TOPIC;
-import static org.mockito.ArgumentMatchers.*;
 
 /**
  * Test class for {@link de.tudresden.inf.st.mathgrass.api.websockets.WebSocketController}.
@@ -21,12 +15,6 @@ class WebSocketControllerTest {
      */
     @Autowired
     private WebSocketController webSocketController;
-
-    /**
-     * Task API for evaluation.
-     */
-    @MockBean
-    private TaskApiImpl taskApi;
 
     /**
      * Messaging template.
