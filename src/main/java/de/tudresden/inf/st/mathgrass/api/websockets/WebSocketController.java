@@ -87,9 +87,10 @@ public class WebSocketController {
      * Receive and evaluate a dynamic assessment, and broadcast result of the assessment.
      *
      * @param message message containing task ID and submitted answer
+     * @return listener for task evaluation finished event
      */
     @MessageMapping("/fetchAssessment")
-    public void evaluateTask(@Payload TaskSubmissionMessage message) {
+    public TaskEvaluationCompletedListener evaluateTask(@Payload TaskSubmissionMessage message) {
         logger.info("Received submitted assessment task with ID {}", message.getTaskId());
 
         // get evaluation
@@ -99,7 +100,7 @@ public class WebSocketController {
         messagingTemplate.convertAndSend(String.format(TASK_RESULT_ID_TOPIC, message.getTaskId()), taskResultId);
 
         // create listener for result, listener will notify client about result
-        new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
+        return new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
     }
 
     /**
@@ -143,7 +144,7 @@ public class WebSocketController {
          */
         @Subscribe
         public void onTaskCompletion(TaskEvaluationFinishedEvent event) {
-            if (Objects.equals(event.getTaskResultId(), taskResultId)) {
+            if (Objects.equals(event.taskResultId(), taskResultId)) {
                 // get task result
                 Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
                 if (optTaskResult.isEmpty()) {
