@@ -27,25 +27,21 @@ public class TaskResult {
     /**
      * Given answer.
      */
-
     private String answer;
 
     /**
      * Date of evaluation.
      */
-
     private String evaluationDate;
 
     /**
      * Date of submission.
      */
-
     private String submissionDate;
 
     /**
      * Correctness of given answer.
      */
-
     private boolean answerTrue;
 
     public boolean isAnswerTrue() {
