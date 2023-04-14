@@ -4,6 +4,7 @@ src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/GraphApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/LabelApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskCollectionApi.java
+src/generated/java/de/tudresden/inf/st/mathgrass/api/apiModel/TaskResultApi.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/EdgeDTO.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/EvaluateAnswer200Response.java
 src/generated/java/de/tudresden/inf/st/mathgrass/api/model/EvaluateAnswerRequest.java

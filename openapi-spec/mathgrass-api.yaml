@@ -230,6 +230,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HintDTO'
+  /taskResult:
+    get:
+      description: Get the IDs of all task results
+      operationId: getIdsOfAllTaskResults
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  /taskResult/{taskResultId}:
+    get:
+      description: Returns a task result
+      operationId: getTaskResultById
+      parameters:
+        - name: taskResultId
+          in: path
+          description: ID of task result
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResultDTO'
   /taskCollection:
     get:
       description: Get all task collection

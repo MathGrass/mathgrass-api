@@ -1,5 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.feedback.results;
 
+import de.tudresden.inf.st.mathgrass.api.apiModel.TaskResultApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.model.TaskResultDTO;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
@@ -10,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * API implementation for querying task results. TODO: Implement TaskResultApi interface.
+ * API implementation for querying task results.
  */
 @RestController
-public class TaskResultApiImpl extends AbstractApiElement {
+public class TaskResultApiImpl extends AbstractApiElement implements TaskResultApi {
     /**
      * Task result repository.
      */
@@ -40,6 +41,7 @@ public class TaskResultApiImpl extends AbstractApiElement {
      *
      * @return Response with list of IDs
      */
+    @Override
     public ResponseEntity<List<Long>> getIdsOfAllTaskResults() {
         // find all task results and extract IDs
         List<Long> taskResultIds = taskResultRepository.findAll().stream()
@@ -55,6 +57,7 @@ public class TaskResultApiImpl extends AbstractApiElement {
      * @param taskResultId ID of task result
      * @return Response with task result
      */
+    @Override
     public ResponseEntity<TaskResultDTO> getTaskResultById(Long taskResultId) {
         // find task result by ID in repository
         Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
