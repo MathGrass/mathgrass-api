@@ -9,6 +9,7 @@ import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import de.tudresden.inf.st.mathgrass.api.task.Task;
 import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
+import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
@@ -133,9 +134,19 @@ public class DemoDataProvider {
         executor.setGraphPath("/sage-evaluation/graph.json");
         dynamicAnswer.setExecutor(executor);
 
+        Hint textHint = new Hint();
+        textHint.setContent("This is hint #1.");
+
+        Hint textHint2 = new Hint();
+        textHint2.setContent("This is hint #2.");
+
+        Hint textHint3 = new Hint();
+        textHint3.setContent("This is hint #3.");
+
         question.setAnswer(dynamicAnswer);
 
         demoTask1.setQuestion(question);
+        demoTask1.setHints(List.of(textHint, textHint2, textHint3));
 
         taskRepo.save(demoTask1);
     }
@@ -181,6 +192,16 @@ public class DemoDataProvider {
         answer.setAnswer("1");
         question.setAnswer(answer);
 
+        Hint textHint = new Hint();
+        textHint.setContent("This is hint #1.");
+
+        Hint textHint2 = new Hint();
+        textHint2.setContent("This is hint #2.");
+
+        Hint textHint3 = new Hint();
+        textHint3.setContent("This is hint #3.");
+
+        demoTask1.setHints(List.of(textHint, textHint2, textHint3));
         demoTask1.setQuestion(question);
 
         taskRepo.save(demoTask1);
