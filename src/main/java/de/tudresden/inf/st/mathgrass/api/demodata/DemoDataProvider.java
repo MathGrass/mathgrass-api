@@ -1,8 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.demodata;
 
 import de.tudresden.inf.st.mathgrass.api.evaluator.executor.Executor;
-import de.tudresden.inf.st.mathgrass.api.evaluator.executor.SourceFile;
-import de.tudresden.inf.st.mathgrass.api.evaluator.sage.SageEvaluator;
+import de.tudresden.inf.st.mathgrass.api.evaluator.evaluators.sage.SageEvaluatorPlugin;
 import de.tudresden.inf.st.mathgrass.api.graph.Edge;
 import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
@@ -17,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +28,7 @@ public class DemoDataProvider {
 
     private final GraphRepository graphRepo;
     private final TaskRepository taskRepo;
+    private final SageEvaluatorPlugin sagePlugin;
 
     /**
      * Constructor.
@@ -35,10 +36,10 @@ public class DemoDataProvider {
      * @param graphRepo graph repository
      * @param taskRepo  task repository
      */
-    public DemoDataProvider(GraphRepository graphRepo,
-                            TaskRepository taskRepo) {
+    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, SageEvaluatorPlugin sagePlugin) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
+        this.sagePlugin = sagePlugin;
     }
 
     /**
@@ -115,10 +116,7 @@ public class DemoDataProvider {
         question.setQuestionText("How many edges are there in the graph?");
 
         DynamicAnswer dynamicAnswer = new DynamicAnswer();
-        Executor executor = new Executor();
-        executor.setContainerImage(SageEvaluator.SAGE_IMAGE_COMPLETE_TAG);
-        SourceFile sourceFile = new SourceFile();
-        String executionDescriptor = """
+        String instructorExecutionDescriptor = """
                 from sage.all import *
                                 
                 def instructor_evaluation(graph: Graph, user_answer):
@@ -127,11 +125,7 @@ public class DemoDataProvider {
                     else:
                         return False
                 """;
-        sourceFile.setContents(executionDescriptor);
-        sourceFile.setPath("/sage-evaluation/instructor_evaluation.py");
-        executor.setCustomEntrypoint("sage /sage-evaluation/main.py");
-        executor.setSourceFiles(List.of(sourceFile));
-        executor.setGraphPath("/sage-evaluation/graph.json");
+        Executor executor = sagePlugin.initializeSageExecutor(instructorExecutionDescriptor, Collections.emptyList());
         dynamicAnswer.setExecutor(executor);
 
         Hint textHint = new Hint();
