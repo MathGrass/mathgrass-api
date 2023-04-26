@@ -11,7 +11,6 @@ import de.tudresden.inf.st.mathgrass.api.task.TaskRepository;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.question.FormQuestion;
 import de.tudresden.inf.st.mathgrass.api.task.question.answer.DynamicAnswer;
-import de.tudresden.inf.st.mathgrass.api.task.question.answer.StaticAnswer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +21,9 @@ import java.util.List;
 /**
  * This class fills up the repositories with generated demo data.
  */
-@Profile("demodata")
+@Profile("demodata & sage-evaluator")
 @Component
-public class DemoDataProvider {
+public class StaticTaskDemoDataProvider {
 
     private final GraphRepository graphRepo;
     private final TaskRepository taskRepo;
@@ -36,31 +35,22 @@ public class DemoDataProvider {
      * @param graphRepo graph repository
      * @param taskRepo  task repository
      */
-    public DemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, SageEvaluatorPlugin sagePlugin) {
+    public StaticTaskDemoDataProvider(GraphRepository graphRepo, TaskRepository taskRepo, SageEvaluatorPlugin sagePlugin) {
         this.graphRepo = graphRepo;
         this.taskRepo = taskRepo;
         this.sagePlugin = sagePlugin;
     }
 
-    /**
-     * Initialize graphs.
-     */
-    @PostConstruct
-    private void initGraphs() {
-        // if task repository already contains elements don't do anything
-        if (!taskRepo.findAll().isEmpty()) {
-            return;
-        }
 
-        // create tasks
-        createDynamicTask();
-        createStaticTask();
+    @PostConstruct
+    private void initTasks() {
+        createSageTask();
     }
 
     /**
-     * Generate a dynamic graph task.
+     * Generate a dynamic graph task with the Sage plugin
      */
-    private void createDynamicTask() {
+    private void createSageTask() {
         // create graph entity
         Graph graph = new Graph();
 
@@ -145,59 +135,5 @@ public class DemoDataProvider {
         taskRepo.save(demoTask1);
     }
 
-    /**
-     * Generate a simple graph.
-     */
-    private void createStaticTask() {
-        // create graph
-        Graph graph = new Graph();
 
-        // create vertices
-        Vertex vertex1 = new Vertex();
-        final String LABEL_SOURCE = "1";
-        vertex1.setLabel(LABEL_SOURCE);
-        vertex1.setX(20);
-        vertex1.setY(20);
-
-        Vertex vertex2 = new Vertex();
-        vertex2.setLabel("2");
-        vertex2.setX(60);
-        vertex2.setY(60);
-
-        // create edges
-        Edge edge1 = new Edge();
-        edge1.setSourceVertex(vertex1);
-        edge1.setTargetVertex(vertex2);
-
-        // add vertices and edges to graph
-        graph.setVertices(List.of(vertex1, vertex2));
-        graph.setEdges(List.of(edge1));
-        graphRepo.save(graph);
-
-        // create task
-        Task demoTask1 = new Task();
-        demoTask1.setGraph(graph);
-        demoTask1.setLabel("Task with simple evaluation");
-
-        FormQuestion question = new FormQuestion();
-        question.setQuestionText("What's the label of the source vertex?");
-
-        StaticAnswer answer = new StaticAnswer();
-        answer.setAnswer("1");
-        question.setAnswer(answer);
-
-        Hint textHint = new Hint();
-        textHint.setContent("This is hint #1.");
-
-        Hint textHint2 = new Hint();
-        textHint2.setContent("This is hint #2.");
-
-        Hint textHint3 = new Hint();
-        textHint3.setContent("This is hint #3.");
-
-        demoTask1.setHints(List.of(textHint, textHint2, textHint3));
-        demoTask1.setQuestion(question);
-
-        taskRepo.save(demoTask1);
-    }
 }
