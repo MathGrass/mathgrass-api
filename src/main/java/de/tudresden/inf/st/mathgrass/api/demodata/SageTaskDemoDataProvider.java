@@ -45,6 +45,7 @@ public class SageTaskDemoDataProvider {
     @PostConstruct
     private void initTasks() {
         createSageTask();
+        createLongSageTask();
     }
 
     /**
@@ -135,5 +136,61 @@ public class SageTaskDemoDataProvider {
         taskRepo.save(demoTask1);
     }
 
+    /**
+     * Generate a dynamic graph task with the Sage plugin, which takes 5 seconds to solve.
+     */
+    private void createLongSageTask() {
+        // create graph entity
+        Graph graph = new Graph();
 
+        // create vertices
+        Vertex vertex1 = new Vertex();
+        vertex1.setLabel("1");
+        vertex1.setX(10);
+        vertex1.setY(10);
+
+        Vertex vertex2 = new Vertex();
+        vertex2.setLabel("2");
+        vertex2.setX(50);
+        vertex2.setY(50);
+
+        // create edges
+        Edge edge1 = new Edge();
+        edge1.setSourceVertex(vertex1);
+        edge1.setTargetVertex(vertex2);
+
+        // add vertices and edges to graph
+        graph.setVertices(List.of(vertex1, vertex2));
+        graph.setEdges(List.of(edge1));
+        graphRepo.save(graph);
+
+        // create task
+        Task demoTask = new Task();
+        demoTask.setGraph(graph);
+        demoTask.setLabel("Slow Sage Task");
+
+        FormQuestion question = new FormQuestion();
+        question.setQuestionText("What is the answer to the ultimate question of life, the universe, and everything? (No wrong answers)");
+
+        DynamicAnswer dynamicAnswer = new DynamicAnswer();
+        String instructorExecutionDescriptor = """
+                from sage.all import *
+                import time
+                                
+                def instructor_evaluation(graph: Graph, user_answer):
+                    start_time = time.time()
+                    while time.time() < start_time + 5:
+                        pass
+                    
+                    return True
+                """;
+        Executor executor = sagePlugin.initializeSageExecutor(instructorExecutionDescriptor, Collections.emptyList());
+        dynamicAnswer.setExecutor(executor);
+
+        question.setAnswer(dynamicAnswer);
+
+        demoTask.setQuestion(question);
+
+        taskRepo.save(demoTask);
+    }
 }
