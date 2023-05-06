@@ -58,7 +58,15 @@ public class TaskExecutionManager {
         TaskResult taskResult = taskExecutionWorker.createTaskResult(taskId, userAnswer);
 
         // request task evaluation
-        taskExecutor.execute(() -> taskExecutionWorker.runTaskEvaluation(taskId, userAnswer, taskResult.getId()));
+        taskExecutor.execute(() -> {
+            // add short delay to ensure that the task result is returned before the task evaluation is started
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                logger.error("Task evaluation for task with ID {} was interrupted", taskId);
+            }
+            taskExecutionWorker.runTaskEvaluation(taskId, userAnswer, taskResult.getId());
+        });
 
         return taskResult.getId();
     }

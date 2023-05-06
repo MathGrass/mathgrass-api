@@ -1,7 +1,7 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import de.tudresden.inf.st.mathgrass.api.events.CustomEventBus;
 import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
@@ -49,7 +49,7 @@ public class WebSocketController {
     /**
      * Event bus.
      */
-    private final EventBus eventBus;
+    private final CustomEventBus eventBus;
 
     /**
      * Task result repository.
@@ -65,7 +65,7 @@ public class WebSocketController {
      * @param taskResultRepository task result repository
      */
     public WebSocketController(TaskExecutionManager taskExecutionManager, SimpMessagingTemplate messagingTemplate,
-                               EventBus eventBus, TaskResultRepository taskResultRepository) {
+                               CustomEventBus eventBus, TaskResultRepository taskResultRepository) {
         this.taskExecutionManager = taskExecutionManager;
         this.messagingTemplate = messagingTemplate;
         this.eventBus = eventBus;
@@ -87,20 +87,19 @@ public class WebSocketController {
      * Receive and evaluate a dynamic assessment, and broadcast result of the assessment.
      *
      * @param message message containing task ID and submitted answer
-     * @return listener for task evaluation finished event
      */
     @MessageMapping("/fetchAssessment")
-    public TaskEvaluationCompletedListener evaluateTask(@Payload TaskSubmissionMessage message) {
+    public void evaluateTask(@Payload TaskSubmissionMessage message) {
         logger.info("Received submitted assessment task with ID {}", message.getTaskId());
 
         // get evaluation
         Long taskResultId = taskExecutionManager.requestTaskExecution(message.getTaskId(), message.getAnswer());
 
+        // create listener for result, listener will notify client about result
+        new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
+
         // notify client about task result ID
         messagingTemplate.convertAndSend(String.format(TASK_RESULT_ID_TOPIC, message.getTaskId()), taskResultId);
-
-        // create listener for result, listener will notify client about result
-        return new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
     }
 
     /**
@@ -152,9 +151,10 @@ public class WebSocketController {
                 }
                 TaskResult taskResult = optTaskResult.get();
 
+                // send result to client and unregister listener
                 messagingTemplate.convertAndSend(String.format(ASSESSMENT_RESULT_TOPIC, taskResultId),
                                                  taskResult.isAnswerTrue());
-                logger.info("Sent assessment result for task result with ID {} to client", taskResult.getId());
+                eventBus.unregister(this);
             }
         }
     }

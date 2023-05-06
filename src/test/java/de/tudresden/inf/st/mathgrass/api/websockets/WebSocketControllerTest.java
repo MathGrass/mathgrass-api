@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.websockets;
 
-import com.google.common.eventbus.EventBus;
+import de.tudresden.inf.st.mathgrass.api.events.CustomEventBus;
 import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
@@ -18,7 +18,8 @@ import java.util.Optional;
 import static de.tudresden.inf.st.mathgrass.api.websockets.WebSocketController.ASSESSMENT_RESULT_TOPIC;
 import static de.tudresden.inf.st.mathgrass.api.websockets.WebSocketController.TASK_RESULT_ID_TOPIC;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -55,7 +56,7 @@ class WebSocketControllerTest {
      * Event bus.
      */
     @Autowired
-    private EventBus eventBus;
+    private CustomEventBus eventBus;
 
     /**
      * Test that calling the evaluateTask endpoint notifies clients about the generated task result ID, as well as that
@@ -74,8 +75,10 @@ class WebSocketControllerTest {
         TaskSubmissionMessage taskSubmissionMessage = new TaskSubmissionMessage(1L, "test");
 
         // call function
-        WebSocketController.TaskEvaluationCompletedListener listener =
-                webSocketController.evaluateTask(taskSubmissionMessage);
+        webSocketController.evaluateTask(taskSubmissionMessage);
+
+        // get listener from eventBus
+        Object listener = eventBus.getRegisteredListeners().stream().findAny().orElse(null);
 
         // check that listener is not null
         assertNotNull(listener);
@@ -99,8 +102,7 @@ class WebSocketControllerTest {
         Long taskResultId = 1L;
 
         // create listener
-        WebSocketController.TaskEvaluationCompletedListener listener = webSocketController.
-                new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
+        webSocketController.new TaskEvaluationCompletedListener(taskResultId, messagingTemplate, taskResultRepository);
 
         // create event
         TaskEvaluationFinishedEvent event = new TaskEvaluationFinishedEvent(taskResultId);

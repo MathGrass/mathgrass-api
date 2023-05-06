@@ -1,6 +1,6 @@
 package de.tudresden.inf.st.mathgrass.api.task.execution;
 
-import com.google.common.eventbus.EventBus;
+import de.tudresden.inf.st.mathgrass.api.events.CustomEventBus;
 import de.tudresden.inf.st.mathgrass.api.events.TaskEvaluationFinishedEvent;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResult;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
@@ -50,7 +50,7 @@ public class TaskExecutionWorker {
     /**
      * Event bus
      */
-    private final EventBus eventBus;
+    private final CustomEventBus eventBus;
 
     /**
      * Constructor.
@@ -62,7 +62,7 @@ public class TaskExecutionWorker {
      * @param eventBus event bus
      */
     public TaskExecutionWorker(TaskRepository taskRepository, TaskResultRepository taskResultRepository,
-            QuestionVisitor questionVisitor, AnswerVisitor answerVisitor, EventBus eventBus) {
+            QuestionVisitor questionVisitor, AnswerVisitor answerVisitor, CustomEventBus eventBus) {
         this.taskRepository = taskRepository;
         this.taskResultRepository = taskResultRepository;
         this.questionVisitor = questionVisitor;
@@ -138,7 +138,7 @@ public class TaskExecutionWorker {
      * @param userAnswer given answer
      * @return task result
      */
-    protected TaskResult createTaskResult(Long taskId, String userAnswer) {
+    public TaskResult createTaskResult(Long taskId, String userAnswer) {
         // find task
         Optional<Task> optTask = taskRepository.findById(taskId);
         if (optTask.isEmpty()) {
