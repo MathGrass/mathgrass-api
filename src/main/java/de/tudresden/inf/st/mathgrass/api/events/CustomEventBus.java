@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Extension of the Guava event bus allowing for storing and getting registered listeners..
+ */
 @Component
 public class CustomEventBus {
     /**

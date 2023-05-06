@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * This class manages the execution of multiple requested task evaluations.
  *
@@ -25,7 +27,7 @@ public class TaskExecutionManager {
     /**
      * Task executor.
      */
-    private final ThreadPoolTaskExecutor taskExecutor;
+    private final DelayedTaskExecutor taskExecutor;
 
     /**
      * Worker class.
@@ -38,7 +40,7 @@ public class TaskExecutionManager {
      * @param taskExecutor task executor
      * @param taskExecutionWorker worker class
      */
-    public TaskExecutionManager(ThreadPoolTaskExecutor taskExecutor, TaskExecutionWorker taskExecutionWorker) {
+    public TaskExecutionManager(DelayedTaskExecutor taskExecutor, TaskExecutionWorker taskExecutionWorker) {
         this.taskExecutor = taskExecutor;
         this.taskExecutionWorker = taskExecutionWorker;
     }
@@ -57,16 +59,10 @@ public class TaskExecutionManager {
         // initialize task result
         TaskResult taskResult = taskExecutionWorker.createTaskResult(taskId, userAnswer);
 
-        // request task evaluation
-        taskExecutor.execute(() -> {
-            // add short delay to ensure that the task result is returned before the task evaluation is started
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                logger.error("Task evaluation for task with ID {} was interrupted", taskId);
-            }
-            taskExecutionWorker.runTaskEvaluation(taskId, userAnswer, taskResult.getId());
-        });
+        // request task evaluation with delay to ensure that task result is returned before task evaluation is started
+        taskExecutor.executeWithDelay(
+                () -> taskExecutionWorker.runTaskEvaluation(taskId, userAnswer, taskResult.getId()),
+                50, TimeUnit.MILLISECONDS);
 
         return taskResult.getId();
     }
