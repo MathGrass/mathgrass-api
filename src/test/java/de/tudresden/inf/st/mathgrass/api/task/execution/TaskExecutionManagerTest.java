@@ -50,6 +50,12 @@ class TaskExecutionManagerTest {
     private TaskExecutionManager taskExecutionManager;
 
     /**
+     * Task execution worker.
+     */
+    @SpyBean
+    private TaskExecutionWorker taskExecutionWorker;
+
+    /**
      * Task executor.
      */
     @SpyBean
@@ -98,13 +104,12 @@ class TaskExecutionManagerTest {
         LocalDateTime submissionDateExpected = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
         // create task result
-        Long taskResultId = taskExecutionManager.createTaskResult(task.getId(), userAnswerExpected);
+        TaskResult taskResult = taskExecutionWorker.createTaskResult(task.getId(), userAnswerExpected);
 
         // check that exists in taskResultRepository
-        Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
+        Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResult.getId());
 
         assertTrue(optTaskResult.isPresent());
-        TaskResult taskResult = optTaskResult.get();
 
         // convert submission date to local date time
         LocalDateTime submissionDate = LocalDateTime.parse(taskResult.getSubmissionDate())
@@ -129,23 +134,17 @@ class TaskExecutionManagerTest {
     @Test
     void testUpdateTaskResult() {
         // create task result
-        Long taskResultId = taskExecutionManager.createTaskResult(task.getId(), "test");
-
-        // check that exists in taskResultRepository
-        Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultId);
-
-        assertTrue(optTaskResult.isPresent());
-        TaskResult taskResultBeforeUpdate = optTaskResult.get();
+        TaskResult taskResultBeforeUpdate = taskExecutionWorker.createTaskResult(task.getId(), "test");
 
         // check that evaluation date doesn't exist and isAnswerTrue is false
         assertNull(taskResultBeforeUpdate.getEvaluationDate());
         assertFalse(taskResultBeforeUpdate.isAnswerTrue());
 
         // now update task result
-        taskExecutionManager.updateTaskResult(taskResultId, true);
+        taskExecutionWorker.updateTaskResult(taskResultBeforeUpdate.getId(), true);
 
         // get updated task result
-        optTaskResult = taskResultRepository.findById(taskResultId);
+        Optional<TaskResult> optTaskResult = taskResultRepository.findById(taskResultBeforeUpdate.getId());
         assertTrue(optTaskResult.isPresent());
         TaskResult taskResultAfterUpdate = optTaskResult.get();
 
@@ -175,7 +174,7 @@ class TaskExecutionManagerTest {
         doReturn(Optional.of(taskSpy)).when(taskRepository).findById(anyLong());
 
         // make assessment, test fails if any exceptions thrown
-        assertEquals(expectedResult, taskExecutionManager.makeAssessment(taskSpy.getId(), "test"));
+        assertEquals(expectedResult, taskExecutionWorker.makeAssessment(taskSpy.getId(), "test"));
     }
 
     /**
@@ -196,8 +195,8 @@ class TaskExecutionManagerTest {
     @Test
     void testTaskExecutionRequest() {
         // mock assessment and update of task result
-        doReturn(true).when(taskExecutionManager).makeAssessment(anyLong(), anyString());
-        doNothing().when(taskExecutionManager).updateTaskResult(anyLong(), anyBoolean());
+        doReturn(true).when(taskExecutionWorker).makeAssessment(anyLong(), anyString());
+        doNothing().when(taskExecutionWorker).updateTaskResult(anyLong(), anyBoolean());
 
         // create event bus subscriber
         EventBusSubscriber eventBusSubscriber = new EventBusSubscriber();
@@ -209,7 +208,7 @@ class TaskExecutionManagerTest {
         Awaitility.await().untilAtomic(eventBusSubscriber.getEventCount(), equalTo(1));
 
         // check that task result is updated
-        verify(taskExecutionManager, times(1)).updateTaskResult(anyLong(), anyBoolean());
+        verify(taskExecutionWorker, times(1)).updateTaskResult(anyLong(), anyBoolean());
     }
 
     /**

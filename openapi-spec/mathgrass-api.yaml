@@ -145,42 +145,6 @@ paths:
           description: successful operation
           content: {}
       x-codegen-request-body-name: task
-  /task/{taskId}/evaluateAnswer:
-    post:
-      description: Submit an answer to a task and expect a boolean response
-      operationId: evaluateAnswer
-      parameters:
-        - name: taskId
-          in: path
-          description: ID of task
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: Submitted answer
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                answer:
-                  type: string
-              required:
-                - answer
-        required: true
-      responses:
-        200:
-          description: successful operation
-          content:
-            'application/json':
-              schema:
-                type: object
-                properties:
-                  isAssessmentCorrect:
-                    type: boolean
-                required:
-                  - isAssessmentCorrect
   /task/{taskId}/addHint:
     post:
       description: Adds a hint to a task
@@ -230,6 +194,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HintDTO'
+  /taskResult:
+    get:
+      description: Get the IDs of all task results
+      operationId: getIdsOfAllTaskResults
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  /taskResult/{taskResultId}:
+    get:
+      description: Returns a task result
+      operationId: getTaskResultById
+      parameters:
+        - name: taskResultId
+          in: path
+          description: ID of task result
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResultDTO'
   /taskCollection:
     get:
       description: Get all task collection

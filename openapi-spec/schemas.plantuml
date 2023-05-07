@@ -9,14 +9,6 @@ entity EdgeDTO {
     label: String
 }
 
-entity EvaluateAnswer200Response {
-    * isAssessmentCorrect: Boolean
-}
-
-entity EvaluateAnswerRequest {
-    * answer: String
-}
-
 entity FeedbackDTO {
     id: Long
     content: String

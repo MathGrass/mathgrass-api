@@ -4,19 +4,14 @@ import de.tudresden.inf.st.mathgrass.api.apiModel.TaskApi;
 import de.tudresden.inf.st.mathgrass.api.common.AbstractApiElement;
 import de.tudresden.inf.st.mathgrass.api.feedback.results.TaskResultRepository;
 import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
-import de.tudresden.inf.st.mathgrass.api.model.*;
-import de.tudresden.inf.st.mathgrass.api.task.execution.TaskExecutionManager;
+import de.tudresden.inf.st.mathgrass.api.model.HintDTO;
+import de.tudresden.inf.st.mathgrass.api.model.TaskDTO;
+import de.tudresden.inf.st.mathgrass.api.model.TaskIdLabelTupleDTO;
 import de.tudresden.inf.st.mathgrass.api.task.hint.Hint;
 import de.tudresden.inf.st.mathgrass.api.task.hint.TaskHintTransformer;
-import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,24 +36,17 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
     final TaskResultRepository taskResultRepository;
 
     /**
-     * Task execution manager.
-     */
-    private final TaskExecutionManager taskExecutionManager;
-
-    /**
      * Constructor.
      *
      * @param taskRepository  task repository
      * @param graphRepository graph repository
      * @param taskResultRepository task result repository
-     * @param taskExecutionManager task execution manager
      */
     public TaskApiImpl(TaskRepository taskRepository, GraphRepository graphRepository,
-                       TaskResultRepository taskResultRepository, TaskExecutionManager taskExecutionManager) {
+                       TaskResultRepository taskResultRepository) {
         this.taskRepository = taskRepository;
         this.graphRepository = graphRepository;
         this.taskResultRepository = taskResultRepository;
-        this.taskExecutionManager = taskExecutionManager;
     }
 
     /**
@@ -178,24 +166,6 @@ public class TaskApiImpl extends AbstractApiElement implements TaskApi {
             return ok();
         } else {
             return notFound();
-        }
-    }
-
-    @Override
-    public ResponseEntity<EvaluateAnswer200Response> evaluateAnswer(
-            @Parameter(name = "taskId", description = "ID of task", required
-                    = true) @PathVariable("taskId") Long taskId,
-            @Parameter(name = "EvaluateAnswerRequest", description =
-                    "Submitted answer", required = true) @Valid @RequestBody EvaluateAnswerRequest evaluateAnswerRequest
-    ) {
-        Optional<Task> optTask = taskRepository.findById(taskId);
-        if (optTask.isPresent()) {
-            String userAnswer = evaluateAnswerRequest.getAnswer();
-            boolean result = taskExecutionManager.makeAssessment(taskId, userAnswer);
-
-            return ok(new EvaluateAnswer200Response().isAssessmentCorrect(result));
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }
