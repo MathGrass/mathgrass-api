@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskExecutionConfiguration {
     /**
-     * Minimal number of threads kept alive in the thread pool.
+     * Minimal number of threads kept alive in the thread pool. Number of threads only increases if queue is full.
      */
     @Value("${taskExecutor.corePoolSize:1}")
     private int corePoolSize;
