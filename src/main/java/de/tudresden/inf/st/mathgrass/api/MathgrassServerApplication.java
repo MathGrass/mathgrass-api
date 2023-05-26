@@ -4,14 +4,18 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
+import de.tudresden.inf.st.mathgrass.api.admin.config.JWTAuthenticationFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -56,11 +60,39 @@ public class MathgrassServerApplication {
 
     @EnableWebSecurity
     public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.cors().and().csrf().disable();
+        //        Sreeram Change for Admin Interface - Starts
+//        @Override
+//        protected void configure(HttpSecurity http) throws Exception {
+//            http.cors().and().csrf().disable();
+//        }
+
+        private final JWTAuthenticationFilter jwtAuthFilter;
+
+        private final AuthenticationProvider authenticationProvider;
+
+        public WebSecurityConfig(JWTAuthenticationFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
+            this.jwtAuthFilter = jwtAuthFilter;
+            this.authenticationProvider = authenticationProvider;
         }
 
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .csrf()
+                    .disable()
+                    .authorizeHttpRequests()
+                    .antMatchers("/api/admin/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authenticationProvider(authenticationProvider)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        }
+        //        Sreeram Change for Admin Interface - Ends
         @Bean
         CorsConfigurationSource corsConfigurationSource() {
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
