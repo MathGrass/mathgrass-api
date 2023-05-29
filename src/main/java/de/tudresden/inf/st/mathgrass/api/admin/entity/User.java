@@ -9,7 +9,15 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name ="user_table")
+@Table(
+        name = "user_table",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "user_email_unique",
+                        columnNames = "email"
+                )
+        }
+)
 public class User implements UserDetails {
 
     @Id
@@ -20,8 +28,16 @@ public class User implements UserDetails {
 
     private String lastname;
 
+    @Column(
+            name = "email",
+            nullable = false
+    )
     private String email;
 
+    @Column(
+            name = "password",
+            nullable = false
+    )
     private String password;
 
     @Enumerated(EnumType.STRING)
