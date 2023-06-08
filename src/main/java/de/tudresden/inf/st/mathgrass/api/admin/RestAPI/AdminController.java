@@ -1,14 +1,14 @@
-package de.tudresden.inf.st.mathgrass.api.admin.controller;
+package de.tudresden.inf.st.mathgrass.api.admin.RestAPI;
 
 
-import de.tudresden.inf.st.mathgrass.api.admin.entity.GraphEntity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.tudresden.inf.st.mathgrass.api.admin.entity.HintsCollectionEntity;
 import de.tudresden.inf.st.mathgrass.api.admin.entity.QuestionAnswerEntity;
-import de.tudresden.inf.st.mathgrass.api.admin.model.TokenValidationRequest;
-import de.tudresden.inf.st.mathgrass.api.admin.model.UserAuthenticationRequest;
-import de.tudresden.inf.st.mathgrass.api.admin.model.UserAuthenticationResponse;
-import de.tudresden.inf.st.mathgrass.api.admin.model.UserRegistrationRequest;
+import de.tudresden.inf.st.mathgrass.api.admin.model.*;
 import de.tudresden.inf.st.mathgrass.api.admin.service.AdminServices;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -54,12 +54,27 @@ public class AdminController {
         return adminServices.checkTokenValidity(request.getToken());
     }
     @PostMapping("/saveGraph")
-    public String saveGraphJson(@RequestBody String graphJson) {
-        logger.info("saveGraphJson Service called from AdminController with Input {}",graphJson);
-        GraphEntity graphEntity = new GraphEntity();
-        graphEntity.setGraphData(graphJson);
-        return adminServices.saveGraphJson(graphEntity);
-     }
+    public String saveGraphJson(@RequestBody SaveGraphRequest saveGraphRequest) {
+        logger.info("saveGraphJson Service called from AdminController with Input {} Student Login {}",saveGraphRequest.getGraphJSON(),saveGraphRequest.getStudentLogin());
+        try{
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(saveGraphRequest.getGraphJSON()).getAsJsonObject();
+            JsonArray cellsArray = jsonObject.getAsJsonArray("cells");
+            String saveResponse = adminServices.buildGraphAndSave(cellsArray,saveGraphRequest.getStudentLogin());
+            logger.info("The result of the save {}",saveResponse);
+            return saveResponse;
+        }
+        catch (Exception e){
+            logger.error("Json parsing exception {}",e.getMessage());
+        }
+        return "Saved Successfully";
+    }
+
+    @DeleteMapping("deleteGraphById/{id}")
+    public String cancelSavingConfirmation(@PathVariable Long id){
+        logger.info("Graph saving is cancelled by the user cancelSavingConfirmation by id {}",id);
+        return adminServices.deleteSaveGraphById(id);
+    }
 
     @PostMapping("/saveHints")
     public String saveHintsFromUser(@RequestBody HintsCollectionEntity hintsCollectionEntity){
@@ -71,9 +86,6 @@ public class AdminController {
     public String saveQuestionAnswer(@RequestBody QuestionAnswerEntity questionAnswerEntity) {
         logger.info("saveQuestionAnswer Service called from AdminController with Input {}",questionAnswerEntity);
         return adminServices.saveQuestionAnswer(questionAnswerEntity);
-//        ObjectMapper mapper = new ObjectMapper();
-//        QuestionAnswerEntity question = mapper.readValue(questionAnswerEntity, QuestionAnswerEntity.class);
-//        System.out.println("Check the mapped json - "+question);
     }
 
     @GetMapping("/getHints")
@@ -87,7 +99,7 @@ public class AdminController {
     }
 
     @GetMapping("/getGraphJson")
-    public String getGraphJson(){
+    public List<Graph> getGraphJson(){
         return adminServices.getGraphJson();
     }
 

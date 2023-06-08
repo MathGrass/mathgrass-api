@@ -19,6 +19,9 @@ public class EdgeTransformer extends ModelTransformer<EdgeDTO, Edge> {
         edgeDTO.setId(entity.getId());
         edgeDTO.setFirstVertex(new VertexTransformer().toDto(entity.getSourceVertex()));
         edgeDTO.setSecondVertex(new VertexTransformer().toDto(entity.getTargetVertex()));
+        //Changes for Admin Interface - Starts
+        edgeDTO.setEdgeId(entity.getEdgeId());
+        //Changes for Admin Interface - Ends
         return edgeDTO;
     }
 
@@ -32,6 +35,9 @@ public class EdgeTransformer extends ModelTransformer<EdgeDTO, Edge> {
         edgeEntity.setLabel(dto.getLabel());
         edgeEntity.setSourceVertex(new VertexTransformer().toEntity(dto.getFirstVertex()));
         edgeEntity.setTargetVertex(new VertexTransformer().toEntity(dto.getSecondVertex()));
+        //Changes for Admin Interface - Starts
+        edgeEntity.setEdgeId(dto.getEdgeId());
+        //Changes for Admin Interface - Ends
 
         return edgeEntity;
     }

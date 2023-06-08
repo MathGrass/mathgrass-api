@@ -22,6 +22,10 @@ public class Edge {
 
     private String label;
 
+    //Changes for Admin Interface - Starts
+    private String edgeId;
+    //Changes for Admin Interface - Ends
+
     /**
      * Source vertex.
      */
@@ -33,6 +37,14 @@ public class Edge {
      */
     @ManyToOne(cascade = {CascadeType.ALL,CascadeType.MERGE})
     private Vertex targetVertex;
+
+    public String getEdgeId() {
+        return edgeId;
+    }
+
+    public void setEdgeId(String edgeId) {
+        this.edgeId = edgeId;
+    }
 
     public Vertex getSourceVertex() {
         return sourceVertex;

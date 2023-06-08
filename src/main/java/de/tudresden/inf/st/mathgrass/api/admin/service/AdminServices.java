@@ -1,14 +1,20 @@
 package de.tudresden.inf.st.mathgrass.api.admin.service;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import de.tudresden.inf.st.mathgrass.api.admin.config.JWTService;
 import de.tudresden.inf.st.mathgrass.api.admin.entity.*;
 import de.tudresden.inf.st.mathgrass.api.admin.model.UserAuthenticationRequest;
 import de.tudresden.inf.st.mathgrass.api.admin.model.UserAuthenticationResponse;
 import de.tudresden.inf.st.mathgrass.api.admin.model.UserRegistrationRequest;
-import de.tudresden.inf.st.mathgrass.api.admin.repository.GraphJSONRepository;
 import de.tudresden.inf.st.mathgrass.api.admin.repository.HintsCollectionRepository;
 import de.tudresden.inf.st.mathgrass.api.admin.repository.QuestionAndAnswerRepository;
 import de.tudresden.inf.st.mathgrass.api.admin.repository.UserRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.Edge;
+import de.tudresden.inf.st.mathgrass.api.graph.Graph;
+import de.tudresden.inf.st.mathgrass.api.graph.GraphRepository;
+import de.tudresden.inf.st.mathgrass.api.graph.Vertex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +34,7 @@ public class AdminServices {
     private final UserRepository repository;
     private final HintsCollectionRepository hintsRepository;
 
-    private final GraphJSONRepository graphJSONRepository;
+    private final GraphRepository graphRepository;
 
     private final QuestionAndAnswerRepository questionAndAnswerRepository;
     private final PasswordEncoder passwordEncoder;
@@ -35,10 +42,10 @@ public class AdminServices {
 
     private final AuthenticationManager authenticationManager;
 
-    public AdminServices(UserRepository repository, HintsCollectionRepository hintsRepository, GraphJSONRepository graphJSONRepository, QuestionAndAnswerRepository questionAndAnswerRepository, PasswordEncoder passwordEncoder, JWTService jwtService, AuthenticationManager authenticationManager) {
+    public AdminServices(UserRepository repository, HintsCollectionRepository hintsRepository, GraphRepository graphRepository, QuestionAndAnswerRepository questionAndAnswerRepository, PasswordEncoder passwordEncoder, JWTService jwtService, AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.hintsRepository = hintsRepository;
-        this.graphJSONRepository = graphJSONRepository;
+        this.graphRepository = graphRepository;
         this.questionAndAnswerRepository = questionAndAnswerRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -58,9 +65,9 @@ public class AdminServices {
             var jwtToken = jwtService.generateToken(user);
             registerResponse.setToken(jwtToken);
 
-         }
+        }
         catch (Exception e){
-            logger.error("Error in saving the user data {}",e.getMessage().toString());
+            logger.error("Error in saving the user data {}",e.getMessage());
         }
         return registerResponse;
 
@@ -81,7 +88,7 @@ public class AdminServices {
 
         }
         catch (Exception e){
-            logger.error("Error in saving the user data {}",e.getMessage().toString());
+            logger.error("Error in saving the user data {}",e.getMessage());
         }
         return registerResponse;
 
@@ -93,11 +100,11 @@ public class AdminServices {
 
         try{
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
             User user = repository.findByEmail(request.getEmail())
                     .orElseThrow();
 
@@ -107,7 +114,7 @@ public class AdminServices {
 
         }
         catch (Exception e){
-            logger.error("Error in authenticating the user {}",e.getMessage().toString());
+            logger.error("Error in authenticating the user {}",e.getMessage());
         }
 
         return authResponse;
@@ -120,7 +127,7 @@ public class AdminServices {
         }
         catch (Exception e){
             jwtExpiration = true;
-            logger.error("Token Expired {}", e.getMessage().toString());
+            logger.error("Token Expired {}", e.getMessage());
         }
         logger.info(jwtExpiration);
         return jwtExpiration;
@@ -128,10 +135,10 @@ public class AdminServices {
 
     public String saveHintsFromUser(HintsCollectionEntity saveHints) {
         try{
-                hintsRepository.save(saveHints);
+            hintsRepository.save(saveHints);
         }
         catch (Exception e){
-            logger.error("Exception occurred in saving the hints {}",e.getMessage().toString());
+            logger.error("Exception occurred in saving the hints {}",e.getMessage());
         }
         return SUCCESS_RESPONSE;
     }
@@ -141,21 +148,96 @@ public class AdminServices {
             questionAndAnswerRepository.save(questionAnswerEntity);
         }
         catch (Exception e){
-            logger.error("Exception occurred in saving the Questions and Answer {}",e.getMessage().toString());
+            logger.error("Exception occurred in saving the Questions and Answer {}",e.getMessage());
         }
         return SUCCESS_RESPONSE;
     }
 
-    public String saveGraphJson(GraphEntity graphEntity) {
+    public String buildGraphAndSave(JsonArray cellsArray, String studentLogin) {
 
+        Graph graph = new Graph();
         try{
-            graphJSONRepository.save(graphEntity);
+            List<Vertex> vertices = new ArrayList<>();
+            List<Edge> edges = new ArrayList<>();
+            for (JsonElement element : cellsArray) {
+                JsonObject cellObject = element.getAsJsonObject();
+                String cellType = cellObject.get("type").getAsString();
+
+                if (cellType.equals("standard.Rectangle") || cellType.equals("standard.Circle")) {
+
+                    Vertex vertex = new Vertex();
+                    JsonObject attrsObject = cellObject.getAsJsonObject("attrs");
+                    JsonObject bodyObject = attrsObject.getAsJsonObject("body");
+                    JsonObject labelObject = attrsObject.getAsJsonObject("label");
+                    JsonObject positionObject = cellObject.getAsJsonObject("position");
+                    int x = positionObject.get("x").getAsInt();
+                    int y = positionObject.get("y").getAsInt();
+                    String stroke = String.valueOf(bodyObject.get("stroke"));
+                    String label = String.valueOf(labelObject.get("text"));
+                    vertex.setX(x);
+                    vertex.setY(y);
+                    vertex.setLabel(label);
+                    vertex.setVertexId(cellObject.get("id").getAsString());
+                    vertex.setVertexStroke(stroke);
+                    vertex.setVertexType(cellObject.get("type").getAsString());
+
+                    vertices.add(vertex);
+                } else if (cellType.equals("standard.Link")) {
+                    // Create a new Edge object
+                    Edge edge = new Edge();
+
+                    JsonObject sourceObject = cellObject.getAsJsonObject("source");
+                    String sourceId = sourceObject.get("id").getAsString();
+                    Vertex sourceVertex = findVertexById(vertices, sourceId);
+                    edge.setSourceVertex(sourceVertex);
+
+                    JsonObject targetObject = cellObject.getAsJsonObject("target");
+                    String targetId = targetObject.get("id").getAsString();
+                    Vertex targetVertex = findVertexById(vertices, targetId);
+                    edge.setTargetVertex(targetVertex);
+                    JsonArray labelsArray = cellObject.getAsJsonArray("labels");
+                    if (labelsArray != null && labelsArray.size() > 0) {
+                        JsonObject labelObject = labelsArray.get(0).getAsJsonObject()
+                                .getAsJsonObject("attrs")
+                                .getAsJsonObject("text");
+                        String labelText = labelObject.get("text").getAsString();
+                        edge.setLabel(labelText);
+                    }
+                    edge.setEdgeId(cellObject.get("id").getAsString());
+                    edges.add(edge);
+                }
+            }
+            graph.setVertices(vertices);
+            graph.setEdges(edges);
+            graph.setIsStudentLoggedId(studentLogin);
+            graphRepository.save(graph);
+            logger.error(graph.getVertices());
         }
         catch (Exception e){
-            logger.error("Exception occurred in saving the Graph JSON {}",e.getMessage().toString());
+            logger.error("Exception in json parsing {}",e.getMessage());
+
+        }
+        return String.valueOf(graph.getId());
+    }
+    private static Vertex findVertexById(List<Vertex> vertices, String sourceId) {
+        for (Vertex vertex : vertices) {
+            if (vertex.getVertexId().equals(sourceId)) {
+                return vertex;
+            }
+        }
+        return null;
+    }
+
+    public String deleteSaveGraphById(Long id) {
+
+        try{
+            graphRepository.deleteById(id);
+        }
+        catch (Exception e){
+            logger.error("Exception occurred in Deleting the Graph JSON {}",e.getMessage());
         }
 
-        return SUCCESS_RESPONSE;
+        return "Deleted Successfully";
     }
 
 
@@ -169,11 +251,8 @@ public class AdminServices {
     }
 
 
-    public String getGraphJson() {
-        List<GraphEntity> graphEntities = graphJSONRepository.findAll();
-        GraphEntity graphEntity = graphEntities.get(0);
-        String graphData = graphEntity.getGraphData();
-        graphData = graphData.replaceAll("\\\\","");
-        return  graphData;
+    public List<Graph> getGraphJson() {
+
+        return  graphRepository.findAll();
     }
 }

@@ -9,6 +9,7 @@ public class HintsCollectionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hints_id")
     private Long id;
 
     @ElementCollection
@@ -20,6 +21,10 @@ public class HintsCollectionEntity {
     @ElementCollection
     private List<Hint> graphicalHints;
 
+    private String graphMapId;
+
+
+
     public HintsCollectionEntity() {
     }
 
@@ -30,7 +35,16 @@ public class HintsCollectionEntity {
                 ", textHints=" + textHints +
                 ", scriptHints=" + scriptHints +
                 ", graphicalHints=" + graphicalHints +
+                ", graphMapId='" + graphMapId + '\'' +
                 '}';
+    }
+
+    public String getGraphMapId() {
+        return graphMapId;
+    }
+
+    public void setGraphMapId(String graphMapId) {
+        this.graphMapId = graphMapId;
     }
 
     public Long getId() {
@@ -65,10 +79,11 @@ public class HintsCollectionEntity {
         this.graphicalHints = graphicalHints;
     }
 
-    public HintsCollectionEntity(Long id, List<Hint> textHints, List<Hint> scriptHints, List<Hint> graphicalHints) {
+    public HintsCollectionEntity(Long id, List<Hint> textHints, List<Hint> scriptHints, List<Hint> graphicalHints, String graphMapId) {
         this.id = id;
         this.textHints = textHints;
         this.scriptHints = scriptHints;
         this.graphicalHints = graphicalHints;
+        this.graphMapId = graphMapId;
     }
 }

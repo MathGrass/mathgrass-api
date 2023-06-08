@@ -9,6 +9,7 @@ public class QuestionAnswerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_id")
     private Long id;
     private String question;
     private String answerType;
@@ -27,6 +28,8 @@ public class QuestionAnswerEntity {
     @ElementCollection
     private List<String> graphLinkId;
 
+    private String graphMapId;
+
     public QuestionAnswerEntity() {
     }
 
@@ -42,7 +45,16 @@ public class QuestionAnswerEntity {
                 ", sageMathScript='" + sageMathScript + '\'' +
                 ", graphElemetId=" + graphElemetId +
                 ", graphLinkId=" + graphLinkId +
+                ", graphMapId='" + graphMapId + '\'' +
                 '}';
+    }
+
+    public String getGraphMapId() {
+        return graphMapId;
+    }
+
+    public void setGraphMapId(String graphMapId) {
+        this.graphMapId = graphMapId;
     }
 
     public Long getId() {
@@ -117,7 +129,7 @@ public class QuestionAnswerEntity {
         this.graphLinkId = graphLinkId;
     }
 
-    public QuestionAnswerEntity(Long id, String question, String answerType, List<String> multipleChoice, String multipleChoiceAnswer, String writtenAnswer, String sageMathScript, List<String> graphElemetId, List<String> graphLinkId) {
+    public QuestionAnswerEntity(Long id, String question, String answerType, List<String> multipleChoice, String multipleChoiceAnswer, String writtenAnswer, String sageMathScript, List<String> graphElemetId, List<String> graphLinkId, String graphMapId) {
         this.id = id;
         this.question = question;
         this.answerType = answerType;
@@ -127,6 +139,7 @@ public class QuestionAnswerEntity {
         this.sageMathScript = sageMathScript;
         this.graphElemetId = graphElemetId;
         this.graphLinkId = graphLinkId;
+        this.graphMapId = graphMapId;
     }
 }
 

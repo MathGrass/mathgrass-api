@@ -36,13 +36,13 @@ paths:
       description: Get a graph by id
       operationId: getGraphById
       parameters:
-      - name: graphId
-        in: path
-        description: Graph id
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: graphId
+          in: path
+          description: Graph id
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: successful operation
@@ -54,13 +54,13 @@ paths:
       description: Update a graph
       operationId: updateGraph
       parameters:
-      - name: graphId
-        in: path
-        description: ID of graph
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: graphId
+          in: path
+          description: ID of graph
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: Graph object that needs to be updated
         content:
@@ -109,13 +109,13 @@ paths:
       description: Returns a task
       operationId: getTaskById
       parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: successful operation
@@ -127,12 +127,12 @@ paths:
       description: Updates a task
       operationId: updateTask
       parameters:
-      - name: taskId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: ID of task
         content:
@@ -186,13 +186,13 @@ paths:
       description: Adds a hint to a task
       operationId: addTaskHint
       parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: hint item
         content:
@@ -210,19 +210,19 @@ paths:
       description: Get hint at hintlevel for task
       operationId: getHintForTask
       parameters:
-      - name: taskId
-        in: path
-        description: ID of task
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: hintLevel
-        in: path
-        description: level of the hint
-        required: true
-        schema:
-          type: integer
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: hintLevel
+          in: path
+          description: level of the hint
+          required: true
+          schema:
+            type: integer
       responses:
         200:
           description: successful operation
@@ -265,13 +265,13 @@ paths:
       description: Returns a task collection
       operationId: getTaskCollectionById
       parameters:
-      - name: taskCollectionId
-        in: path
-        description: ID of task collection
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: taskCollectionId
+          in: path
+          description: ID of task collection
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: successful operation
@@ -285,13 +285,13 @@ paths:
       description: Returns a label
       operationId: getLabelById
       parameters:
-      - name: labelId
-        in: path
-        description: ID of label
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: labelId
+          in: path
+          description: ID of label
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: successful operation
@@ -349,7 +349,9 @@ components:
         vertices:
           type: array
           items:
-              $ref: '#/components/schemas/VertexDTO'
+            $ref: '#/components/schemas/VertexDTO'
+        isStudentLoggedId:
+          type: string
       required:
         - id
         - edges
@@ -375,6 +377,12 @@ components:
           format: int32
         label:
           type: string
+        vertexId:
+          type: string
+        vertexType:
+          type: string
+        vertexStroke:
+          type: string
       required:
         - x
         - y
@@ -390,6 +398,8 @@ components:
         secondVertex:
           $ref: '#/components/schemas/VertexDTO'
         label:
+          type: string
+        edgeId:
           type: string
       required:
         - firstVertex

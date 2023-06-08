@@ -26,6 +26,9 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
         List<LabelDTO> labelList =
                 entity.getLabels().stream().map(l -> new LabelDTO().label(l)).toList();
         graph.setLabels(labelList);
+        //Changes for Admin Interface - Starts
+        graph.setIsStudentLoggedId(entity.getIsStudentLoggedId());
+        //Changes for Admin Interface - Ends
 
         return graph;
     }
@@ -39,6 +42,9 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
         Graph entity = new Graph();
 
         entity.setId(dto.getId());
+        //Changes for Admin Interface - Starts
+        entity.setIsStudentLoggedId(dto.getIsStudentLoggedId());
+        //Changes for Admin Interface - Ends
 
         // vertices
         entity.setVertices(new VertexTransformer().toEntityList(dto.getVertices()));
@@ -67,6 +73,7 @@ public class GraphTransformer extends ModelTransformer<GraphDTO, Graph> {
             edgeEntity.setTargetVertex(vertexMap.get(vertex2.getX()).get(vertex2.getY()));
         }
         entity.setEdges(edgeList);
+
 
         return entity;
     }

@@ -36,6 +36,37 @@ public class Vertex {
 
     private String label;
 
+    //Changes for Admin Interface - Starts
+    private String vertexId;
+    private String vertexType;
+    private String vertexStroke;
+    //Changes for Admin Interface - Ends
+
+
+    public String getVertexId() {
+        return vertexId;
+    }
+
+    public void setVertexId(String vertexId) {
+        this.vertexId = vertexId;
+    }
+
+    public String getVertexType() {
+        return vertexType;
+    }
+
+    public void setVertexType(String vertexType) {
+        this.vertexType = vertexType;
+    }
+
+    public String getVertexStroke() {
+        return vertexStroke;
+    }
+
+    public void setVertexStroke(String vertexStroke) {
+        this.vertexStroke = vertexStroke;
+    }
+
     public int getX() {
         return x;
     }

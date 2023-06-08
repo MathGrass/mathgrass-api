@@ -17,6 +17,11 @@ public class VertexTransformer extends ModelTransformer<VertexDTO, Vertex> {
         v.setLabel(entity.getLabel());
         v.setX(entity.getX());
         v.setY(entity.getY());
+        //Changes for Admin Interface - Starts
+        v.setVertexId(entity.getVertexId());
+        v.setVertexStroke(entity.getVertexStroke());
+        v.setVertexType(entity.getVertexType());
+        //Changes for Admin Interface - Ends
         return v;
 
     }
@@ -30,6 +35,11 @@ public class VertexTransformer extends ModelTransformer<VertexDTO, Vertex> {
         entity.setLabel(dto.getLabel());
         entity.setX(dto.getX());
         entity.setY(dto.getY());
+        //Changes for Admin Interface - Starts
+        entity.setVertexId(dto.getVertexId());
+        entity.setVertexType(dto.getVertexType());
+        entity.setVertexStroke(dto.getVertexStroke());
+        //Changes for Admin Interface - Ends
         return entity;
     }
 }
